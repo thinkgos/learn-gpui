@@ -21,7 +21,7 @@ div().bg(gradient) // 渐变当背景: background-image: linear-gradient(45deg, 
 
 角度取 0~360 的度数: 0 是"从下往上", 90 是"从左往右", 180 是"从上往下", 与 CSS `linear-gradient` 的方向约定一致. 渐变**只收两个色标**(from/to), 中间不能插更多. 
 
-在 canvas 里填充路径(取自 `examples/gradient.rs`, 梯形内红蓝渐变): 
+在 canvas 里填充路径(取自 [`examples/gradient.rs`](../examples/gradient.rs), 梯形内红蓝渐变): 
 
 ```rust
 canvas(move |_, _, _| {}, move |bounds, _, window, _| {
@@ -50,7 +50,7 @@ canvas(move |_, _, _| {}, move |bounds, _, window, _| {
 
 **NOTE**: 色标函数是 `linear_color_stop(color, percentage)` —— **颜色在前, 位置在后**;  原文的 `linear_color_stop(offset, color)` 顺序写反了. 
 
-渐变填充任意形状都没问题, 比如 `painting.rs` 里给星形填黄橙渐变: 
+渐变填充任意形状都没问题, 比如 [`painting.rs`](../examples/painting.rs) 里给星形填黄橙渐变: 
 
 ```rust
 // 十角星路径(略): 逐点 line_to 后 close
@@ -86,7 +86,7 @@ let gradient = linear_gradient(
 .color_space(ColorSpace::Oklab); // 在 Oklab 空间插值: 红蓝之间会出紫色, 而不是脏灰色
 ```
 
-为什么需要它:  从红到蓝的渐变在 sRGB 里线性插值, 中段是偏暗的"脏紫色";  Oklab 在感知均匀的空间里插值, 中段呈现自然的紫色过渡. `examples/gradient.rs` 顶部有个切换按钮, 点一下就能对比两种空间下的所有渐变. 想自己做对比实验, 同一组色标画两根条即可: 
+为什么需要它:  从红到蓝的渐变在 sRGB 里线性插值, 中段是偏暗的"脏紫色";  Oklab 在感知均匀的空间里插值, 中段呈现自然的紫色过渡. [`examples/gradient.rs`](../examples/gradient.rs) 顶部有个切换按钮, 点一下就能对比两种空间下的所有渐变. 想自己做对比实验, 同一组色标画两根条即可: 
 
 ```rust
 // 同一对色标, 只换插值空间
@@ -142,7 +142,7 @@ canvas(move |_, _, _| {}, move |bounds, _, window, _| {
 
 **NOTE**: 图案只有 `pattern_slash` 和 `checkerboard` 两种, **没有** `pattern_grid`/`pattern_dots`/`pattern_checker` 这些函数. 想要网格或点阵, 在 canvas 里用 `paint_path` 自己画. 
 
-参数怎么取:  `width` 和 `interval` 是普通 `f32`(不套 `px()`), 分别是斜线的线宽和相邻斜线的间距. 要让不同尺寸的元素斜线密度一致, 按元素高度等比取值, `pattern.rs` 里就是这么做的: 
+参数怎么取:  `width` 和 `interval` 是普通 `f32`(不套 `px()`), 分别是斜线的线宽和相邻斜线的间距. 要让不同尺寸的元素斜线密度一致, 按元素高度等比取值, [`pattern.rs`](../examples/pattern.rs) 里就是这么做的: 
 
 ```rust
 // 高 56px 的条: 线宽 = 间距 = 56/6, 斜线粗细跟着元素走
@@ -181,4 +181,14 @@ div().w(px(256.0)).h(px(56.0)).bg(pattern_slash(gpui::blue(), 56.0/6.0, 56.0/6.0
 | **棋盘格** | `checkerboard(color, size)` | 格子边长 |
 | **使用位置** | `.bg(...)` `window.paint_path(path, bg)` `window.paint_quad(quad(..., bg, ...))` | 同一 `Background` 三处通用 |
 
-完整示例: `cargo run --example gradient`(色彩空间对比 + canvas 渐变路径), `cargo run --example pattern`(斜线/棋盘格参数对照). 
+完整示例: [`cargo run --example gradient`](../examples/gradient.rs)(色彩空间对比 + canvas 渐变路径), [`cargo run --example pattern`](../examples/pattern.rs)(斜线/棋盘格参数对照). 
+
+## 19.6 配套示例
+
+本章涉及的示例都在仓库 [`examples/`](../examples/) 目录下, 在仓库根目录 `cargo run --example <示例名>` 运行(桌面 + wasm 双入口):
+
+| 示例 | 说明 |
+| :--- | :--- |
+| [`gradient`](../examples/gradient.rs) | 色彩空间对比 + canvas 里的渐变路径(见 19.1、19.2) |
+| [`pattern`](../examples/pattern.rs) | 斜线/棋盘格的参数对照(见 19.3) |
+| [`painting`](../examples/painting.rs) | 星形路径填黄橙渐变, 演示渐变填充任意形状(见 19.1; 画板本体见第 18 章) |

@@ -66,7 +66,7 @@ svg()
 
 **NOTE**: 缓动就是函数, **没有** `Easing` 枚举或结构体, 也**没有** `ease_in()`/`ease_out()`/`spring()` 这三个函数 —— 只有 `ease_in_out` 和 `ease_out_quint()`; "spring()" 不是缓动, 弹簧是下面这套独立 API. 
 
-**弹簧动画**: 要"惯性过冲、中途改目标能接上速度"的物理手感, 用 `SpringAnimation`(完整演示在 `cargo run --example animation`): 
+**弹簧动画**: 要"惯性过冲、中途改目标能接上速度"的物理手感, 用 `SpringAnimation`(完整演示在 [`cargo run --example animation`](../examples/animation.rs)): 
 
 ```rust
 div()
@@ -185,4 +185,12 @@ impl Spinner {
 | **资源** | `impl AssetSource` + `application().with_assets()` | 加载 SVG 等资源(见 5.4) |
 | **手动逐帧** | `window.request_animation_frame()` `cx.on_next_frame()` `window.on_next_frame()` | 自己驱动动画循环 |
 
-完整示例: `cargo run --example animation`(SVG 旋转 + 弹簧演示 + 可拖动阻尼).
+完整示例: [`cargo run --example animation`](../examples/animation.rs)(SVG 旋转 + 弹簧演示 + 可拖动阻尼).
+
+## 17.7 配套示例
+
+本章涉及的示例都在仓库 [`examples/`](../examples/) 目录下, 在仓库根目录 `cargo run --example <示例名>` 运行(桌面 + wasm 双入口):
+
+| 示例 | 说明 |
+| :--- | :--- |
+| [`animation`](../examples/animation.rs) | SVG 旋转动画 + 弹簧动画演示 + 可拖动阻尼控制(见 17.1–17.4) |

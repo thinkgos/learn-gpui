@@ -74,7 +74,7 @@ div()
 
 ## 11.3 DragInfo: 拖拽数据载体
 
-**NOTE**:GPUI**没有** 内置的 `DragInfo` 类型. 拖拽数据就是你在 `.on_drag()` 里传的那个 `value`, 什么结构体都行; 下面示例里的 `DragInfo` 是示例自己定义的(见 `examples/drag_drop.rs`), 一物两用: 既当拖拽数据, 又实现 `Render` 用作拖拽预览. 数据和预览也可以拆成两个类型, 只要预览那个实现 `Render`:
+**NOTE**:GPUI**没有** 内置的 `DragInfo` 类型. 拖拽数据就是你在 `.on_drag()` 里传的那个 `value`, 什么结构体都行; 下面示例里的 `DragInfo` 是示例自己定义的(见 [`examples/drag_drop.rs`](../examples/drag_drop.rs)), 一物两用: 既当拖拽数据, 又实现 `Render` 用作拖拽预览. 数据和预览也可以拆成两个类型, 只要预览那个实现 `Render`:
 
 ```rust
 /// 拖拽数据: 记录拖的是第几项、什么颜色, 以及按下点的偏移
@@ -169,4 +169,12 @@ div()
 | **手动控制** | `cx.has_active_drag()` `cx.stop_active_drag(window)` | 查询/取消当前拖拽 |
 | **跨窗口/跨应用** | `.external_drag_payload(resolver)` `FileDropEvent` | 把拖拽交给平台/接收系统文件拖放 |
 
-完整示例: `cargo run --example drag_drop`.
+完整示例: [`cargo run --example drag_drop`](../examples/drag_drop.rs).
+
+## 11.7 配套示例
+
+本章涉及的示例都在仓库 [`examples/`](../examples/) 目录下, 在仓库根目录 `cargo run --example <示例名>` 运行(桌面 + wasm 双入口):
+
+| 示例 | 说明 |
+| :--- | :--- |
+| [`drag_drop`](../examples/drag_drop.rs) | `DragInfo` 一物两用(拖拽数据 + `Render` 预览), `.on_drag()`/`.on_drop()`/`.drag_over()` 全流程(见 11.1–11.5) |

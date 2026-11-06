@@ -154,9 +154,9 @@ cx.set_menus([Menu::new("File").items([
 ])]);
 ```
 
-`gpui::NoAction` 是一个"什么都不做"的内置动作, 常用来做置灰占位菜单项. 完整示例: `cargo run --example set_menus`. 
+`gpui::NoAction` 是一个"什么都不做"的内置动作, 常用来做置灰占位菜单项. 完整示例: [`cargo run --example set_menus`](../examples/set_menus.rs). 
 
-💡 提示:  同一个动作接三个触发源 —— 快捷键(`KeyBinding`)、菜单(`MenuItem::action`)、按钮(`cx.dispatch_action`), 处理逻辑只写一份(`.on_action`), 这就是动作系统的设计初衷. 键盘 + 焦点 + 动作串起来的完整小应用见 `cargo run --example focus_visible` 和 `cargo run --example input`(文本编辑的全套动作绑定). 
+💡 提示:  同一个动作接三个触发源 —— 快捷键(`KeyBinding`)、菜单(`MenuItem::action`)、按钮(`cx.dispatch_action`), 处理逻辑只写一份(`.on_action`), 这就是动作系统的设计初衷. 键盘 + 焦点 + 动作串起来的完整小应用见 [`cargo run --example focus_visible`](../examples/focus_visible.rs) 和 [`cargo run --example input`](../examples/input.rs)(文本编辑的全套动作绑定). 
 
 ## 9.7 动作方法速查表
 
@@ -171,3 +171,13 @@ cx.set_menus([Menu::new("File").items([
 | **分发** | `cx.dispatch_action(&action)` `window.dispatch_action()` `handle.dispatch_action()` | 手动分发到焦点/指定元素 |
 | **传播** | `cx.propagate()` `cx.stop_propagation()` | 动作处理器默认消费, propagate 放行 |
 | **菜单** | `cx.set_menus()` `MenuItem::action()` `.checked()` `.disabled()` | 菜单触发同一套动作 |
+
+## 9.8 配套示例
+
+本章涉及的示例都在仓库 [`examples/`](../examples/) 目录下, 在仓库根目录 `cargo run --example <示例名>` 运行(桌面 + wasm 双入口):
+
+| 示例 | 说明 |
+| :--- | :--- |
+| [`set_menus`](../examples/set_menus.rs) | 菜单栏(List/Grid 等)绑定动作, `NoAction` 置灰占位(见 9.6) |
+| [`focus_visible`](../examples/focus_visible.rs) | 键盘、焦点和动作串起来的小应用(见 9.6) |
+| [`input`](../examples/input.rs) | 文本编辑的全套动作绑定(见 9.6; 输入框本体见第 10 章) |

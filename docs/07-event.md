@@ -145,7 +145,7 @@ impl Render for Popover {
 }
 ```
 
-💡 提示: 弹层嵌套时(弹层里还有弹层), 里层打开时要暂时摘掉外层的 `on_mouse_down_out`, 否则点里层会把两层一起关掉. 完整实现(嵌套弹层 + 浮层定位)见 `cargo run --example popover`. 
+💡 提示: 弹层嵌套时(弹层里还有弹层), 里层打开时要暂时摘掉外层的 `on_mouse_down_out`, 否则点里层会把两层一起关掉. 完整实现(嵌套弹层 + 浮层定位)见 [`cargo run --example popover`](../examples/popover.rs). 
 
 ## 7.6 事件传播
 
@@ -196,7 +196,7 @@ div()
 - `.drag_over::<T>(|style, data, window, cx| ...)` 在有匹配拖拽悬停时改放置目标的样式(高亮提示). 
 - 拖拽开始后移动超过 2 像素才算拖拽;  `.on_drag_move(|event: &DragMoveEvent<T>, ...)` 收到拖拽期间的所有移动(包括移出元素后). 
 
-完整示例: `cargo run --example drag_drop`. 
+完整示例: [`cargo run --example drag_drop`](../examples/drag_drop.rs). 
 
 ## 7.8 鼠标压力
 
@@ -210,7 +210,7 @@ div().on_mouse_pressure(cx.listener(|this, event: &MousePressureEvent, _window, 
 }))
 ```
 
-**NOTE**: 旧文档写的 `event.pressure` 取自按下/移动事件是不对的 —— 压力走 `MousePressureEvent`(目前仅 macOS 力度触控板实现). 触屏的压力在 `TouchEvent.force` 里. 完整示例: `cargo run --example mouse_pressure`. 
+**NOTE**: 旧文档写的 `event.pressure` 取自按下/移动事件是不对的 —— 压力走 `MousePressureEvent`(目前仅 macOS 力度触控板实现). 触屏的压力在 `TouchEvent.force` 里. 完整示例: [`cargo run --example mouse_pressure`](../examples/mouse_pressure.rs). 
 
 ## 7.9 事件方法速查表
 
@@ -226,3 +226,15 @@ div().on_mouse_pressure(cx.listener(|this, event: &MousePressureEvent, _window, 
 | **压力** | `.on_mouse_pressure(l)` | 压感事件 `MousePressureEvent` |
 | **键盘** | `.on_key_down(l)` `.on_key_up(l)` | 键盘事件沿焦点路径传播(见第 8 章) |
 | **传播控制** | `cx.stop_propagation()` `cx.propagate()` `window.prevent_default()` | 停止/恢复传播、阻止默认行为 |
+
+## 7.10 配套示例
+
+本章涉及的示例都在仓库 [`examples/`](../examples/) 目录下, 在仓库根目录 `cargo run --example <示例名>` 运行(桌面 + wasm 双入口):
+
+| 示例 | 说明 |
+| :--- | :--- |
+| [`popover`](../examples/popover.rs) | 两级嵌套浮层 + 点击外部关闭(见 7.5; 浮层定位另见第 16 章) |
+| [`drag_drop`](../examples/drag_drop.rs) | 把 Item 拖进 "Drop items here", 顺带演示拖拽预览(见 7.7; 拖拽全流程另见第 11 章) |
+| [`mouse_pressure`](../examples/mouse_pressure.rs) | 实时显示压力阶段和压力值(见 7.8) |
+
+💡 提示: 鼠标压力目前仅 macOS 力度触控板实现, 触屏的压力在 `TouchEvent.force` 里.

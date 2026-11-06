@@ -80,7 +80,7 @@ _todos_subscription: cx.observe(todos, |_, _, cx| cx.notify()),
 
 同族方法还有 `cx.observe_self()`(观察自己)和 `cx.observe_release()`(实体被释放时收尸).
 
-💡 提示: 想发「带数据的事件」而不只是「状态变了」, 用 `EventEmitter` + `cx.subscribe()`/`cx.emit()`: 被观察方 `cx.emit(事件)`, 订阅方收到 `(&mut 自己, 发送者句柄, &事件, cx)`. `examples/ownership_post.rs` 里两个都有.
+💡 提示: 想发「带数据的事件」而不只是「状态变了」, 用 `EventEmitter` + `cx.subscribe()`/`cx.emit()`: 被观察方 `cx.emit(事件)`, 订阅方收到 `(&mut 自己, 发送者句柄, &事件, cx)`. [`examples/ownership_post.rs`](../examples/ownership_post.rs) 里两个都有.
 
 ## 12.4 cx.notify(): 通知重新渲染
 
@@ -203,4 +203,13 @@ weak.update(cx, |data, cx| {
 | **弱引用** | `entity.downgrade()` `weak.upgrade()` `weak.update()` `weak.is_upgradable()` | 降级/升级/弱更新/查存活 |
 | **订阅** | `Subscription::detach()` 或存进字段 | 丢弃即取消, 不丢就一直有效 |
 
-完整示例: `cargo run --example ownership_post`(创建、读写、订阅、通知), `cargo run --example move_entity_between_windows`(listener、订阅、实体跨窗口迁移).
+完整示例: [`cargo run --example ownership_post`](../examples/ownership_post.rs)(创建、读写、订阅、通知), [`cargo run --example move_entity_between_windows`](../examples/move_entity_between_windows.rs)(listener、订阅、实体跨窗口迁移).
+
+## 12.10 配套示例
+
+本章涉及的示例都在仓库 [`examples/`](../examples/) 目录下, 在仓库根目录 `cargo run --example <示例名>` 运行(桌面 + wasm 双入口):
+
+| 示例 | 说明 |
+| :--- | :--- |
+| [`ownership_post`](../examples/ownership_post.rs) | 不开窗口的纯逻辑示例: 创建、读写、订阅、通知, 全程用 assert 验证(见 12.2–12.4) |
+| [`move_entity_between_windows`](../examples/move_entity_between_windows.rs) | listener、订阅、实体跨窗口迁移: 点击把实体挪到新窗口, `_in` 回调仍派发到它当前所在的窗口(见 12.5) |

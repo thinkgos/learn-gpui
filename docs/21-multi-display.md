@@ -102,7 +102,7 @@ let on_this_screen = screen.bounds().contains(&window_bounds.center());
 
 ## 21.4 多屏定位示例
 
-**在指定屏幕上开窗.** 把算好的屏幕坐标和 `DisplayId` 一起塞进 `WindowOptions`. `window_positioning.rs` 遍历所有屏幕, 在每块屏的右上角开一窗:
+**在指定屏幕上开窗.** 把算好的屏幕坐标和 `DisplayId` 一起塞进 `WindowOptions`. [`window_positioning.rs`](../examples/window_positioning.rs) 遍历所有屏幕, 在每块屏的右上角开一窗:
 
 ```rust
 use gpui::*;
@@ -161,11 +161,11 @@ let bounds = Bounds::centered(None, size(px(600.0), px(600.0)), cx);
 // 同类的还有: 生成最大化尺寸的 Bounds::maximized(display_id, cx)
 ```
 
-`window_shadow.rs` 就是用 `Bounds::centered(None, size(px(600.0), px(600.0)), cx)` 开出居中窗口的.
+[`window_shadow.rs`](../examples/window_shadow.rs) 就是用 `Bounds::centered(None, size(px(600.0), px(600.0)), cx)` 开出居中窗口的.
 
 **跨屏移动窗口.** **NOTE**:GPUI**没有** `move_window()`/`window.move_to()` 这类运行时挪窗口的 API, 窗口位置只在创建时由 `window_bounds` 决定, 之后用户拖动由系统处理. 想把窗口"挪"到另一块屏, 只能用目标屏的 `bounds` 重新开一扇窗再关掉旧的.
 
-💡 提示: `window_positioning.rs` 遍历 `cx.displays()`, 在每块屏的四角、四边中点和中心各开一窗(共 9 个), 是检验方位方法坐标系最直观的例子.
+💡 提示: [`window_positioning.rs`](../examples/window_positioning.rs) 遍历 `cx.displays()`, 在每块屏的四角、四边中点和中心各开一窗(共 9 个), 是检验方位方法坐标系最直观的例子.
 
 **多屏 DPI.** 不同屏幕的缩放因子可能不同(如 1x 外接屏 + 2x Retina 内置屏). `display.bounds()` 用逻辑像素 `Pixels`;  窗口拖到另一块屏时GPUI自动按 `window.scale_factor()` 重算缩放, 无需手动处理. 要做精确物理像素对齐(如贴边吸附)时, 用 `bounds.to_device_pixels(scale_factor)` 换算后再比较. 需要在窗口换屏时做点什么(比如记住"这块屏上的最大化尺寸"), 订阅 `cx.observe_window_display(window, ...)`(窗口移动到另一块屏或所在屏刷新率变化时触发).
 
@@ -181,4 +181,13 @@ let bounds = Bounds::centered(None, size(px(600.0), px(600.0)), cx);
 | **边线与命中** | `top()` `bottom()` `left()` `right()` `contains()` `intersects()` | 边坐标、点包含、相交 |
 | **开窗定位** | `WindowOptions { window_bounds, display_id }` `WindowBounds::Windowed/Maximized/Fullscreen` | 窗口开在哪、多大、什么状态 |
 
-完整示例: `cargo run --example window_positioning`.
+完整示例: [`cargo run --example window_positioning`](../examples/window_positioning.rs).
+
+## 21.6 配套示例
+
+本章涉及的示例都在仓库 [`examples/`](../examples/) 目录下, 在仓库根目录 `cargo run --example <示例名>` 运行(桌面 + wasm 双入口):
+
+| 示例 | 说明 |
+| :--- | :--- |
+| [`window_positioning`](../examples/window_positioning.rs) | 遍历所有屏幕, 在每块屏的四角、四边中点和中心各开一窗(共 9 个)(见 21.3、21.4) |
+| [`window_shadow`](../examples/window_shadow.rs) | 用 `Bounds::centered` 开居中窗口(见 21.4; 窗口阴影见第 22 章) |

@@ -29,7 +29,7 @@ canvas(
 - 不需要 prepaint 做事就返回 `()`, 示例里常写 `move |_, _, _| {}`. 
 - `canvas()` 是**自由函数**(不是 `div()` 的方法), 一般包在 `.child(...)` 里;  返回的 `Canvas` 实现了 `Styled`, 可以继续链式设置尺寸: `.size_full()`、`.w(px(200.0))` 等. 
 
-一个最小的圆(取自 `examples/painting.rs` 的画法): 
+一个最小的圆(取自 [`examples/painting.rs`](../examples/painting.rs) 的画法): 
 
 ```rust
 canvas(
@@ -184,7 +184,7 @@ window.paint_quad(quad(
 
 ## 18.5 鼠标绘图交互(核心思路)
 
-`examples/painting.rs` 是一个完整画板: 按住左键拖动涂鸦, 按住 Shift 画水平/垂直直线. 核心是"事件改状态 + `cx.notify()` 触发 canvas 重绘": 
+[`examples/painting.rs`](../examples/painting.rs) 是一个完整画板: 按住左键拖动涂鸦, 按住 Shift 画水平/垂直直线. 核心是"事件改状态 + `cx.notify()` 触发 canvas 重绘": 
 
 1. `on_mouse_down` 记录起点, 开始一条新笔画;
 2. `on_mouse_move` 把当前点追加进笔画, `cx.notify()` 重绘;
@@ -224,7 +224,7 @@ window.paint_quad(quad(
 
 ## 18.6 复杂图形: Rust logo、饼图、波浪线
 
-基本操作组合起来能画相当复杂的图形, `painting.rs` 里有三个经典案例: 
+基本操作组合起来能画相当复杂的图形, [`painting.rs`](../examples/painting.rs) 里有三个经典案例: 
 
 - **Rust logo**:  直接借用 lyon 自带的 logo 路径(`lyon::extra::rust_logo::build_logo_path`), 转成 `PathBuilder` 后 `translate()`/`scale()` 挪到合适位置. 
 - **饼图**:  每个扇形 = `move_to(弧起点)` + `arc_to(弧终点)` + `line_to(圆心)` + `close()`, 每段填不同颜色. 
@@ -244,4 +244,13 @@ window.paint_quad(quad(
 | **PaintQuad 构造** | `quad()` `fill()` `outline()` | 全参数/纯填充/描边矩形 |
 | **交互** | `on_mouse_down` `on_mouse_move` `on_mouse_up` + `cx.notify()` | 状态驱动重绘 |
 
-完整示例: `cargo run --example painting`(画板 + logo/饼图/波浪线 + 半透明叠加), 性能对照(2000 个渐变星形)见 `cargo run --example paths_bench`. 
+完整示例: [`cargo run --example painting`](../examples/painting.rs)(画板 + logo/饼图/波浪线 + 半透明叠加), 性能对照(2000 个渐变星形)见 [`cargo run --example paths_bench`](../examples/paths_bench.rs). 
+
+## 18.8 配套示例
+
+本章涉及的示例都在仓库 [`examples/`](../examples/) 目录下, 在仓库根目录 `cargo run --example <示例名>` 运行(桌面 + wasm 双入口):
+
+| 示例 | 说明 |
+| :--- | :--- |
+| [`painting`](../examples/painting.rs) | 画板: 左键涂鸦、Shift 画直线, Solid/Dashed/Clear 三态; 另有 Rust logo、饼图、波浪线和半透明叠加(见 18.1–18.6) |
+| [`paths_bench`](../examples/paths_bench.rs) | 2000 个渐变星形的路径渲染性能对照 |

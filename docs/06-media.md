@@ -125,7 +125,7 @@ impl Render for GifViewer {
 - 窗口失焦时自动暂停, 系统开启"减少动态效果"时也不动. 
 - 同一视图里别放太多 GIF, 见本章末尾的性能提示. 
 
-完整示例: `cargo run --example gif_viewer`. 
+完整示例: [`cargo run --example gif_viewer`](../examples/gif_viewer.rs). 
 
 ## 6.4 AssetSource trait 自定义资源加载策略
 
@@ -173,7 +173,7 @@ fn main() {
 
 **NOTE**: `load()` 收 `&str` 返回**字节的 `Cow`**, 不是 `SharedString` —— 图片和 SVG 都是二进制. 没注册 `AssetSource` 时资源键一律解析失败(图片报"资源不存在"错误, SVG 什么都不画), 但 `img(PathBuf)` 和 `img("https://...")` 不受影响. 
 
-完整示例: `cargo run --example image_loading`(资源加载 + 自定义异步 Asset + 加载/失败占位), `cargo run --example opacity`(以示例目录为资源根). 
+完整示例: [`cargo run --example image_loading`](../examples/image_loading.rs)(资源加载 + 自定义异步 Asset + 加载/失败占位), [`cargo run --example opacity`](../examples/opacity.rs)(以示例目录为资源根). 
 
 ## 6.5 图片画廊
 
@@ -207,7 +207,7 @@ impl Render for ImageGallery {
 }
 ```
 
-进阶版画廊(30 张网络图 + 两种缓存策略对照)见 `cargo run --example image_gallery`. 
+进阶版画廊(30 张网络图 + 两种缓存策略对照)见 [`cargo run --example image_gallery`](../examples/image_gallery.rs). 
 
 ## 6.6 图片缓存
 
@@ -256,3 +256,16 @@ GPUI 的图片缓存分三层, 一般用默认配置就够:
 | **资源加载** | `impl AssetSource` + `application().with_assets()` | 自定义资源加载策略 |
 | **适配模式** | `ObjectFit::Cover/Contain/Fill/ScaleDown/None` | 图片适配方式 |
 | **缓存** | `RetainAllImageCache` `image_cache()` `cx.remove_asset()` `cx.drop_image()` | 缓存与释放 |
+
+## 6.9 配套示例
+
+本章涉及的示例都在仓库 [`examples/`](../examples/) 目录下, 在仓库根目录 `cargo run --example <示例名>` 运行(桌面 + wasm 双入口):
+
+| 示例 | 说明 |
+| :--- | :--- |
+| [`gif_viewer`](../examples/gif_viewer.rs) | 播放 `examples/image/black-cat-typing.gif`, `img()` 直接收路径(见 6.3) |
+| [`image_loading`](../examples/image_loading.rs) | 本地图片 + 自定义异步 Asset + 加载中/失败占位(见 6.4) |
+| [`opacity`](../examples/opacity.rs) | 以示例目录为 `AssetSource` 资源根加载图片和 SVG(见 6.4) |
+| [`image_gallery`](../examples/image_gallery.rs) | 30 张网络图 + 两种缓存策略对照(见 6.5、6.6) |
+
+**NOTE**: image_gallery 目前编译不过(它用了 zed 内部的 `reqwest_client::ReqwestClient`, 而本仓库引的注册表版没有这个 API), 修复前先跳过它, 其他示例不受影响.

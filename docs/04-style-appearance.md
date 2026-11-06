@@ -206,7 +206,7 @@ GPUI 内置了 7 个阴影预设, 从极轻微到非常明显, 数值与 Tailwin
 | `.shadow_xl()` | 模态框、重要提示 | `0 20px 25px -5px rgb(0 0 0/0.1), 0 8px 10px -6px rgb(0 0 0/0.1)` |
 | `.shadow_2xl()` | 全局拖拽预览、最高层级 | `0 25px 50px -12px rgb(0 0 0/0.25)` |
 
-> 💡 提示: 阴影跟随圆角裁剪. 同一个阴影打在直角/小圆角/大圆角/圆形上, 阴影轮廓始终贴着元素形状. 想看各级别、多层阴影、内阴影的实拍效果, 跑 `cargo run --example shadow`.
+> 💡 提示: 阴影跟随圆角裁剪. 同一个阴影打在直角/小圆角/大圆角/圆形上, 阴影轮廓始终贴着元素形状. 想看各级别、多层阴影、内阴影的实拍效果, 跑 [`cargo run --example shadow`](../examples/shadow.rs).
 
 ## 4.4 渐变背景
 
@@ -236,7 +236,7 @@ let bg = linear_gradient(90.0, linear_color_stop(gpui::red(), 0.0), linear_color
 div().bg(bg)
 ```
 
-💡 提示: 为什么需要 `color_space()`?  sRGB 线性插值的中段容易发灰发暗(红蓝渐变中间会出"脏紫色"), Oklab 在感知均匀的空间里插值, 中间色更接近人眼预期. 对比两种模式跑 `cargo run --example gradient`.
+💡 提示: 为什么需要 `color_space()`?  sRGB 线性插值的中段容易发灰发暗(红蓝渐变中间会出"脏紫色"), Oklab 在感知均匀的空间里插值, 中间色更接近人眼预期. 对比两种模式跑 [`cargo run --example gradient`](../examples/gradient.rs).
 
 渐变值还能直接用在 `canvas` 自绘里(`window.paint_path(path, gradient)`), 与 `.bg()` 共用同一套类型, 一份渐变两处用.
 
@@ -249,7 +249,7 @@ div().bg(pattern_slash(gpui::red(), 4.0, 4.0)) // 斜线图案：线宽 4, 间�
 div().bg(checkerboard(gpui::red(), 8.0))       // 棋盘格：格子边长 8
 ```
 
-`pattern_slash(color, width, interval)` 的 `width`/`interval` 是普通 `f32`(不套 `px()`), 分别是斜线的线宽和间距; `checkerboard(color, size)` 的 `size` 是格子边长. 示例见 `cargo run --example pattern`.
+`pattern_slash(color, width, interval)` 的 `width`/`interval` 是普通 `f32`(不套 `px()`), 分别是斜线的线宽和间距; `checkerboard(color, size)` 的 `size` 是格子边长. 示例见 [`cargo run --example pattern`](../examples/pattern.rs).
 
 > 💡 提示: `.bg()` 是唯一的背景入口 —— 纯色(`rgb()`)、渐变(`linear_gradient()`)、图案(`pattern_slash()`/`checkerboard()`)三类值都走它, 可以随时互相替换.
 
@@ -266,7 +266,7 @@ div().opacity(0.5) // 整个元素(含子元素)半透明：opacity: 0.5
 - `rgba(0x00000080)` 只影响背景色的透明度, 文字和子元素不受影响
 - `.opacity(0.5)` 影响整个元素及其所有子元素的透明度
 
-想"只改某个颜色的透明度、不牵连子元素", 用颜色自身的 alpha: `rgba(0x00000080)` 或 `gpui::black().alpha(0.5)`. 交互状态下的悬停变淡常用状态样式回调 `.hover(|style| style.opacity(0.5))`(见第 6 章), 整组效果见 `cargo run --example opacity`.
+想"只改某个颜色的透明度、不牵连子元素", 用颜色自身的 alpha: `rgba(0x00000080)` 或 `gpui::black().alpha(0.5)`. 交互状态下的悬停变淡常用状态样式回调 `.hover(|style| style.opacity(0.5))`(见第 6 章), 整组效果见 [`cargo run --example opacity`](../examples/opacity.rs).
 
 ## 4.7 溢出控制
 
@@ -345,3 +345,14 @@ div()
 | **可见性** | `.hidden()` `.invisible()` `.visible()` | 显示/隐藏/占位隐藏 |
 | **光标** | `.cursor_pointer()` `.cursor_text()` ... | 鼠标指针样式 |
 | **其他** | `.aspect_ratio()` `.aspect_square()` `.debug()` | 宽高比、调试轮廓 |
+
+## 4.10 配套示例
+
+本章涉及的示例都在仓库 [`examples/`](../examples/) 目录下, 在仓库根目录 `cargo run --example <示例名>` 运行(桌面 + wasm 双入口):
+
+| 示例 | 说明 |
+| :--- | :--- |
+| [`shadow`](../examples/shadow.rs) | 7 级阴影预设(2XS~2XL)× 五种形状(直角/圆角 4/8/16/圆形)对照, 另有多层阴影和内阴影(见 4.3) |
+| [`gradient`](../examples/gradient.rs) | 多组线性渐变, 顶部按钮切换 Srgb/Oklab, 对比插值空间差异(见 4.4) |
+| [`pattern`](../examples/pattern.rs) | 斜线和棋盘格的参数对照, 同高元素的斜线密度保持一致(见 4.5) |
+| [`opacity`](../examples/opacity.rs) | 元素整体半透明和颜色自带 alpha 的差异, 可点击面板实测(见 4.6) |

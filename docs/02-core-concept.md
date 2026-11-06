@@ -257,3 +257,11 @@ cx.spawn(async move |this, cx| {
 | `update` 闭包里再update同一实体 | panic | 用闭包里的 `&mut T` |
 | 父子互持强句柄 | 内存泄漏 | 回指用 `WeakEntity` |
 | 事件回调里做网络/重计算 | UI卡死 | `cx.spawn` |
+
+## 2.11 配套示例
+
+本章涉及的示例都在仓库 [`examples/`](../examples/) 目录下, 在仓库根目录 `cargo run --example <示例名>` 运行(桌面 + wasm 双入口):
+
+| 示例 | 说明 |
+| :--- | :--- |
+| [`hello_world`](../examples/hello_world.rs) | 本章的 `App`/`Window`/`Context`/`Entity`/`Render` 各角色, 都能在这个最小例子里一一对上 |

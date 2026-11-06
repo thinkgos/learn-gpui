@@ -324,3 +324,11 @@ div()
 | **间距** | `.p()` `.px()` `.py()` `.pt()` `.m()` `.mt()` `.gap()` | `padding`, `margin`, `gap` |
 | **尺寸** | `.size()` `.w()` `.h()` `.w_full()` `.min_w()` `.max_h()` | `width`, `height`, `min/max-*` |
 | **数值简写** | `.p_4()` `.gap_2()` `.mt_neg_1()` `.w_full()` | Tailwind 间距刻度 |
+
+## 3.9 配套示例
+
+本章涉及的示例都在仓库 [`examples/`](../examples/) 目录下, 在仓库根目录 `cargo run --example <示例名>` 运行(桌面 + wasm 双入口):
+
+| 示例 | 说明 |
+| :--- | :--- |
+| [`grid_layout`](../examples/grid_layout.rs) | 经典圣杯布局(顶部/底部 + 三栏); 拖动窗口宽度体验 `container_query` 响应式折叠(宽于 400px 三栏, 窄于 400px 单列), 同时演示 `grid_cols`/`grid_rows`/`col_span`/`row_span` |

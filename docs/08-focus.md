@@ -68,7 +68,7 @@ div()
 
 **NOTE**: `focus_visible()` 区分的是**输入方式**(键盘还是鼠标), 不是"程序聚焦 vs 键盘聚焦".GPUI记录最近一次输入设备:  鼠标点击聚焦后不显示焦点框, Tab 导航聚焦才显示 —— 这正是 CSS `:focus-visible` 的语义. 
 
-三种样式对照的完整示例: `cargo run --example focus_visible`. 
+三种样式对照的完整示例: [`cargo run --example focus_visible`](../examples/focus_visible.rs). 
 
 ## 8.3 Tab 导航
 
@@ -97,7 +97,7 @@ div().track_focus(&self.focus_handle)
     .on_action(cx.listener(|_this, _: &TabPrev, window, cx| window.focus_prev(cx)))
 ```
 
-完整示例(六个不同 tab 设置的按钮 + tab group): `cargo run --example tab_stop`. 
+完整示例(六个不同 tab 设置的按钮 + tab group): [`cargo run --example tab_stop`](../examples/tab_stop.rs). 
 
 **NOTE**: 并不存在公开的 `TabStop` 类型 —— 它就是句柄/元素上的一个布尔开关. 
 
@@ -143,3 +143,12 @@ div().track_focus(&self.toolbar_focus)
 | **焦点样式** | `.focus()` `.focus_visible()` `.in_focus()` | 聚焦/键盘聚焦/自身位于焦点元素内的样式 |
 | **Tab 顺序** | `.tab_index(n)` `.tab_stop(b)` `.tab_group()` | 元素版与句柄版等价(`tab_group` 仅元素版) |
 | **焦点事件** | `cx.on_focus_in()` `cx.on_blur()` `cx.on_focus_out()` `cx.on_focus_lost()` | 焦点进出订阅 |
+
+## 8.7 配套示例
+
+本章涉及的示例都在仓库 [`examples/`](../examples/) 目录下, 在仓库根目录 `cargo run --example <示例名>` 运行(桌面 + wasm 双入口):
+
+| 示例 | 说明 |
+| :--- | :--- |
+| [`focus_visible`](../examples/focus_visible.rs) | 三种样式对照: 只用 `.focus()`、只用 `.focus_visible()`、两者叠加(见 8.2) |
+| [`tab_stop`](../examples/tab_stop.rs) | 六个不同 tab 设置的按钮 + tab group, 并显示按了 Tab 还是 Shift-Tab(见 8.3) |

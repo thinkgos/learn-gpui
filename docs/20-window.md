@@ -44,7 +44,7 @@ cx.open_window(
 
 **NOTE**: `WindowOptions` **没有** `center: bool` 字段. 居中要在创建前自己算好位置:  `Bounds::centered(None, size, cx)` 或 `WindowBounds::centered(size, cx)`, 再放进 `window_bounds`. 
 
-**NOTE**: `window_bounds` 和 `titlebar` 都是 `Option` —— `window_bounds: None` 表示继承已有边界, `titlebar: None` 表示**不要系统标题栏**(自绘标题栏场景, 见 `window.rs` 的 Custom Titlebar). `WindowBounds` 的变体是 `Windowed`/`Maximized`/`Fullscreen`, **没有** `Fixed`;  `Maximized`/`Fullscreen` 里包的 `Bounds` 是恢复用的尺寸. 
+**NOTE**: `window_bounds` 和 `titlebar` 都是 `Option` —— `window_bounds: None` 表示继承已有边界, `titlebar: None` 表示**不要系统标题栏**(自绘标题栏场景, 见 [`window.rs`](../examples/window.rs) 的 Custom Titlebar). `WindowBounds` 的变体是 `Windowed`/`Maximized`/`Fullscreen`, **没有** `Fixed`;  `Maximized`/`Fullscreen` 里包的 `Bounds` 是恢复用的尺寸. 
 
 ## 20.2 WindowKind 枚举
 
@@ -59,7 +59,7 @@ cx.open_window(
 | `WindowKind::Dialog` | 挡住父窗口交互直到关闭的模态对话框 | 确认框 |
 | `WindowKind::LayerShell(options)` | Wayland LayerShell 覆盖层(仅 Linux/Wayland) | dock、壁纸、通知层 |
 
-💡 提示: 平台差异较大 —— 同一个 `kind` 在 macOS/Windows/Linux 上的原生行为(聚焦策略、动画、装饰)不完全一致, 多平台实测为准. `examples/window.rs` 把几种 `kind` 各开一个窗口, 可以直观对比. 
+💡 提示: 平台差异较大 —— 同一个 `kind` 在 macOS/Windows/Linux 上的原生行为(聚焦策略、动画、装饰)不完全一致, 多平台实测为准. [`examples/window.rs`](../examples/window.rs) 把几种 `kind` 各开一个窗口, 可以直观对比. 
 
 ## 20.3 窗口操作
 
@@ -178,4 +178,14 @@ cx.on_window_closed(|cx, _window_id| {
 | **观察者** | `cx.observe_window_bounds/activation/visibility/appearance/display(...)` | 返回 `Subscription`, 在实体创建时注册 |
 | **关闭事件** | `cx.on_window_closed(\|cx, id\| ...)` | App 级, 常配合 `cx.windows().is_empty()` 判断退出 |
 
-完整示例: `cargo run --example window`(各种 WindowKind、标题栏、prompt、resize、隐藏应用). 关窗即退出的最小示例见 `cargo run --example on_window_close_quit`, 系统通知(带操作按钮)见 `cargo run --example system_notifications`. 
+完整示例: [`cargo run --example window`](../examples/window.rs)(各种 WindowKind、标题栏、prompt、resize、隐藏应用). 关窗即退出的最小示例见 [`cargo run --example on_window_close_quit`](../examples/on_window_close_quit.rs), 系统通知(带操作按钮)见 [`cargo run --example system_notifications`](../examples/system_notifications.rs). 
+
+## 20.6 配套示例
+
+本章涉及的示例都在仓库 [`examples/`](../examples/) 目录下, 在仓库根目录 `cargo run --example <示例名>` 运行(桌面 + wasm 双入口):
+
+| 示例 | 说明 |
+| :--- | :--- |
+| [`window`](../examples/window.rs) | 各种 `WindowKind`、标题栏、`window.prompt()`、resize、隐藏应用(见 20.1–20.3) |
+| [`on_window_close_quit`](../examples/on_window_close_quit.rs) | 关窗即退出的最小示例(见 20.4) |
+| [`system_notifications`](../examples/system_notifications.rs) | 系统通知的发送、替换、关闭和操作按钮响应 |

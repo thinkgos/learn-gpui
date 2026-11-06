@@ -73,7 +73,7 @@ fn main() {
 }
 ```
 
-(真实示例 `hello_world.rs` 还做了加载字体、兼容 wasm 两件事, 与GPUI骨架无关, 这里省略.)
+(真实示例 [`hello_world.rs`](../examples/hello_world.rs) 还做了加载字体、兼容 wasm 两件事, 与GPUI骨架无关, 这里省略.)
 
 逐块看下来:
 
@@ -122,7 +122,7 @@ GPUI 的界面描述是**链式调用**风格: 每个修饰方法都返回 `self
 
 ## 1.4 跑起来
 
-本仓库 `examples/` 目录下每个 `.rs` 文件都是独立可运行的示例, 依赖已在 `Cargo.toml` 里配好. 在仓库根目录执行:
+本仓库 [`examples/`](../examples/) 目录下每个 `.rs` 文件都是独立可运行的示例, 依赖已在 `Cargo.toml` 里配好. 在仓库根目录执行:
 
 ```bash
 cargo run --example hello_world
@@ -142,4 +142,12 @@ cargo run --example hello_world
 | 创建实体 | `cx.new(\|cx\| Xxx { ... })` | 状态交给GPUI托管, 返回句柄 `Entity<Xxx>` |
 | 搭界面 | `div().flex()...().child(...)` | 链式搭出元素树, 样式方法名同 Tailwind |
 
-完整示例: `cargo run --example hello_world`
+完整示例: [`cargo run --example hello_world`](../examples/hello_world.rs)
+
+## 1.6 配套示例
+
+本章涉及的示例都在仓库 [`examples/`](../examples/) 目录下, 在仓库根目录 `cargo run --example <示例名>` 运行(桌面 + wasm 双入口):
+
+| 示例 | 说明 |
+| :--- | :--- |
+| [`hello_world`](../examples/hello_world.rs) | 窗口显示 "Hello, World!" 和一排彩色方块; 源码在最小骨架之外还做了加载字体、兼容 wasm 两件事 |

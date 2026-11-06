@@ -96,9 +96,9 @@ impl ThemeAware {
 
 和事件一样, 观察者回调是**延迟派发**的:  修改全局状态只是把通知排进 effect 队列, 本轮 update 结束时才统一触发.
 
-## 14.4 实战: text.rs 里的字体全局状态管理
+## 14.4 实战: [`text.rs`](../examples/text.rs) 里的字体全局状态管理
 
-本仓库的 `examples/text.rs` 用全局状态管理整套排版参数(字号、行高、字号阶梯), 是 Global 的经典用法. 关键片段:
+本仓库的 [`examples/text.rs`](../examples/text.rs) 用全局状态管理整套排版参数(字号、行高、字号阶梯), 是 Global 的经典用法. 关键片段:
 
 ```rust
 /// 一组全局排版参数
@@ -132,7 +132,7 @@ cx.set_global(GlobalTextContext(Arc::new(TextContext::default())));
 let font_size = cx.global::<GlobalTextContext>().font_size;
 ```
 
-text.rs 里还包了一个便捷 trait, 让 `App` 能直接写 `cx.text_context()`:
+[`text.rs`](../examples/text.rs) 里还包了一个便捷 trait, 让 `App` 能直接写 `cx.text_context()`:
 
 ```rust
 pub trait ActiveTextContext {
@@ -146,7 +146,7 @@ impl ActiveTextContext for App {
 }
 ```
 
-**NOTE**: 原文说的"GPUI 内置 `text.rs` 的 `TextSystem` 全局状态"并不存在 ——GPUI的 `TextSystem` 是字体/排版引擎, **没有** `impl Global for TextSystem`. 真实的示例是**本仓库**的 `examples/text.rs`, 全局类型叫 `GlobalTextContext`(newtype 包 `Arc<TextContext>`).
+**NOTE**: 原文说的"GPUI 内置 `text.rs` 的 `TextSystem` 全局状态"并不存在 ——GPUI的 `TextSystem` 是字体/排版引擎, **没有** `impl Global for TextSystem`. 真实的示例是**本仓库**的 [`examples/text.rs`](../examples/text.rs), 全局类型叫 `GlobalTextContext`(newtype 包 `Arc<TextContext>`).
 
 ## 14.5 全局状态 vs Entity 的选择
 
@@ -174,4 +174,12 @@ impl ActiveTextContext for App {
 | **移除** | `cx.remove_global::<G>()` | 移除并取出值 |
 | **观察** | `cx.observe_global::<G>(h)` | 变化时回调, 返回 `Subscription` |
 
-完整示例:  `cargo run --example text`(顶部按钮切换字体族, 字号阶梯和字符网格共用一份全局排版参数).
+完整示例:  [`cargo run --example text`](../examples/text.rs)(顶部按钮切换字体族, 字号阶梯和字符网格共用一份全局排版参数).
+
+## 14.7 配套示例
+
+本章涉及的示例都在仓库 [`examples/`](../examples/) 目录下, 在仓库根目录 `cargo run --example <示例名>` 运行(桌面 + wasm 双入口):
+
+| 示例 | 说明 |
+| :--- | :--- |
+| [`text`](../examples/text.rs) | `GlobalTextContext` 统一管理字号、行高、字号阶梯, 顶部按钮切换字体族(见 14.4) |

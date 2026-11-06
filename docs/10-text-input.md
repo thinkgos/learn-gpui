@@ -14,7 +14,7 @@
 | 快捷键(删除/移动/复制) | 浏览器内置 | 动作 + 按键绑定(见第 8 章) |
 | 鼠标点选、拖选 | 浏览器内置 | 鼠标事件 + 坐标换算(见 9.9) |
 
-本章以能编译的示例 `examples/input.rs` 为准: `TextInput` 实体持有文本和选区状态, `TextElement` 自定义 Element 把它们画出来, 键盘行为拆成一个个动作:
+本章以能编译的示例 [`examples/input.rs`](../examples/input.rs) 为准: `TextInput` 实体持有文本和选区状态, `TextElement` 自定义 Element 把它们画出来, 键盘行为拆成一个个动作:
 
 ```rust
 actions!(
@@ -375,4 +375,12 @@ fn index_for_mouse_position(&self, position: Point<Pixels>) -> usize {
 | **焦点** | `cx.focus_handle()` `.track_focus()` `handle.is_focused(window)` | 光标只在聚焦时绘制 |
 | **字素边界** | `unicode_segmentation::grapheme_indices()` | 光标移动不拆 emoji |
 
-完整示例: `cargo run --example input`
+完整示例: [`cargo run --example input`](../examples/input.rs)
+
+## 10.11 配套示例
+
+本章涉及的示例都在仓库 [`examples/`](../examples/) 目录下, 在仓库根目录 `cargo run --example <示例名>` 运行(桌面 + wasm 双入口):
+
+| 示例 | 说明 |
+| :--- | :--- |
+| [`input`](../examples/input.rs) | 完整输入框: `TextInput` + `TextElement` 三阶段渲染, 光标、选区、剪贴板、鼠标选字, 并实时显示按键(见 10.1–10.9) |

@@ -41,7 +41,7 @@ impl Counter {
 }
 ```
 
-也可以在 `entity.update(...)` 的闭包里直接发(完整示例 `ownership_post.rs` 的写法):
+也可以在 `entity.update(...)` 的闭包里直接发(完整示例 [`ownership_post.rs`](../examples/ownership_post.rs) 的写法):
 
 ```rust
 counter.update(cx, |counter, cx| {
@@ -159,4 +159,12 @@ assert_eq!(subscriber.read(cx).count, 4);
 | **订阅生命周期** | `Subscription` `.detach()` `Subscription::join(a, b)` | Drop 退订;  detach 到发射实体释放为止 |
 | **实体释放钩子** | `cx.on_release(h)` `cx.observe_release(&entity, h)` | 自己/别的实体被释放时收尾 |
 
-完整示例:  `cargo run --example ownership_post`(不开窗口的纯逻辑示例, 用 assert 演示"发射 → 订阅 → 状态同步"的事件流).
+完整示例:  [`cargo run --example ownership_post`](../examples/ownership_post.rs)(不开窗口的纯逻辑示例, 用 assert 演示"发射 → 订阅 → 状态同步"的事件流).
+
+## 13.7 配套示例
+
+本章涉及的示例都在仓库 [`examples/`](../examples/) 目录下, 在仓库根目录 `cargo run --example <示例名>` 运行(桌面 + wasm 双入口):
+
+| 示例 | 说明 |
+| :--- | :--- |
+| [`ownership_post`](../examples/ownership_post.rs) | `EventEmitter` + `emit()` + `subscribe()`, assert 演示"发射 → 订阅 → 状态同步"的事件流(见 13.1–13.3) |

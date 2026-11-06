@@ -262,4 +262,15 @@ uniform_list(
 | **行元素** | `impl RenderOnce` + `#[derive(IntoElement)]` | 一次性渲染的轻量行 |
 | **自绘** | `canvas(prepaint, paint)` | 自定义滚动条等 |
 
-完整示例: `cargo run --example uniform_list`(50 行等高列表)、`cargo run --example list_example`(变高行 + 底部对齐 + 自绘滚动条)、`cargo run --example data_table`(10000 行行情表格 + 可拖拽滚动条). 普通滚动容器(不需要虚拟化)见 `cargo run --example scrollable`.
+完整示例: [`cargo run --example uniform_list`](../examples/uniform_list.rs)(50 行等高列表)、[`cargo run --example list_example`](../examples/list_example.rs)(变高行 + 底部对齐 + 自绘滚动条)、[`cargo run --example data_table`](../examples/data_table.rs)(10000 行行情表格 + 可拖拽滚动条). 普通滚动容器(不需要虚拟化)见 [`cargo run --example scrollable`](../examples/scrollable.rs).
+
+## 15.7 配套示例
+
+本章涉及的示例都在仓库 [`examples/`](../examples/) 目录下, 在仓库根目录 `cargo run --example <示例名>` 运行(桌面 + wasm 双入口):
+
+| 示例 | 说明 |
+| :--- | :--- |
+| [`uniform_list`](../examples/uniform_list.rs) | 50 行等高虚拟列表(见 15.1) |
+| [`list_example`](../examples/list_example.rs) | 变高行 + 底部对齐 + 自绘滚动条(见 15.2、15.3) |
+| [`data_table`](../examples/data_table.rs) | 10000 行行情表格 + 可拖拽滚动条(见 15.4) |
+| [`scrollable`](../examples/scrollable.rs) | 不需要虚拟化的普通滚动容器, 垂直 + 水平嵌套 |

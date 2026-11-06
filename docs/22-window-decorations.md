@@ -20,7 +20,7 @@ let options = WindowOptions {
 };
 ```
 
-💡 提示: 平台不一定满足装饰请求(源码原话: "The platform may ignore requests it cannot satisfy"), 这个选项主要在 Linux(X11/Wayland)生效. macOS/Windows 隐藏系统标题栏走的是 `TitlebarOptions::appears_transparent: true`, 四种标题栏组合的对照见 `cargo run --example window_movable`.
+💡 提示: 平台不一定满足装饰请求(源码原话: "The platform may ignore requests it cannot satisfy"), 这个选项主要在 Linux(X11/Wayland)生效. macOS/Windows 隐藏系统标题栏走的是 `TitlebarOptions::appears_transparent: true`, 四种标题栏组合的对照见 [`cargo run --example window_movable`](../examples/window_movable.rs).
 
 **运行时查询用的是另一个枚举.** `window.window_decorations()` 返回 `Decorations`, 告诉你当前实际生效的装饰形态:
 
@@ -90,7 +90,7 @@ div()
 
 ## 22.3 ResizeEdge 枚举
 
-Client 装饰下边框缩放也要自己实现:  判断鼠标落在哪条边/角, 调 `window.start_window_resize(edge)` 交给系统. `ResizeEdge` 共 8 个取值, 与光标样式的对应关系(`window_shadow.rs` 的 `resize_edge()` 就是这么映射的):
+Client 装饰下边框缩放也要自己实现:  判断鼠标落在哪条边/角, 调 `window.start_window_resize(edge)` 交给系统. `ResizeEdge` 共 8 个取值, 与光标样式的对应关系([`window_shadow.rs`](../examples/window_shadow.rs) 的 `resize_edge()` 就是这么映射的):
 
 | 枚举值 | 位置 | 光标样式 |
 | :--- | :--- | :--- |
@@ -103,7 +103,7 @@ Client 装饰下边框缩放也要自己实现:  判断鼠标落在哪条边/角
 | `ResizeEdge::Left` | 左边 | `CursorStyle::ResizeLeftRight` |
 | `ResizeEdge::TopLeft` | 左上角 | `CursorStyle::ResizeUpRightDownLeft` |
 
-把边缘命中判断和移动/缩放串起来的典型写法(完整版见 `cargo run --example window_shadow`):
+把边缘命中判断和移动/缩放串起来的典型写法(完整版见 [`cargo run --example window_shadow`](../examples/window_shadow.rs)):
 
 ```rust
 .on_mouse_down(MouseButton::Left, move |e, window, _cx| {
@@ -131,7 +131,7 @@ window.set_client_inset(shadow_size);
 ```
 
 - 参数是**一个** `Pixels`, 四边同宽;  读回用 `window.client_inset()`.
-- `window_shadow.rs` 里它就是阴影宽度:  内容区外的 10px 既留给圆角阴影, 又是缩放手柄的命中宽度.
+- [`window_shadow.rs`](../examples/window_shadow.rs) 里它就是阴影宽度:  内容区外的 10px 既留给圆角阴影, 又是缩放手柄的命中宽度.
 - 配套的 `window.set_client_corner_radii(corners)` 把客户端画的圆角告诉平台, 让系统效果(如 macOS 阴影)贴合窗口形状.
 
 **NOTE**: `set_client_inset()` 收单个 `Pixels`, **没有** `Inset { top, left, right, bottom }` 这种结构体, 也不存在按边分别设置的版本.
@@ -155,7 +155,7 @@ div().shadow_lg() // 大阴影: box-shadow: 0 10px 15px -3px rgb(0 0 0/0.1), ...
 
 `BoxShadow::new(offset_x, offset_y, color)` 对应 CSS `box-shadow` 的偏移和颜色, 构造后还有三个可调属性:  `.blur_radius(px)` 模糊半径、`.spread_radius(px)` 扩散半径、`.inset()` 改成内阴影.
 
-Client 装饰下系统往往不画窗口外阴影, `window_shadow.rs` 的做法是自己给窗口容器画一道, 且被平铺贴靠时关掉:
+Client 装饰下系统往往不画窗口外阴影, [`window_shadow.rs`](../examples/window_shadow.rs) 的做法是自己给窗口容器画一道, 且被平铺贴靠时关掉:
 
 ```rust
 .when(!tiling.is_tiled(), |div| {
@@ -182,4 +182,14 @@ Client 装饰下系统往往不画窗口外阴影, `window_shadow.rs` 的做法�
 | **客户区** | `window.set_client_inset(px)` `window.client_inset()` `window.set_client_corner_radii()` | 不可见装饰宽度与圆角 |
 | **阴影** | `.shadow()` `.shadow_lg()` … `BoxShadow::new().blur_radius()` | 元素阴影与窗口阴影 |
 
-完整示例: `cargo run --example window_shadow`(自绘标题栏 + 边框阴影 + 8 向缩放手柄);  标题栏选项对照见 `cargo run --example window_movable`, 窗口选项总览见 `cargo run --example window`.
+完整示例: [`cargo run --example window_shadow`](../examples/window_shadow.rs)(自绘标题栏 + 边框阴影 + 8 向缩放手柄);  标题栏选项对照见 [`cargo run --example window_movable`](../examples/window_movable.rs), 窗口选项总览见 [`cargo run --example window`](../examples/window.rs).
+
+## 22.7 配套示例
+
+本章涉及的示例都在仓库 [`examples/`](../examples/) 目录下, 在仓库根目录 `cargo run --example <示例名>` 运行(桌面 + wasm 双入口):
+
+| 示例 | 说明 |
+| :--- | :--- |
+| [`window_shadow`](../examples/window_shadow.rs) | 自绘标题栏 + 边框阴影 + 8 向缩放手柄(见 22.2–22.5) |
+| [`window_movable`](../examples/window_movable.rs) | 四种标题栏组合对照: 原生/自绘 × 可移动/不可移动(见 22.1) |
+| [`window`](../examples/window.rs) | 窗口选项总览(见 22.1; 窗口管理见第 20 章) |

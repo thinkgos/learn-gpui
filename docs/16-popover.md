@@ -181,4 +181,13 @@ deferred(
 | **关闭交互** | `on_mouse_down_out()` `on_mouse_up_out()` | 点击浮层外部 |
 | **显隐控制** | `.when(cond, ...)` `cx.listener(...)` `cx.notify()` | 状态驱动显隐 |
 
-完整示例: `cargo run --example popover`(两级嵌套浮层 + 点外部关闭), `cargo run --example anchor`(8 个锚点的悬浮提示演示).
+完整示例: [`cargo run --example popover`](../examples/popover.rs)(两级嵌套浮层 + 点外部关闭), [`cargo run --example anchor`](../examples/anchor.rs)(8 个锚点的悬浮提示演示).
+
+## 16.8 配套示例
+
+本章涉及的示例都在仓库 [`examples/`](../examples/) 目录下, 在仓库根目录 `cargo run --example <示例名>` 运行(桌面 + wasm 双入口):
+
+| 示例 | 说明 |
+| :--- | :--- |
+| [`popover`](../examples/popover.rs) | `deferred()` + `anchored()` 两级嵌套浮层 + 点击外部关闭(见 16.1–16.4) |
+| [`anchor`](../examples/anchor.rs) | 8 个锚点的悬浮提示演示(见 16.2) |
