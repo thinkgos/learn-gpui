@@ -1,12 +1,10 @@
-[workspace]
-resolver = "3"
-members = ["hello-world"]
 
-[workspace.package]
+[package]
+name = "learn-gpui"
 version = "0.1.0"
 authors = ["thinkgo <thinkgo@aliyun.com>"]
 edition = "2024"
-rust-version = "1.96"
+rust-version = "1.99"
 description = "learn gpui"
 keywords = ["gpui"]
 license = "Apache-2.0"
@@ -14,10 +12,33 @@ readme = "README.md"
 homepage = "https://github.com/thinkgos/learn-gpui"
 repository = "https://github.com/thinkgos/learn-gpui"
 
-[workspace.dependencies]
+[dependencies]
 gpui = { git = "https://github.com/zed-industries/zed" }
 gpui_platform = { git = "https://github.com/zed-industries/zed", features = [
   "font-kit",
   "wayland",
   "x11",
 ] }
+anyhow = "1.0"
+env_logger = "0.11"
+rand = "0.10"
+lyon = { version = "1.0", features = ["lyon_extra"] }
+unicode-segmentation = "1.13"
+reqwest_client = { version = "0.1", features = ["client"] }
+log = "0.4"
+
+[dev-dependencies]
+futures = "0.3"
+
+[features]
+test-support = ["gpui/test-support"]
+
+[profile.dev.package."*"]
+opt-level = "z"
+
+[profile.release]
+opt-level = "z"
+strip = true
+lto = true
+codegen-units = 1
+panic = "abort"
