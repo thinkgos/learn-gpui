@@ -74,7 +74,7 @@ cargo run --example <示例名>       # <示例名> 见下表最后一列
 
 ## 术语对照
 
-| 文档用语 |GPUI里的东西 |
+| 文档用语 | GPUI里的东西 |
 | :--- | :--- |
 | 链式调用 | `Styled` 等 trait 上的 Tailwind 风格方法, 逐个调用拼出元素 |
 | 实体(Entity) | 框架托管的强类型状态容器, 改状态后要 `cx.notify()` |
@@ -82,3 +82,7 @@ cargo run --example <示例名>       # <示例名> 见下表最后一列
 | 元素(Element) | `render` 每帧构建的一次性值, 用完即弃 |
 | 句柄(Handle) | `FocusHandle` 这类轻量标识, 不持有数据 |
 | 上下文(cx) | `App`/`Context<T>`/`AsyncApp`, 操作实体和全局状态的入口 |
+
+## 参考
+
+- [gpui-ce](https://docs.rs/gpui-ce/latest/gpui/_documentation/index.html) gpui ce教程

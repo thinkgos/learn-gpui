@@ -173,7 +173,7 @@ weak.update(cx, |data, cx| {
 
 什么时候用弱引用: 订阅回调、长期存活的异步任务、互相引用的父子实体. 反过来, 短命闭包里直接 `clone()` 强句柄就好.
 
-## 12.8 Entity vs Rc<RefCell<T>> 的优势
+## 12.8 `Entity` vs `Rc<RefCell<T>>` 的优势
 
 自己拿 `Rc<RefCell<T>>` 也能攒状态, 但GPUI的实体和 UI 系统是一体的:
 
