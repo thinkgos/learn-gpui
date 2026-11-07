@@ -116,7 +116,7 @@ window.paint_path(path, rgb(0x22c55e)); // 绿色描边
 | `to: Point<Pixels>` | 弧的终点 |
 
 ```rust
-// 从当前点画半圆弧到直径另一端(配合第二次 arc_to 就是整圆, 见 17.1)
+// 从当前点画半圆弧到直径另一端(配合第二次 arc_to 就是整圆, 见 18.1)
 builder.move_to(point(center.x + radius, center.y));
 builder.arc_to(point(radius, radius), px(0.), false, false, point(center.x - radius, center.y));
 ```
@@ -180,7 +180,7 @@ window.paint_quad(quad(
 ));
 ```
 
-💡 提示: `paint_path` 的第二个参数收 `Background`, 所以纯色、渐变(`linear_gradient`)、图案(`pattern_slash`)都能直接填充路径(见第 18 章). 
+💡 提示: `paint_path` 的第二个参数收 `Background`, 所以纯色、渐变(`linear_gradient`)、图案(`pattern_slash`)都能直接填充路径(见第 19 章). 
 
 ## 18.5 鼠标绘图交互(核心思路)
 

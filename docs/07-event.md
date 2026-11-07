@@ -66,12 +66,12 @@ GPUI 提供了完整的鼠标事件 API(回调形状都是 `(event, window, cx)`
 | `.on_mouse_up(MouseButton::Left, l)` | 指定键释放 | |
 | `.on_any_mouse_down(l)` | 任意键按下 | |
 | `.on_mouse_move(l)` | 鼠标在元素上移动 | |
-| `.on_mouse_down_out(l)` | 鼠标在元素**外**按下 | 见 6.5 |
+| `.on_mouse_down_out(l)` | 鼠标在元素**外**按下 | 见 7.5 |
 | `.on_mouse_up_out(MouseButton::Left, l)` | 鼠标在元素外释放 | |
 | `.on_scroll(l)` | 滚轮/触控板滚动 | |
 | `.on_mouse_exit(l)` | 鼠标移出**窗口**(不是移出元素) | |
 
-**NOTE**: 进出元素的通知用有状态的 `.on_hover(|entered: &bool, window, cx| ...)`(见 6.4), 样式变化用 `.hover(|style| ...)`(见 6.4). 旧的 `.on_scroll_wheel()` 已改名为 `.on_scroll()`.
+**NOTE**: 进出元素的通知用有状态的 `.on_hover(|entered: &bool, window, cx| ...)`(见 7.4), 样式变化用 `.hover(|style| ...)`(见 7.4). 旧的 `.on_scroll_wheel()` 已改名为 `.on_scroll()`.
 
 常用事件对象的字段:
 
@@ -174,7 +174,7 @@ GPUI 的事件分两个阶段, 相当于 DOM 的捕获/冒泡:
 - `Capture`: 沿路径从根走到焦点元素
 - `Bubble`: 从焦点元素走回根
 
-默认情况下事件一路冒泡, 调用 `cx.stop_propagation()` 可以阻止事件继续传播;  `cx.propagate()` 则相反, 用于"处理了但还想让别人也看到"(动作处理有默认消费行为, 见 8.3):
+默认情况下事件一路冒泡, 调用 `cx.stop_propagation()` 可以阻止事件继续传播;  `cx.propagate()` 则相反, 用于"处理了但还想让别人也看到"(动作处理有默认消费行为, 见 9.4):
 
 ```rust
 div().on_mouse_down(MouseButton::Left, |event, _window, cx| {

@@ -10,7 +10,7 @@ GPUI 的窗口由 `WindowOptions` 配置、`cx.open_window()` 创建, 之后通�
 | :--- | :--- | :--- |
 | `window_bounds` | `Option<WindowBounds>` | 位置/状态: `None` 继承已有边界; `Some(WindowBounds::Windowed(bounds))` 指定位置尺寸 |
 | `titlebar` | `Option<TitlebarOptions>` | `None` = 无标题栏(自绘); `Some(...)` 配置标题、透明标题栏、macOS 红绿灯位置 |
-| `kind` | `WindowKind` | 窗口类型(见 19.2) |
+| `kind` | `WindowKind` | 窗口类型(见 20.2) |
 | `focus` | `bool` | 创建后是否聚焦(默认 `true`) |
 | `show` | `bool` | 创建后是否显示(默认 `true`, 传 `false` 创建隐藏窗口) |
 | `is_movable` | `bool` | 用户能否拖动窗口(默认 `true`) |

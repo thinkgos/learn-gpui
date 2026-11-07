@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 learn-gpui 是 GPUI(Zed 的 UI 框架)的中文学习仓库, 由两部分组成:
 
-- `docs/` — 22 章中文教程(00–21)+ 目录 `docs/README.md`, 章节与示例一一对应.
+- `docs/` — 22 章中文教程(第 1–22 章, 章号与文件名编号一致, 如第 8 章 = `docs/08-focus.md`)+ 目录 `docs/README.md`, 章节与示例一一对应.
 - `examples/` — 与章节配套、能编译运行的示例, 教程里的代码片段都取自这里.
 
 `gpui` / `gpui_platform` 是 zed 仓库的 git 依赖, 版本由 `Cargo.lock` 钉住.

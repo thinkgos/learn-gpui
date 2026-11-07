@@ -8,11 +8,11 @@
 
 | 职责 | HTML | GPUI里的做法 |
 | :--- | :--- | :--- |
-| 接收键盘/IME 输入 | 浏览器内置 | 实现 `EntityInputHandler` trait(见 9.2) |
-| 文本排版与绘制 | 浏览器内置 | 自定义 Element 三阶段(见 9.4、9.5) |
-| 光标、选区 | 浏览器内置 | 自己画, 状态存在实体里(见 9.7) |
-| 快捷键(删除/移动/复制) | 浏览器内置 | 动作 + 按键绑定(见第 8 章) |
-| 鼠标点选、拖选 | 浏览器内置 | 鼠标事件 + 坐标换算(见 9.9) |
+| 接收键盘/IME 输入 | 浏览器内置 | 实现 `EntityInputHandler` trait(见 10.2) |
+| 文本排版与绘制 | 浏览器内置 | 自定义 Element 三阶段(见 10.4、10.5) |
+| 光标、选区 | 浏览器内置 | 自己画, 状态存在实体里(见 10.7) |
+| 快捷键(删除/移动/复制) | 浏览器内置 | 动作 + 按键绑定(见第 9 章) |
+| 鼠标点选、拖选 | 浏览器内置 | 鼠标事件 + 坐标换算(见 10.9) |
 
 本章以能编译的示例 [`examples/input.rs`](../examples/input.rs) 为准: `TextInput` 实体持有文本和选区状态, `TextElement` 自定义 Element 把它们画出来, 键盘行为拆成一个个动作:
 
@@ -25,9 +25,9 @@ actions!(
 
 ## 10.2 EntityInputHandler trait
 
-`EntityInputHandler` 是GPUI文本输入的核心 trait: 实体实现它之后, 键盘输入、输入法(IME)组合、系统级的复制粘贴都会回调进来. 平台层真正接触的是 `InputHandler` trait, `EntityInputHandler` 面向实体(省掉手动 `update` 的样板), 由 `ElementInputHandler` 包一层转成 `InputHandler` (见 9.6).
+`EntityInputHandler` 是GPUI文本输入的核心 trait: 实体实现它之后, 键盘输入、输入法(IME)组合、系统级的复制粘贴都会回调进来. 平台层真正接触的是 `InputHandler` trait, `EntityInputHandler` 面向实体(省掉手动 `update` 的样板), 由 `ElementInputHandler` 包一层转成 `InputHandler` (见 10.6).
 
-**所有 range/offset 都是 UTF-16 码元偏移**, 这是系统文本协议(macOS `NSTextInputClient` 等)的要求, 和 Rust `String` 的字节偏移不是一回事. 实体内部按字节存文本时必须自己换算(见 9.3).
+**所有 range/offset 都是 UTF-16 码元偏移**, 这是系统文本协议(macOS `NSTextInputClient` 等)的要求, 和 Rust `String` 的字节偏移不是一回事. 实体内部按字节存文本时必须自己换算(见 10.3).
 
 必须实现的方法:
 
@@ -64,7 +64,7 @@ actions!(
 
 ```rust
 struct TextInput {
-    focus_handle: FocusHandle,          // 焦点句柄(见第 7 章)
+    focus_handle: FocusHandle,          // 焦点句柄(见第 8 章)
     content: SharedString,              // 文本内容(UTF-8 字节)
     placeholder: SharedString,          // 空文本时的占位提示
     selected_range: Range<usize>,       // 选区(字节偏移); start == end 时光标
@@ -127,7 +127,7 @@ fn replace_text_in_range(
 | :--- | :--- | :--- |
 | 1. 布局请求 | `request_layout()` | 向 Taffy 布局系统要尺寸, 返回 `(LayoutId, RequestLayoutState)` |
 | 2. 绘制前 | `prepaint()` | 布局完成后拿到最终 `bounds`, 做坐标计算、准备绘制素材, 返回 `PrepaintState` |
-| 3. 绘制 | `paint()` | 把内容画到屏幕; 输入处理器也在这一步注册(见 9.6) |
+| 3. 绘制 | `paint()` | 把内容画到屏幕; 输入处理器也在这一步注册(见 10.6) |
 
 两个关联类型决定阶段之间传什么状态: `RequestLayoutState` 是 `request_layout` 产出、后两阶段读取的; `PrepaintState` 是 `prepaint` 产出、`paint` 读取的. 没有状态就用 `()`:
 
@@ -139,13 +139,13 @@ struct TextElement {
 impl Element for TextElement {
     type RequestLayoutState = ();
     type PrepaintState = PrepaintState; // 排版结果 + 光标/选区的绘制素材
-    // request_layout/prepaint/paint 见 9.5
+    // request_layout/prepaint/paint 见 10.5
 }
 ```
 
 **NOTE**: 实现 `Element` 的同时还要实现 `IntoElement`(通常 `type Element = Self`, `into_element()` 返回 `self`), 这一步**没有**默认实现可省.
 
-💡 提示: `prepaint` 常见的活儿是 `window.insert_hitbox(bounds, ...)` 登记命中区域; `TextElement` 不用插命中箱, 鼠标事件由外层 `div()` 的监听器处理(见 9.9).
+💡 提示: `prepaint` 常见的活儿是 `window.insert_hitbox(bounds, ...)` 登记命中区域; `TextElement` 不用插命中箱, 鼠标事件由外层 `div()` 的监听器处理(见 10.9).
 
 ## 10.5 TextElement 的三阶段实现
 
@@ -208,7 +208,7 @@ let (selection, cursor) = if selected_range.is_empty() {
 
 ```rust
 fn paint(/* ... */) {
-    // 1. 注册本帧的输入处理器(见 9.6)
+    // 1. 注册本帧的输入处理器(见 10.6)
     let focus_handle = self.input.read(cx).focus_handle.clone();
     window.handle_input(&focus_handle, ElementInputHandler::new(bounds, self.input.clone()), cx);
 
@@ -260,7 +260,7 @@ window.handle_input(
 
 ## 10.7 焦点与光标
 
-光标要不要画、输入要不要接, 全看焦点(焦点系统见第 7 章). `TextInput` 实现 `Focusable` 暴露 `focus_handle`, 渲染时用 `.track_focus()` 绑定:
+光标要不要画、输入要不要接, 全看焦点(焦点系统见第 8 章). `TextInput` 实现 `Focusable` 暴露 `focus_handle`, 渲染时用 `.track_focus()` 绑定:
 
 ```rust
 // render() 里
@@ -272,7 +272,7 @@ div()
 
 示例启动后要主动聚焦一次(`window.focus(&handle, cx)`), 否则窗口打开时打不了字. 光标位置**不是**简单取 `selected_range.start` —— 反向选区(shift 向左选)时头在起始端, 用 `selection_reversed` 标记, `cursor_offset()` 据此返回 `start` 或 `end`.
 
-移动光标(`move_to`)和扩展选区(`select_to`)是两个方法, 但都收束到同一套状态更新: 改 `selected_range`、`window.notify_text_selection_changed()` 通知系统、`cx.notify()` 重绘. `Left`/`Right`/`Home`/`End` 走 `move_to`, `SelectLeft`/`SelectRight`/`SelectAll` 走 `select_to`, 按键绑定和普通动作一模一样(见第 8 章).
+移动光标(`move_to`)和扩展选区(`select_to`)是两个方法, 但都收束到同一套状态更新: 改 `selected_range`、`window.notify_text_selection_changed()` 通知系统、`cx.notify()` 重绘. `Left`/`Right`/`Home`/`End` 走 `move_to`, `SelectLeft`/`SelectRight`/`SelectAll` 走 `select_to`, 按键绑定和普通动作一模一样(见第 9 章).
 
 💡 提示: 示例的光标**不闪烁(blink)**, 聚焦时一直实心. 要闪烁效果, 用 `cx.background_executor().timer(...)` 定时翻转一个可见性标志再 `cx.notify()` 即可.
 

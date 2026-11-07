@@ -1,4 +1,4 @@
-# 7. 焦点管理
+# 8. 焦点管理
 
 焦点管理是构建可访问 GUI 应用的关键. GPUI提供了完善的焦点系统, 支持键盘导航、Tab 切换和程序化聚焦.
 
@@ -42,13 +42,13 @@ impl Render for Button {
 | `handle.is_focused(window)` | 这个句柄是否持有焦点 |
 | `handle.contains_focused(window, cx)` | 自己或子孙持有焦点(焦点是否在容器内) |
 | `handle.within_focused(window, cx)` | 自己是否位于焦点元素内部 |
-| `handle.tab_index(n)`/`handle.tab_stop(b)` | 链式设置 Tab 顺序(见 7.3) |
+| `handle.tab_index(n)`/`handle.tab_stop(b)` | 链式设置 Tab 顺序(见 8.3) |
 | `window.blur(cx)` | 清除焦点(谁都不聚焦) |
 | `window.focused(cx)` | 当前持有焦点的句柄(`Option<FocusHandle>`) |
 
 ## 8.2 焦点样式: focus() 与 focus_visible()
 
-`focus()` 和 `focus_visible()` **不是两种焦点状态, 而是两个样式方法**(定义在元素上, 配合 `.track_focus()` 生效), 对应 CSS 的 `:focus` 和 `:focus-visible`:
+`focus()` 和 `focus_visible()` **是两个样式方法**(定义在元素上, 配合 `.track_focus()` 生效), 对应 CSS 的 `:focus` 和 `:focus-visible`:
 
 | 方法 | 什么时候生效 | 典型用途 |
 | :--- | :--- | :--- |
@@ -70,7 +70,7 @@ div()
 
 ## 8.3 Tab 导航
 
-GPUI 内置支持 Tab 键导航:  每帧渲染时收集所有焦点句柄排成"Tab序", `window.focus_next()`/`window.focus_prev()` 就在序列里前进/后退. 自定义顺序和行为的开关:
+GPUI 内置支持 Tab 键导航: 每帧渲染时收集所有焦点句柄排成"Tab序", `window.focus_next()`/`window.focus_prev()` 就在序列里前进/后退. 自定义顺序和行为的开关:
 
 | 方法 | 说明 |
 | :--- | :--- |
@@ -78,7 +78,7 @@ GPUI 内置支持 Tab 键导航:  每帧渲染时收集所有焦点句柄排成"
 | `.tab_stop(false)` | 保留顺序位置, 但 Tab 到不了(只能程序聚焦) |
 | `.tab_group()` | 子树自成一组, 子元素的 tab_index 从 0 重新计 |
 
-`.tab_index(n)`/`.tab_stop(b)` 既有元素版(`div().tab_index(1).tab_stop(true)`)也有句柄版(`cx.focus_handle().tab_index(1).tab_stop(true)`), 效果一致;  `.tab_group()` **没有**句柄版, 只能用在元素上. 典型的 Tab 键绑定写法(动作定义见第 8 章):
+`.tab_index(n)`/`.tab_stop(b)` 既有元素版(`div().tab_index(1).tab_stop(true)`)也有句柄版(`cx.focus_handle().tab_index(1).tab_stop(true)`), 效果一致; `.tab_group()` **没有**句柄版, 只能用在元素上. 典型的 Tab 键绑定写法(动作定义见第 9 章):
 
 ```rust
 actions!(example, [Tab, TabPrev]);
@@ -108,15 +108,13 @@ if self.toolbar_focus.contains_focused(window, cx) {
 }
 ```
 
-样式版 `.in_focus(|s| ...)` 是**反方向**(元素位于焦点元素内部, 见 7.2), 不是 `contains_focused` 的样式写法:
+样式版 `.in_focus(|s| ...)` 是**反方向**(元素位于焦点元素内部, 见 8.2), 不是 `contains_focused` 的样式写法:
 
 ```rust
 // 反方向: 元素位于焦点元素内部时高亮, 不是"焦点在容器内"
 div().track_focus(&self.toolbar_focus)
     .in_focus(|s| s.bg(rgb(0x2a2a2a)))
 ```
-
-**NOTE**: "焦点在容器内"**没有**对应的样式方法(换样式只能在 `contains_focused` 分支里自己做), 也**没有** `focus_within()` 这个方法(其他框架里的同名概念).
 
 ## 8.5 焦点事件
 

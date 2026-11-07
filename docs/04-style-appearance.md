@@ -37,7 +37,7 @@ div()
 .bg(rgba(0x00000080)) // 半透明黑色背景：background-color: rgb(0 0 0/0.5)
 ```
 
-**NOTE**: `rgba()` 只收**一个**参数(alpha编码在十六进制数里), 不是 `rgba(color, alpha)` 两个参数. 想"拿一个颜色再调透明度"用 `.alpha()`, 见 3.1.4.
+**NOTE**: `rgba()` 只收**一个**参数(alpha编码在十六进制数里), 不是 `rgba(color, alpha)` 两个参数. 想"拿一个颜色再调透明度"用 `.alpha()`, 见 4.1.4.
 
 ### 4.1.3 HSL颜色模型
 
@@ -266,7 +266,7 @@ div().opacity(0.5) // 整个元素(含子元素)半透明：opacity: 0.5
 - `rgba(0x00000080)` 只影响背景色的透明度, 文字和子元素不受影响
 - `.opacity(0.5)` 影响整个元素及其所有子元素的透明度
 
-想"只改某个颜色的透明度、不牵连子元素", 用颜色自身的 alpha: `rgba(0x00000080)` 或 `gpui::black().alpha(0.5)`. 交互状态下的悬停变淡常用状态样式回调 `.hover(|style| style.opacity(0.5))`(见第 6 章), 整组效果见 [`cargo run --example opacity`](../examples/opacity.rs).
+想"只改某个颜色的透明度、不牵连子元素", 用颜色自身的 alpha: `rgba(0x00000080)` 或 `gpui::black().alpha(0.5)`. 交互状态下的悬停变淡常用状态样式回调 `.hover(|style| style.opacity(0.5))`(见第 7 章), 整组效果见 [`cargo run --example opacity`](../examples/opacity.rs).
 
 ## 4.7 溢出控制
 
@@ -318,7 +318,7 @@ div()
 .cursor_not_allowed() // cursor: not-allowed
 ```
 
-预设和 CSS `cursor` 一一对应, 另有 `cursor_default`/`cursor_move`/`cursor_crosshair`/`cursor_copy`/`cursor_*_resize` 等. 鼠标交互(见第 6 章)时配合悬停效果使用.
+预设和 CSS `cursor` 一一对应, 另有 `cursor_default`/`cursor_move`/`cursor_crosshair`/`cursor_copy`/`cursor_*_resize` 等. 鼠标交互(见第 7 章)时配合悬停效果使用.
 
 ### 4.8.3 其他外观方法
 

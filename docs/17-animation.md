@@ -21,7 +21,7 @@ let animation = Animation::new(Duration::from_secs(2)) // 只收时长; 默认�
 ```rust
 svg()
     .size_20() // 宽高都是 5 号尺寸的正方形: width: 5rem; height: 5rem (80px)
-    .path(ARROW_CIRCLE_SVG) // SVG 资源(见 16.4 的 AssetSource)
+    .path(ARROW_CIRCLE_SVG) // SVG 资源(见 17.4 的 AssetSource)
     .text_color(gpui::black()) // 图标着色: color: #000000
     .with_animation(
         "image_circle", // 动画 id: 同一元素多个动画靠 id 区分
@@ -107,7 +107,7 @@ div()
 
 ## 17.4 AssetSource 加载动画资源
 
-动画里的 SVG(转圈图标、加载指示器)通过 `AssetSource` 加载, 约定见第 5 章. `animation` 示例从文件系统读资源: 
+动画里的 SVG(转圈图标、加载指示器)通过 `AssetSource` 加载, 约定见第 6 章. `animation` 示例从文件系统读资源: 
 
 ```rust
 struct Assets {}
@@ -135,7 +135,7 @@ impl AssetSource for Assets {
 application().with_assets(Assets {}).run(|cx: &mut App| { /* ... */ });
 ```
 
-**NOTE**: `AssetSource` 只有 `load(&self, path)`/`list(&self, path)` 两个方法(见 5.4), **没有** `load_asset(&mut self, path, cx) -> Task<...>` 这种异步签名. 资源加载是同步取字节, 异步解码由GPUI内部处理. 
+**NOTE**: `AssetSource` 只有 `load(&self, path)`/`list(&self, path)` 两个方法(见 6.4), **没有** `load_asset(&mut self, path, cx) -> Task<...>` 这种异步签名. 资源加载是同步取字节, 异步解码由GPUI内部处理. 
 
 ## 17.5 手动动画: window.request_animation_frame()
 
@@ -168,7 +168,7 @@ impl Spinner {
 
 **NOTE**: `window.request_animation_frame()` **没有** `(cx.entity(), 闭包)` 这种带回调的签名 —— 回调请用 `cx.on_next_frame(window, ...)` 或 `window.on_next_frame(...)`. 另外装饰性动画(spinner、脉动)优先用 `with_animation`, 它会自动尊重系统的"减少动态效果"设置(`App::reduce_motion`); 手动循环时要自己检查这个状态, 跳过帧请求. 
 
-💡 提示: 动画时长的常见选择: 界面过渡 150-300ms, 加载指示 800-1200ms 循环. 同时运行的动画越多帧率压力越大, 长列表里避免给每行都挂动画(配合第 14 章的虚拟化只让可见行动起来).
+💡 提示: 动画时长的常见选择: 界面过渡 150-300ms, 加载指示 800-1200ms 循环. 同时运行的动画越多帧率压力越大, 长列表里避免给每行都挂动画(配合第 15 章的虚拟化只让可见行动起来).
 
 ## 17.6 动画方法速查表
 
@@ -182,7 +182,7 @@ impl Spinner {
 | **缓动函数** | `linear` `quadratic` `ease_in_out` `ease_out_quint()` `bounce()` `pulsating_between()` | `fn(f32) -> f32` |
 | **变换** | `Transformation::scale/translate/rotate` + `svg().with_transformation()` | SVG 绘制变换 |
 | **角度** | `percentage(x)` | 0..1 整圈比例 -> `Radians` |
-| **资源** | `impl AssetSource` + `application().with_assets()` | 加载 SVG 等资源(见 5.4) |
+| **资源** | `impl AssetSource` + `application().with_assets()` | 加载 SVG 等资源(见 6.4) |
 | **手动逐帧** | `window.request_animation_frame()` `cx.on_next_frame()` `window.on_next_frame()` | 自己驱动动画循环 |
 
 完整示例: [`cargo run --example animation`](../examples/animation.rs)(SVG 旋转 + 弹簧演示 + 可拖动阻尼).

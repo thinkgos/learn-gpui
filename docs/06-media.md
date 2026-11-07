@@ -9,7 +9,7 @@
 | 写法 | 来源 | 说明 |
 | :--- | :--- | :--- |
 | `img("https://...")` | HTTP 下载 | 能解析成 URL 的字符串走网络请求 |
-| `img("assets/logo.png")` | AssetSource 资源键 | 非 URL 字符串按资源键查找(见 5.4), 不是读磁盘 |
+| `img("assets/logo.png")` | AssetSource 资源键 | 非 URL 字符串按资源键查找(见 6.4), 不是读磁盘 |
 | `img(PathBuf::from("assets/logo.png"))` | 文件系统 | `PathBuf`/`&Path` 直接读文件 |
 
 ```rust
@@ -32,7 +32,7 @@ fn render_images() -> impl IntoElement {
         .size(px(100.0))
         .rounded_lg()        // 圆角：border-radius: 8px
     )
-    // 3. 非 URL 字符串: AssetSource 里的资源键(见 5.4)
+    // 3. 非 URL 字符串: AssetSource 里的资源键(见 6.4)
     .child(
         img("assets/banner.jpg")
         .w(px(200.0))        // 宽：width: 200px
@@ -60,7 +60,7 @@ GPUI 通过 `svg()` 元素渲染 SVG. `svg()` 不收参数, 用链式方法指�
 
 | 方法 | 来源 |
 | :--- | :--- |
-| `.path(key)` | AssetSource 资源键(见 5.4) |
+| `.path(key)` | AssetSource 资源键(见 6.4) |
 | `.external_path(path)` | 文件系统路径, 异步读取 |
 | `.data(bytes)` | 原始 SVG 字节 |
 

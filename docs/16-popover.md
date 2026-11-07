@@ -149,10 +149,10 @@ deferred(
 
 ## 16.5 典型场景
 
-- **下拉菜单**: 点按钮展开选项, `Anchor::BottomLeft` 锚定, `on_mouse_down_out` 关闭(15.2 + 15.3 的组合).
-- **工具提示 Tooltip**: 悬停显示提示, 用 `on_hover(|hovered, _, cx| ...)` 切换显隐, 浮层用悬浮提示的锚定写法(见 15.2).
-- **选择器 Picker**: 输入时展示候选项, 结合文本输入(见第 9 章)和 `uniform_list`(见第 14 章)做搜索列表.
-- **级联菜单**: 多层嵌套 `deferred`, `.priority()` 控制堆叠(见 15.4).
+- **下拉菜单**: 点按钮展开选项, `Anchor::BottomLeft` 锚定, `on_mouse_down_out` 关闭(16.2 + 16.3 的组合).
+- **工具提示 Tooltip**: 悬停显示提示, 用 `on_hover(|hovered, _, cx| ...)` 切换显隐, 浮层用悬浮提示的锚定写法(见 16.2).
+- **选择器 Picker**: 输入时展示候选项, 结合文本输入(见第 10 章)和 `uniform_list`(见第 15 章)做搜索列表.
+- **级联菜单**: 多层嵌套 `deferred`, `.priority()` 控制堆叠(见 16.4).
 
 **NOTE**: **没有** `on_mouse_enter` 这个方法(整个GPUI里都不存在) —— 悬停进入/离开用 `on_hover(闭包)`(回调收一个 `bool`: 进入为 true、离开为 false), 只关心离开时用 `on_mouse_exit`. 
 

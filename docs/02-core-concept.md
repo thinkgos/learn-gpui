@@ -78,10 +78,10 @@ GPUI的`Context`其实是一个家族, 不同回调拿到的`cx`类型不同:
 常用能力:
 
 - **状态变更与通知**: 修改数据后调用 `cx.notify()`, 告诉 GPUI: "这个组件的数据变了, 请在下一帧重新渲染它".
-- **订阅与响应**: 允许一个 `Entity` 监听另一个 `Entity` 的事件或状态变化(`cx.observe`/`cx.subscribe`, 见1.7).
+- **订阅与响应**: 允许一个 `Entity` 监听另一个 `Entity` 的事件或状态变化(`cx.observe`/`cx.subscribe`, 见 2.7).
 - **派发异步任务**: 通过 `cx.spawn(...)` 启动一个异步 `Future`(例如网络请求, 文件读写), 并在完成后安全地回到UI线程更新状态.
 - **创建子实体**: 通过 `cx.new(|cx| ...)` 在当前上下文中注册并创建一个新的 `Entity`.
-- **事件桥接**: `cx.listener(...)` 把元素事件回调桥接成能拿到 `&mut Self` 的形式(见1.7).
+- **事件桥接**: `cx.listener(...)` 把元素事件回调桥接成能拿到 `&mut Self` 的形式(见 2.7).
 
 ## 2.4 `Entity` 实体
 
@@ -112,7 +112,7 @@ assert_eq!(counter.read(cx).count, 1);
 - **连接数据与UI的桥梁**: 它定义了数据应当如何呈现为视觉元素.
 - **声明式描述**: 在`render`方法中, 你不需要手动去"修改"DOM 或像素, 而是每次都通过类似 Tailwind CSS 风格的 DSL(如 `div().flex().child()`)声明式地描述当前状态下的UI结构.
 
-> **NOTE**:GPUI**不做**DOM式的差异对比(Diffing). 元素树每帧全新构建, 用完即弃; 真正的缓存在**视图层** -- 上一帧渲染期间读过的数据没有被 `notify` 时, 该视图的 `render` 直接跳过, 复用上次的布局和绘制结果(见1.9). 所以准确的说法是"视图级复用", 而不是"元素级diff".
+> **NOTE**:GPUI**不做**DOM式的差异对比(Diffing). 元素树每帧全新构建, 用完即弃; 真正的缓存在**视图层** -- 上一帧渲染期间读过的数据没有被 `notify` 时, 该视图的 `render` 直接跳过, 复用上次的布局和绘制结果(见 2.9). 所以准确的说法是"视图级复用", 而不是"元素级diff".
 
 签名对比才是两个Trait的本质区别:
 
@@ -159,7 +159,7 @@ impl RenderOnce for Badge {
 
 - **条件样式**: `.when(cond, |el| el.bg(...))`, `.when_some(opt, |el, v| ...)`(`FluentBuilder`), 不打断链式调用.
 - **分支返回不同类型**: 用 `.into_any_element()` 擦成 `AnyElement`.
-- **自定义 `Element`**: 仅在需要完全控制布局/绘制时使用(文本编辑器, 图表, 海量图元画布), 它的 `request_layout`/`prepaint`/`paint` 三方法对应帧的三个阶段(见1.9); 一次性手绘用 `canvas()` 更省事.
+- **自定义 `Element`**: 仅在需要完全控制布局/绘制时使用(文本编辑器, 图表, 海量图元画布), 它的 `request_layout`/`prepaint`/`paint` 三方法对应帧的三个阶段(见 2.9); 一次性手绘用 `canvas()` 更省事.
 
 **ElementId -- 交互元素必须有id**:
 

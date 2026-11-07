@@ -19,7 +19,7 @@ pub struct MySettings {
 impl Global for MySettings {}
 ```
 
-全局存储按**类型**去重:  一个类型全局只有一份, `cx.set_global()` 再调一次就是整体替换. 想要"多个同类型实例", 用 newtype 包一层(见 13.4), 或者干脆改用 Entity.
+全局存储按**类型**去重:  一个类型全局只有一份, `cx.set_global()` 再调一次就是整体替换. 想要"多个同类型实例", 用 newtype 包一层(见 14.4), 或者干脆改用 Entity.
 
 ## 14.2 cx.set_global()/cx.global()/cx.try_global()/cx.update_global()
 
@@ -58,7 +58,7 @@ cx.update_global(|settings: &mut MySettings, _cx| {
 });
 ```
 
-**NOTE**: turbofish 的正确写法是 `cx.global::<G>()`/`cx.observe_global::<G>(...)`. 另外 `set_global`、`global_mut`、`update_global`、`default_global`、`remove_global` 改完(或访问完)都会触发全局观察者(见 13.3), `update_global` **即使闭包里什么都没改也会触发**.
+**NOTE**: turbofish 的正确写法是 `cx.global::<G>()`/`cx.observe_global::<G>(...)`. 另外 `set_global`、`global_mut`、`update_global`、`default_global`、`remove_global` 改完(或访问完)都会触发全局观察者(见 14.3), `update_global` **即使闭包里什么都没改也会触发**.
 
 ## 14.3 cx.observe_global(): 观察全局状态变化
 
