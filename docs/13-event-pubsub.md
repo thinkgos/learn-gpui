@@ -1,6 +1,6 @@
 # 13. 事件发布订阅
 
-第 6 章讲的是 UI 事件(点击、鼠标、悬停):  由用户操作触发,GPUI按元素层级分发. 本章讲的是**实体(Entity)之间的自定义事件**:  一个实体定义并发射事件, 其他实体订阅后做出反应, 用来解耦业务逻辑层的通信.
+第 6 章讲的是 UI 事件(点击、鼠标、悬停): 由用户操作触发, GPUI按元素层级分发. 本章讲的是**实体(Entity)之间的自定义事件**: 一个实体定义并发射事件, 其他实体订阅后做出反应, 用来解耦业务逻辑层的通信.
 
 ## 13.1 EventEmitter trait: 事件发射器
 
@@ -23,7 +23,7 @@ struct Counter {
 impl EventEmitter<Change> for Counter {}
 ```
 
-一个实体可以发多种事件:  给每个事件类型写一个 `impl` 就行, 订阅方按事件类型分别订阅.
+一个实体可以发多种事件: 给每个事件类型写一个 `impl` 就行, 订阅方按事件类型分别订阅.
 
 **NOTE**: 本仓库使用的GPUI里 EventEmitter 是手写的空实现, **没有** `#[derive(EventEmitter)]` 这个派生宏, 也不是"在事件枚举上派生" —— 实现写在**发射方实体**上, 事件类型自己不碰任何 trait.
 
@@ -97,7 +97,7 @@ cx.subscribe_self(|this, event: &Change, _cx| {
 
 ## 13.4 多级事件传播(父子实体之间的事件流)
 
-**NOTE**:GPUI的实体事件**没有** DOM 那样的父子冒泡 —— 事件只发给"订阅了该实体"的监听器, 不会自动沿实体层级向上传播. 所谓"多级传播", 是指**逐级订阅、逐级转发**:
+**NOTE**: GPUI的实体事件**没有** DOM 那样的父子冒泡 —— 事件只发给"订阅了该实体"的监听器, 不会自动沿实体层级向上传播. 所谓"多级传播", 是指**逐级订阅、逐级转发**:
 
 ```rust
 // 中间层: 订阅底层实体, 加工后转发自己的事件
@@ -112,8 +112,8 @@ impl EventEmitter<Tallied> for Tally {}
 impl Tally {
     fn bind(&mut self, counter: &Entity<Counter>, cx: &mut Context<Self>) {
         // 第一跳: Tally 订阅 Counter
-        cx.subscribe(counter, |tally, _emitter, event, cx| {
-            tally.total += event.increment;
+        cx.subscribe(counter, |this, _emitter, event, cx| {
+            this.total += event.increment;
             // 第二跳: 再用自己的事件发给订阅了 Tally 的上层
             cx.emit(Tallied { total: tally.total });
         })
@@ -128,9 +128,9 @@ impl Tally {
 
 一次完整的事件流走这几步:
 
-1. **定义**:  事件是普通类型;  在发射方实体上写 `impl EventEmitter<事件>`.
+1. **定义**:  事件是普通类型; 在发射方实体上写 `impl EventEmitter<事件>`.
 2. **发射**:  `cx.emit()` 把事件排进 effect 队列, 不立刻回调.
-3. **派发**:  本轮 update 结束时GPUI统一 flush effect, 按入队顺序把每个事件发给该实体的所有订阅者.
+3. **派发**:  本轮 update 结束时, GPUI统一 flush effect, 按入队顺序把每个事件发给该实体的所有订阅者.
 4. **处理**:  订阅回调里改自己的状态, 通常再调 `cx.notify()` 触发重新渲染.
 5. **清理**:  `Subscription` 被 Drop(或组件释放)即退订;  发射实体被释放时, 挂在它身上的监听器一并移除.
 
@@ -145,7 +145,7 @@ counter.update(cx, |counter, cx| {
 assert_eq!(subscriber.read(cx).count, 4);
 ```
 
-💡 提示: EventEmitter 事件与 UI 事件的区别 —— UI 事件(`on_click` 等)由用户操作触发、GPUI 分发;  EventEmitter 事件由业务代码自己定义和发射. 典型组合:  在 `on_click` 回调里调 `cx.emit()`, 把 UI 事件转成业务事件再广播给其他实体.
+💡 提示: EventEmitter 事件与 UI 事件的区别 —— UI 事件(`on_click` 等)由用户操作触发、GPUI 分发; EventEmitter 事件由业务代码自己定义和发射. 典型组合:  在 `on_click` 回调里调 `cx.emit()`, 把 UI 事件转成业务事件再广播给其他实体.
 
 ## 13.6 事件速查表
 

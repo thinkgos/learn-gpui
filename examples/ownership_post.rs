@@ -55,8 +55,8 @@ fn run_example() {
             // 订阅 counter 的 Change 事件（见第 13 章）。
             // 回调收四个参数：自己、发射者句柄、事件、cx；
             // 这里把事件里的增量翻倍记到自己身上。
-            cx.subscribe(&counter, |subscriber, _emitter, event, _cx| {
-                subscriber.count += event.increment * 2;
+            cx.subscribe(&counter, |this, _emitter, event, _cx| {
+                this.count += event.increment * 2;
             })
             .detach(); // 不持有订阅句柄：detach 后订阅一直有效，直到 counter 被释放
 

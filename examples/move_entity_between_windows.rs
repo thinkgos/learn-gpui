@@ -71,6 +71,7 @@ impl HelloWorld {
                         this.tick_count,
                         window.window_handle().window_id().as_u64(),
                     );
+                    _cx.notify();
                 });
                 // 返回 Err 说明实体已经释放，任务收工。
                 if let Err(err) = result {
@@ -188,7 +189,7 @@ fn run_example() {
         cx.open_window(
             WindowOptions {
                 window_bounds: Some(WindowBounds::Windowed(bounds)), // 窗口用上面算出的位置尺寸
-                ..Default::default() // 其余选项都用默认值
+                ..Default::default()                                 // 其余选项都用默认值
             },
             |window, cx| cx.new(|cx| HelloWorld::new(window, cx)),
         )
