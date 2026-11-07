@@ -2,9 +2,9 @@
 
 GPUI 用实体(Entity)承载所有可变状态: 视图的字段、列表的数据、拖拽的载荷(见第 10 章)都住在实体里. 本章讲实体的创建、读写、通知、观察和所有权规则 —— 这是理解GPUI数据流的基础.
 
-## 12.1 Entity:GPUI的核心状态容器
+## 12.1 Entity: GPUI的核心状态容器
 
-`Entity<T>` 是GPUI托管状态的类型安全句柄: 数据本体由GPUI统一持有, 你手里的句柄只负责引用它. 三个最基本的操作:
+`Entity<T>` 是GPUI托管状态的类型**安全句柄**: 数据本体由GPUI统一持有, 你手里的句柄只负责引用它. 三个最基本的操作:
 
 | 操作 | 方法 | 说明 |
 | :--- | :--- | :--- |
@@ -24,7 +24,7 @@ pub struct Counter {
 // 创建: 闭包返回初始状态, cx.new 返回句柄
 let counter: Entity<Counter> = cx.new(|_cx| Counter { count: 0 });
 
-// 读取: read 收 &App, 返回 &Counter
+// 读取: read 从&App借用, 返回 &Counter
 let current = counter.read(cx).count;
 
 // 更新: 闭包拿到 &mut Counter 和该实体的 Context<T>
@@ -39,10 +39,10 @@ counter.update(cx, |counter, cx| {
 | 方法 | 说明 |
 | :--- | :--- |
 | `entity.read(cx)` | 不可变借用 `&T`,`cx`收 `&App` |
-| `entity.read_with(cx, f)` | 不可变借用并套一层闭包: `f(&T, &App) -> R` |
-| `entity.update(cx, f)` | 可变借用并套一层闭包: `f(&mut T, &mut Context<T>) -> R` |
-| `entity.update_in(cx, f)` | 同上, 闭包多收一个 `&mut Window`(视图上下文) |
-| `entity.write(cx, value)` | 整体替换值, 自动 `notify` |
+| `entity.read_with(cx, f)` | 不可变借用, 并套一层闭包: `f(&T, &App) -> R` |
+| `entity.update(cx, f)` | 可变借用, 并套一层闭包: `f(&mut T, &mut Context<T>) -> R` |
+| `entity.update_in(cx, f)` | 同上, 闭包多收一个 `&mut Window`(窗口上下文) |
+| `entity.write(cx, value)` | 整体替换值, 并自动 `notify` |
 | `cx.reserve_entity()` + `cx.insert_entity()` | 先占位拿句柄/实体 id, 稍后再填内容(构建互相引用时用) |
 
 **NOTE**: 创建实体用 `cx.new(...)`, 生产代码里**没有** `cx.new_entity()` 这个方法(只在测试专用的 `TestAppContext` 上有). `new` 是 `AppContext` trait 的方法, `App`、`Context<T>`、`AsyncApp` 上都能调 —— 也就是说可以在一个实体的构造闭包里直接创建另一个实体.
