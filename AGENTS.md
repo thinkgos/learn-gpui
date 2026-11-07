@@ -57,30 +57,81 @@ cargo test --example <名称> --features test-support <测试名> # 跑单个测
 
 ## 示例代码注释约定
 
-给示例加注释遵循下面的约定(完整版见 `comtent.md`, 这里是工作时要记住的部分):
+给示例加注释遵循下面的约定(原独立文档 `comtent.md` 已删除且没进过 git, 其约定以本节为准):
 
-1. **注释用中文.**
+1. **注释用中文.** 文件里已有的英文注释也一并译成中文.
 2. **只加注释, 不改代码.** 加完用文末「自检」确认代码没被动过.
 3. **中文解释和 CSS 对照都要有**, 不是二选一.
 4. **不写 `CSS:` 这种前缀标签**, 直接写 CSS 本身.
 5. 密度以「好理解」为准: 讲清概念和意图, 不逐行复述代码在做什么.
+6. **示例注释里的中文用全角标点**(：，（）。), 注释里的 CSS/代码片段保持半角; 本文件自己的行文仍按「docs 写作约定」用半角.
 
-### 样式调用: `// 中文含义: 等价 CSS`
+### 文件头 `//!` 与文件骨架
+
+文件顶 `//!` 按「用途 → 运行方式 → 界面分块 → 关键概念」写全, 例如(节选):
+
+```rust
+//! 浮层 Popover 示例：用 `deferred()` + `anchored()` 把内容抬到独立的浮层上。
+//!
+//! 运行方式：`cargo run --example popover`
+//! 同样同时支持桌面和 wasm 两套入口。
+//!
+//! 界面分块：
+//!   1. 顶部一排两个按钮；
+//!   2. 底部一段说明文字和彩条。
+```
+
+每个示例的骨架注释措辞是固定的, 不用另想:
+
+```rust
+// 只有在编译目标是 wasm 时，才禁用标准的 `main` 入口（wasm 用下面的 `start` 函数启动）。
+#![cfg_attr(target_family = "wasm", no_main)]
+
+// 引入示例用的辅助模块（主要是加载字体）。
+// `#[path = ...]` 告诉编译器这个模块的源文件在别的目录下。
+#[path = "example_support/fonts.rs"]
+mod example_support;
+
+// gpui_platform 提供跨平台的应用启动入口（桌面 / Web 各有实现）
+use gpui_platform::application;
+```
+
+`run_example()` 上写 `/// 真正启动应用的函数（桌面和 wasm 共用）。`, 函数内按
+「启动主循环 → 加载字体 → 开窗口 → 激活窗口」几句带过; 文件尾用分隔注释分节:
+
+```rust
+// ---------- 入口函数 ----------
+// 桌面平台：普通的 main。
+#[cfg(not(target_family = "wasm"))]
+fn main() { ... }
+
+// wasm 平台：由 `#[wasm_bindgen(start)]` 标记，在页面加载完成后自动调用。
+#[cfg(target_family = "wasm")]
+#[wasm_bindgen::prelude::wasm_bindgen(start)]
+pub fn start() { ... }
+```
+
+### 章节互引与术语
+
+- 章节互引按被引文档的**标题/小节编号**写: `(见第 11 章)` = `docs/11-dag-drop.md`, `(见 7.8)` = `docs/07-event.md` 的 7.8 小节.
+- 涉及 API 行为的结论以对应 docs 章节为准, 术语跟 docs 用同一个叫法(「浮层」「放置目标」「焦点句柄」等).
+
+### 样式调用: `// 中文含义：等价 CSS`
 
 GPUI 样式 API 是 Tailwind CSS 风格:
 
 ```rust
-div() // 创建一个 div 元素, 类似 HTML 里的 <div>
-    .flex() // 弹性布局: display: flex
-    .gap_3() // 子元素之间的间距: gap: 0.75rem (12px)
-    .bg(rgb(0x505050)) // 背景色: background-color: #505050
-    .size(px(500.0)) // 宽高都是 500 像素: width: 500px; height: 500px
-    .justify_center() // 主轴居中(这里是垂直居中): justify-content: center
+div() // 创建一个 div 元素，类似 HTML 里的 <div>
+    .flex() // 弹性布局：display: flex
+    .gap_3() // 子元素之间的间距：gap: 0.75rem (12px)
+    .bg(rgb(0x505050)) // 背景色：background-color: #505050
+    .size(px(500.0)) // 宽高都是 500 像素：width: 500px; height: 500px
+    .justify_center() // 主轴居中（这里是垂直居中）：justify-content: center
 ```
 
-- 尺寸写清换算值: `size_8()` 写成 `8 号尺寸的正方形: width: 2rem; height: 2rem (32px)`.
-- 颜色写十六进制: `gpui::red()` 写成 `背景色: background-color: #ff0000`.
-- 保留语境: `justify_center()` 在纵向 flex 里是垂直居中, 就写「主轴居中(这里是垂直居中)」.
+- 尺寸写清换算值: `size_8()` 写成 `8 号尺寸的正方形：width: 2rem; height: 2rem (32px)`.
+- 颜色写十六进制: `gpui::red()` 写成 `背景色：background-color: #ff0000`.
+- 保留语境: `justify_center()` 在纵向 flex 里是垂直居中, 就写「主轴居中（这里是垂直居中）」.
 - 一行写不下写关键值再省略, 如 `box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), ...`.
 
 ### GPUI 特有概念: 直接中文解释
@@ -88,10 +139,10 @@ div() // 创建一个 div 元素, 类似 HTML 里的 <div>
 没有 CSS 对应的东西(全局状态、生命周期、trait 差异等)**不硬套 CSS**, 用中文讲清是什么、为什么:
 
 ```rust
-/// `RenderOnce` 和 `Render` 的区别:
-///   - `Render`      用在「有自己状态、可以反复重绘」的组件上(&mut self)
-///   - `RenderOnce`  用在「一次性消费掉自己」的元素上(self), 更轻量
-cx.notify(); // 通知 GPUI: 状态变了, 需要重新渲染
+/// `RenderOnce` 和 `Render` 的区别：
+///   - `Render`      用在「有自己状态、可以反复重绘」的组件上（&mut self）
+///   - `RenderOnce`  用在「一次性消费掉自己」的元素上（self），更轻量
+cx.notify(); // 通知 GPUI：状态变了，需要重新渲染
 ```
 
 ### 文档注释 vs 行注释

@@ -1,6 +1,6 @@
 # 11. 拖拽功能
 
-拖拽(drag and drop)是列表、看板类界面的常见交互.GPUI的拖拽是声明式的: 源元素用 `.on_drag()` 说清「拖的是什么、拖起来长什么样」, 目标元素用 `.on_drop()` 决定「收不收、怎么处理」, 再用 `.drag_over()` 给悬停反馈. 拖拽数据可以是任意 `'static` 类型, 不需要实现特殊 trait.
+拖拽(drag and drop)是列表、看板类界面的常见交互. GPUI的拖拽是声明式的: 源元素用 `.on_drag()` 说清「拖的是什么、拖起来长什么样」, 目标元素用 `.on_drop()` 决定「收不收、怎么处理」, 再用 `.drag_over()` 给悬停反馈. 拖拽数据可以是任意 `'static` 类型, 不需要实现特殊 trait.
 
 ## 11.1 拖拽源: .on_drag()
 
@@ -36,8 +36,6 @@ fn on_drag<T, W>(
 - 同一个元素只能调一次 `on_drag`, 重复调用在 debug 下直接断言失败.
 - 拖拽期间可用 `cx.has_active_drag()` 查询「现在有没有拖拽」.
 
-**NOTE**: 启动拖拽 **没有** `cx.start_drag()` 这个方法. 其他教程里的 `cx.listener(|view, e, cx| { cx.start_drag(data) })` 写法在 zed 的GPUI中编译不过: `on_drag` 收的是「数据 + 预览构造器」两个参数, 拖拽由「按住左键 + 移动」的手势自动启动, 不用手动开始.
-
 ## 11.2 放置目标: .on_drop()
 
 `.on_drop()` 把元素标记为放置目标. 回调只在「拖拽数据的类型」和 `on_drop::<T>` 的 `T` 一致时才会触发, 类型匹配由GPUI按 TypeId 自动完成:
@@ -70,11 +68,9 @@ div()
     })
 ```
 
-**NOTE**: `on_drop` 回调直接拿到拖拽数据 `&T`, **没有** `drop_event.data.downcast_ref::<DragInfo>()` 这种取法 —— 其他教程里靠 `Any` + `downcast_ref` 取数据是多此一举, 类型匹配在派发前就做完了.
-
 ## 11.3 DragInfo: 拖拽数据载体
 
-**NOTE**:GPUI**没有** 内置的 `DragInfo` 类型. 拖拽数据就是你在 `.on_drag()` 里传的那个 `value`, 什么结构体都行; 下面示例里的 `DragInfo` 是示例自己定义的(见 [`examples/drag_drop.rs`](../examples/drag_drop.rs)), 一物两用: 既当拖拽数据, 又实现 `Render` 用作拖拽预览. 数据和预览也可以拆成两个类型, 只要预览那个实现 `Render`:
+**NOTE**: GPUI**没有** 内置的 `DragInfo` 类型. 拖拽数据就是你在 `.on_drag()` 里传的那个 `value`, 什么结构体都行; 下面示例里的 `DragInfo` 是示例自己定义的(见 [`examples/drag_drop.rs`](../examples/drag_drop.rs)), 一物两用: 既当拖拽数据, 又实现 `Render` 用作拖拽预览. 数据和预览也可以拆成两个类型, 只要预览那个实现 `Render`:
 
 ```rust
 /// 拖拽数据: 记录拖的是第几项、什么颜色, 以及按下点的偏移
@@ -98,9 +94,7 @@ impl Render for DragInfo {
 }
 ```
 
-**NOTE**: `Render::render` 的签名是 `fn render(&mut self, window: &mut Window, cx: &mut Context<Self>)`, **没有** `ViewContext` 这个类型 —— 那是旧版GPUI的叫法, 早改名成 `Context` 了. 收 `&self` 和 `cx: &mut ViewContext<Self>` 的写法编译不过.
-
-预览实体由 `.on_drag()` 的构造器创建(`cx.new(|_| ...)`)、由GPUI释放, 每次拖拽只创建一次;GPUI把它画在「鼠标位置 - 按下点偏移」处, 所以预览看起来停在当初抓取的位置.
+预览实体由 `.on_drag()` 的构造器创建(`cx.new(|_| ...)`)、由GPUI释放, 每次拖拽只创建一次; GPUI把它画在「鼠标位置 - 按下点偏移」处, 所以预览看起来停在当初抓取的位置.
 
 ## 11.4 drag_over 样式: 拖拽悬停时的视觉反馈
 
@@ -127,13 +121,11 @@ div()
 | `.drag_over::<S>(f)` | 类型为 `S` 的拖拽悬停在**本元素**上时改样式 |
 | `.group_drag_over::<S>(组名, f)` | 悬停在**同组元素**里任何一个上时, 本元素也改样式 |
 
-**NOTE**: 方法叫 `drag_over()`, **没有** `on_drag_over()` 这个方法; 闭包签名是 `(StyleRefinement, &S, &mut Window, &mut App) -> StyleRefinement`, **没有** bounds 参数. 其他教程里的 `on_drag_over::<DragInfo>(|style, data, bounds, cx| ...)` 在 zed 的GPUI中编译不过.
-
 ## 11.5 拖拽生命周期
 
 一次完整拖拽经历的阶段:
 
-1. **开始拖拽**: 在源元素上按住左键、移动超过 2 像素 →GPUI调用 `.on_drag()` 的构造器生成预览实体, 拖拽进入活跃状态(`cx.has_active_drag()` 变为 `true`).
+1. **开始拖拽**: 在源元素上按住左键、移动超过 2 像素 → GPUI调用 `.on_drag()` 的构造器生成预览实体, 拖拽进入活跃状态(`cx.has_active_drag()` 变为 `true`).
 2. **拖拽移动**: 鼠标移动 → 预览跟随光标, 窗口持续重绘; 需要在移动时做事(如调整滚动)就订阅 `.on_drag_move::<T>()`:
 
    ```rust

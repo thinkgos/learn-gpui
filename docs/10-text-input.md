@@ -6,7 +6,7 @@
 
 对照 HTML 的 `<input>`, 浏览器替你做掉的事在GPUI里都要自己实现:
 
-| 职责 | HTML |GPUI里的做法 |
+| 职责 | HTML | GPUI里的做法 |
 | :--- | :--- | :--- |
 | 接收键盘/IME 输入 | 浏览器内置 | 实现 `EntityInputHandler` trait(见 9.2) |
 | 文本排版与绘制 | 浏览器内置 | 自定义 Element 三阶段(见 9.4、9.5) |

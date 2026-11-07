@@ -1,10 +1,10 @@
 # 7. 事件管理
 
-事件处理是构建交互式界面的核心.GPUI提供了完整的事件系统, 涵盖鼠标、键盘等交互, 并支持事件传播控制. 本章将介绍GPUI中各种事件的监听与处理方式. 
+事件处理是构建交互式界面的核心. GPUI提供了完整的事件系统, 涵盖鼠标、键盘等交互, 并支持事件传播控制. 本章将介绍GPUI中各种事件的监听与处理方式.
 
 ## 7.1 事件监听基础
 
-所有事件处理器的回调都是统一形状:  闭包收**三个参数** `(事件, window, cx)`: 
+所有事件处理器的回调都是统一形状:  闭包收**三个参数** `(event, window, cx)`:
 
 ```rust
 // 普通闭包: |event: &E, window: &mut Window, cx: &mut App|
@@ -19,9 +19,9 @@ div().id("button").on_click(cx.listener(|this, _event, _window, cx| {
 }))
 ```
 
-**NOTE**: `cx.listener` 的闭包是**四个参数** `(this, event, window, cx)`, 其中 `window` 在第三位. 旧教程里 `cx.listener(|self, _event, cx| ...)` 三个参数的写法编译不过. 
+**NOTE**: `cx.listener` 的闭包是**四个参数** `(this, event, window, cx)`, 其中 `window` 在第三位.
 
-另一个重要区分:  某些处理器需要**有状态元素**(先调 `.id(...)` 才有): 
+另一个重要区分: 某些处理器需要**有状态元素**(先调 `.id(...)` 才有):
 
 | 需要 `.id(...)` | 任意元素可用 |
 | :--- | :--- |
@@ -31,7 +31,7 @@ div().id("button").on_click(cx.listener(|this, _event, _window, cx| {
 
 ## 7.2 点击事件
 
-`.on_click` 监听点击, 需要有状态元素; 通常搭配 `cx.listener()` 修改组件状态: 
+`.on_click` 监听点击, 需要有状态元素; 通常搭配 `cx.listener()` 修改组件状态:
 
 ```rust
 div()
@@ -46,7 +46,7 @@ div()
     .child("点我切换")
 ```
 
-`ClickEvent` 是一个枚举, 三种来源都会合成点击: 
+`ClickEvent` 是一个枚举, 三种来源都会合成点击:
 
 | 变体 | 触发方式 |
 | :--- | :--- |
@@ -54,11 +54,11 @@ div()
 | `Keyboard` | 元素获得焦点后按 Enter/Space |
 | `Touch` | 触屏轻点 |
 
-它不是公开字段的结构体, 要用方法取值:  `event.position()` 位置、`event.is_right_click()` 右键、`event.is_secondary()` 次要操作(右键或长按)、`event.click_count()` 连击次数. 非左键的点击走 `.on_aux_click()`(同样需要 `.id`). 
+它不是公开字段的结构体, 要用方法取值:  `event.position()` 位置、`event.is_right_click()` 右键、`event.is_secondary()` 次要操作(右键或长按)、`event.click_count()` 连击次数. 非左键的点击走 `.on_aux_click()`(同样需要 `.id`).
 
 ## 7.3 鼠标事件
 
-GPUI 提供了完整的鼠标事件 API(回调形状都是 `(事件, window, cx)`): 
+GPUI 提供了完整的鼠标事件 API(回调形状都是 `(event, window, cx)`):
 
 | 事件 | 说明 | 备注 |
 | :--- | :--- | :--- |
@@ -71,9 +71,9 @@ GPUI 提供了完整的鼠标事件 API(回调形状都是 `(事件, window, cx)
 | `.on_scroll(l)` | 滚轮/触控板滚动 | |
 | `.on_mouse_exit(l)` | 鼠标移出**窗口**(不是移出元素) | |
 
-**NOTE**: 没有 `.on_mouse_enter()`/`.on_mouse_leave()` 这两个方法 —— 进出元素的通知用有状态的 `.on_hover(|entered: &bool, window, cx| ...)`(见 6.4), 样式变化用 `.hover(|style| ...)`(见 6.4). 旧的 `.on_scroll_wheel()` 已改名为 `.on_scroll()`. 
+**NOTE**: 进出元素的通知用有状态的 `.on_hover(|entered: &bool, window, cx| ...)`(见 6.4), 样式变化用 `.hover(|style| ...)`(见 6.4). 旧的 `.on_scroll_wheel()` 已改名为 `.on_scroll()`.
 
-常用事件对象的字段: 
+常用事件对象的字段:
 
 ```rust
 // MouseDownEvent: button 按键/position 位置/modifiers 修饰键/click_count 连击数
@@ -91,11 +91,11 @@ div().on_scroll(|event: &ScrollEvent, _window, _cx| {
 })
 ```
 
-`MouseButton` 的取值: `Left`/`Right`/`Middle`/`Navigate(Back | Forward)`. 
+`MouseButton` 的取值: `Left`/`Right`/`Middle`/`Navigate(Back | Forward)`.
 
 ## 7.4 悬停与按压效果
 
-悬停/按压是**样式回调**(改样式, 不是事件处理): 
+悬停/按压是**样式回调**(改样式, 不是事件处理):
 
 ```rust
 div()
@@ -108,13 +108,13 @@ div()
     .child("按钮")
 ```
 
-- `.hover(|style| ...)`/`.active(|style| ...)` 收一个"样式变换"闭包, 参数是 `StyleRefinement`, 作用类似 Tailwind 的 `hover:`/`active:` 变体. 
-- `.group_hover("组名", ...)`/`.group_active("组名", ...)` 让同组(`.group("组名")`)的兄弟元素一起响应. 
-- 要在悬停开始/结束时**做事情**(而不只是换样式), 用有状态的 `.on_hover(|entered: &bool, window, cx| ...)`, `true` 进入、`false` 离开. 
+- `.hover(|style| ...)`/`.active(|style| ...)` 收一个"样式变换"闭包, 参数是 `StyleRefinement`, 作用类似 Tailwind 的 `hover:`/`active:` 变体.
+- `.group_hover("组名", ...)`/`.group_active("组名", ...)` 让同组(`.group("组名")`)的兄弟元素一起响应.
+- 要在悬停开始/结束时**做事情**(而不只是换样式), 用有状态的 `.on_hover(|entered: &bool, window, cx| ...)`, `true` 进入、`false` 离开.
 
 ## 7.5 鼠标按下外部检测
 
-`.on_mouse_down_out()` 用于检测鼠标在元素外部按下, 常用于关闭弹出层、下拉菜单等场景. 它工作在捕获阶段, 即使内部元素拦截了事件也能触发: 
+`.on_mouse_down_out()` 用于检测鼠标在元素外部按下, 常用于关闭弹出层、下拉菜单等场景. 它工作在捕获阶段, 即使内部元素拦截了事件也能触发:
 
 ```rust
 use gpui::*;
@@ -145,18 +145,36 @@ impl Render for Popover {
 }
 ```
 
-💡 提示: 弹层嵌套时(弹层里还有弹层), 里层打开时要暂时摘掉外层的 `on_mouse_down_out`, 否则点里层会把两层一起关掉. 完整实现(嵌套弹层 + 浮层定位)见 [`cargo run --example popover`](../examples/popover.rs). 
+💡 提示: 弹层嵌套时(弹层里还有弹层), 里层打开时要暂时摘掉外层的 `on_mouse_down_out`, 否则点里层会把两层一起关掉. 完整实现(嵌套弹层 + 浮层定位)见 [`cargo run --example popover`](../examples/popover.rs).
 
 ## 7.6 事件传播
 
-GPUI 的事件分两个阶段, 相当于 DOM 的捕获/冒泡: 
+GPUI 的事件分两个阶段, 相当于 DOM 的捕获/冒泡:
 
 | 阶段 | 鼠标事件 | 键盘事件 |
 | :--- | :--- | :--- |
-| **捕获**(Capture) | 从最底层元素到最上层 | 从根到焦点元素 |
-| **冒泡**(Bubble, 默认) | 从最上层元素回到底层 | 从焦点元素回到根 |
+| **捕获**(Capture) | 按绘制顺序从前到后(先绘制的底层元素 → 后绘制的顶层元素); 所有注册了监听器的元素都会收到, 需自行用 hitbox 判断是否命中 | 沿 `dispatch tree` 路径从根 → 焦点元素 |
+| **冒泡**(Bubble, 默认) | 按绘制顺序从后到前(顶层元素 → 底层元素); 通常只处理命中的最顶层元素, 可 `cx.stop_propagation()` 阻止继续传递 | 沿 `dispatch tree` 路径从焦点元素 → 根 |
+| "层级"的依据 | paint order(视觉层叠) | focus path(焦点祖先链) |
 
-默认情况下事件一路冒泡, 调用 `cx.stop_propagation()` 可以阻止事件继续传播;  `cx.propagate()` 则相反, 用于"处理了但还想让别人也看到"(动作处理有默认消费行为, 见 8.3): 
+```sh
+    [ 窗口根节点 (Root / Window) ]
+             /               \
+            v  (1. 捕获阶段)   ^  (2. 冒泡阶段)
+      [ 中间父容器 Div ]       | 
+          /                  |
+         v                   |
+   [ 目标/焦点子 Div ] --------+
+```
+
+键盘事件按 `dispatch tree` 的路径, 它没有"屏幕位置", 目标是当前焦点元素. GPUI 维护一棵 `dispatch tree`, 取从根到焦点节点的路径:
+
+```Root -> Workspace -> Pane -> Editor(focused)`
+
+- `Capture`: 沿路径从根走到焦点元素
+- `Bubble`: 从焦点元素走回根
+
+默认情况下事件一路冒泡, 调用 `cx.stop_propagation()` 可以阻止事件继续传播;  `cx.propagate()` 则相反, 用于"处理了但还想让别人也看到"(动作处理有默认消费行为, 见 8.3):
 
 ```rust
 div().on_mouse_down(MouseButton::Left, |event, _window, cx| {
@@ -172,14 +190,14 @@ div().on_mouse_down(MouseButton::Left, |event, _window, cx| {
 
 ## 7.7 拖放
 
-拖放由三组 API 构成:  拖拽源 `.on_drag()`、放置目标 `.on_drop()`、拖拽中的跟踪 `.on_drag_move()`: 
+拖放由三组 API 构成: 拖拽源 `.on_drag()`、放置目标 `.on_drop()`、拖拽中的跟踪 `.on_drag_move()`:
 
 ```rust
 // 拖拽源(需要 .id): 第一个参数是拖拽携带的数据,
 // 第二个参数是构造"拖拽影子"视图的闭包(跟鼠标走的那个小窗)
 div()
     .id(("item", index))
-    .cursor_move() // 拖拽光标：cursor: move
+    .cursor_move() // 拖拽光标: cursor: move
     .on_drag(item_data, |data: &ItemData, offset, _window, cx| {
         cx.new(|_| DragGhost { data: data.clone(), offset })
     })
@@ -191,16 +209,16 @@ div()
     }))
 ```
 
-- 拖拽数据是任意 `'static` 类型, `on_drop` 只在"拖拽数据类型匹配"时触发. 
-- `.can_drop(|data: &dyn Any, window, cx| -> bool)` 给放置目标加过滤条件. 
-- `.drag_over::<T>(|style, data, window, cx| ...)` 在有匹配拖拽悬停时改放置目标的样式(高亮提示). 
-- 拖拽开始后移动超过 2 像素才算拖拽;  `.on_drag_move(|event: &DragMoveEvent<T>, ...)` 收到拖拽期间的所有移动(包括移出元素后). 
+- 拖拽数据是任意 `'static` 类型, `on_drop` 只在"拖拽数据类型匹配"时触发.
+- `.can_drop(|data: &dyn Any, window, cx| -> bool)` 给放置目标加过滤条件.
+- `.drag_over::<T>(|style, data, window, cx| ...)` 在有匹配拖拽悬停时改放置目标的样式(高亮提示).
+- 拖拽开始后移动超过 2 像素才算拖拽;  `.on_drag_move(|event: &DragMoveEvent<T>, ...)` 收到拖拽期间的所有移动(包括移出元素后).
 
-完整示例: [`cargo run --example drag_drop`](../examples/drag_drop.rs). 
+完整示例: [`cargo run --example drag_drop`](../examples/drag_drop.rs).
 
 ## 7.8 鼠标压力
 
-压感设备(如力度触控板)的压力是**独立事件**, 不是鼠标事件的字段: 
+压感设备(如力度触控板)的压力是**独立事件**, 不是鼠标事件的字段:
 
 ```rust
 div().on_mouse_pressure(cx.listener(|this, event: &MousePressureEvent, _window, cx| {
@@ -210,7 +228,7 @@ div().on_mouse_pressure(cx.listener(|this, event: &MousePressureEvent, _window, 
 }))
 ```
 
-**NOTE**: 旧文档写的 `event.pressure` 取自按下/移动事件是不对的 —— 压力走 `MousePressureEvent`(目前仅 macOS 力度触控板实现). 触屏的压力在 `TouchEvent.force` 里. 完整示例: [`cargo run --example mouse_pressure`](../examples/mouse_pressure.rs). 
+**NOTE**: 压力走 `MousePressureEvent`(目前仅 **macOS** 力度触控板实现). 触屏的压力在 `TouchEvent.force` 里. 完整示例: [`cargo run --example mouse_pressure`](../examples/mouse_pressure.rs).
 
 ## 7.9 事件方法速查表
 
@@ -237,4 +255,4 @@ div().on_mouse_pressure(cx.listener(|this, event: &MousePressureEvent, _window, 
 | [`drag_drop`](../examples/drag_drop.rs) | 把 Item 拖进 "Drop items here", 顺带演示拖拽预览(见 7.7; 拖拽全流程另见第 11 章) |
 | [`mouse_pressure`](../examples/mouse_pressure.rs) | 实时显示压力阶段和压力值(见 7.8) |
 
-💡 提示: 鼠标压力目前仅 macOS 力度触控板实现, 触屏的压力在 `TouchEvent.force` 里.
+> 💡 提示: 鼠标压力目前仅 macOS 力度触控板实现, 触屏的压力在 `TouchEvent.force` 里.

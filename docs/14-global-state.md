@@ -1,6 +1,6 @@
 # 14. 全局状态
 
-有些数据(主题、排版参数、用户偏好)不属于任何单个组件, 而是整个应用共享一份.GPUI用 `Global` trait + `App` 上的全局存储实现这种单例状态:  每个类型只有一份, 任何地方都能读写, 还能订阅它的变化.
+有些数据(主题、排版参数、用户偏好)不属于任何单个组件, 而是整个应用共享一份. GPUI用 `Global` trait + `App` 上的全局存储实现这种单例状态: 每个类型只有一份, 任何地方都能读写, 还能订阅它的变化.
 
 ## 14.1 Global trait: 跨组件共享状态
 
@@ -20,8 +20,6 @@ impl Global for MySettings {}
 ```
 
 全局存储按**类型**去重:  一个类型全局只有一份, `cx.set_global()` 再调一次就是整体替换. 想要"多个同类型实例", 用 newtype 包一层(见 13.4), 或者干脆改用 Entity.
-
-**NOTE**: `Global` trait **没有** `default()` 方法 —— 原文那种 `impl Global for MySettings { fn default() -> Self {...} }` 的写法编译不过. 要"没设置就用默认值", 靠标准库 `Default` + `cx.default_global()`(见 13.2).
 
 ## 14.2 cx.set_global()/cx.global()/cx.try_global()/cx.update_global()
 
@@ -60,7 +58,7 @@ cx.update_global(|settings: &mut MySettings, _cx| {
 });
 ```
 
-**NOTE**: 原文的 `cx.global::()`/`cx.observe_global::()` 都是笔误, turbofish 的正确写法是 `cx.global::<G>()`/`cx.observe_global::<G>(...)`. 另外 `set_global`、`global_mut`、`update_global`、`default_global`、`remove_global` 改完(或访问完)都会触发全局观察者(见 13.3), `update_global` **即使闭包里什么都没改也会触发**.
+**NOTE**: turbofish 的正确写法是 `cx.global::<G>()`/`cx.observe_global::<G>(...)`. 另外 `set_global`、`global_mut`、`update_global`、`default_global`、`remove_global` 改完(或访问完)都会触发全局观察者(见 13.3), `update_global` **即使闭包里什么都没改也会触发**.
 
 ## 14.3 cx.observe_global(): 观察全局状态变化
 
@@ -94,7 +92,7 @@ impl ThemeAware {
 }
 ```
 
-和事件一样, 观察者回调是**延迟派发**的:  修改全局状态只是把通知排进 effect 队列, 本轮 update 结束时才统一触发.
+和事件一样, 观察者回调是**延迟派发**的: 修改全局状态只是把通知排进 effect 队列, 本轮 update 结束时才统一触发.
 
 ## 14.4 实战: [`text.rs`](../examples/text.rs) 里的字体全局状态管理
 
@@ -145,8 +143,6 @@ impl ActiveTextContext for App {
     }
 }
 ```
-
-**NOTE**: 原文说的"GPUI 内置 `text.rs` 的 `TextSystem` 全局状态"并不存在 ——GPUI的 `TextSystem` 是字体/排版引擎, **没有** `impl Global for TextSystem`. 真实的示例是**本仓库**的 [`examples/text.rs`](../examples/text.rs), 全局类型叫 `GlobalTextContext`(newtype 包 `Arc<TextContext>`).
 
 ## 14.5 全局状态 vs Entity 的选择
 

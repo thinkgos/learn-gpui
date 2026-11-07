@@ -57,7 +57,7 @@ impl HelloWorld {
         // spawn_in: 在「这个窗口」的上下文里起异步任务。
         // 闭包收 (自己实体的弱句柄, AsyncWindowContext)：弱句柄不阻止实体释放，
         // 所以更新可能失败，任务里要处理 Err。
-        let task = cx.spawn_in(window, async move |this, cx| {
+        let task = cx.spawn_in(window, async |this, cx| {
             loop {
                 // 在后台执行器上睡 1 秒，不堵主线程。
                 cx.background_executor().timer(Duration::from_secs(1)).await;
