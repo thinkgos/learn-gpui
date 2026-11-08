@@ -1,15 +1,15 @@
 # 6. 图像与媒体
 
-图像是丰富界面表达的重要元素.GPUI提供了对静态图片、SVG 、GIF 动图等多种媒体格式的支持, 并通过 AssetSource trait 提供灵活的资源加载机制. 
+图像是丰富界面表达的重要元素. GPUI提供了对静态图片、SVG 、GIF 动图等多种媒体格式的支持, 并通过 `AssetSource` `trait` 提供灵活的资源加载机制.
 
 ## 6.1 静态图片
 
-使用 `img()` 函数加载图片, 参数决定图片来源, **字符串并不等于文件路径**, 这是初学者最容易搞错的地方: 
+使用 `img()` 函数加载图片, 参数决定图片来源, **字符串并不等于文件路径**, 这是初学者最容易搞错的地方:
 
 | 写法 | 来源 | 说明 |
 | :--- | :--- | :--- |
 | `img("https://...")` | HTTP 下载 | 能解析成 URL 的字符串走网络请求 |
-| `img("assets/logo.png")` | AssetSource 资源键 | 非 URL 字符串按资源键查找(见 6.4), 不是读磁盘 |
+| `img("assets/logo.png")` | `AssetSource` 资源键 | 非 URL 字符串按资源键查找(见 6.4), 不是读磁盘 |
 | `img(PathBuf::from("assets/logo.png"))` | 文件系统 | `PathBuf`/`&Path` 直接读文件 |
 
 ```rust
@@ -41,7 +41,7 @@ fn render_images() -> impl IntoElement {
 }
 ```
 
-`img()` 还有两个状态钩子和一个渲染开关: 
+`img()` 还有两个状态钩子和一个渲染开关:
 
 ```rust
 img(PathBuf::from("assets/banner.jpg"))
@@ -50,17 +50,17 @@ img(PathBuf::from("assets/banner.jpg"))
     .with_fallback(|| div().child("加载失败").into_any_element())  // 加载失败时显示
 ```
 
-- `.with_loading()` 的占位元素**只在加载超过 200 毫秒后**才出现(常量 `LOADING_DELAY`), 快图不会闪占位符. 
-- `.with_fallback()` 在加载出错时替换整个元素. 
-- 两者都收一个返回 `AnyElement` 的闭包, 可以画任意占位/错误界面. 
+- `.with_loading()` 的占位元素**只在加载超过 200 毫秒后**才出现(常量 `LOADING_DELAY`), 快图不会闪占位符.
+- `.with_fallback()` 在加载出错时替换整个元素.
+- 两者都收一个返回 `AnyElement` 的闭包, 可以画任意占位/错误界面.
 
 ## 6.2 SVG图像
 
-GPUI 通过 `svg()` 元素渲染 SVG. `svg()` 不收参数, 用链式方法指定来源: 
+GPUI 通过 `svg()` 元素渲染 SVG. `svg()` 不收参数, 用链式方法指定来源:
 
 | 方法 | 来源 |
 | :--- | :--- |
-| `.path(key)` | AssetSource 资源键(见 6.4) |
+| `.path(key)` | `AssetSource` 资源键(见 6.4) |
 | `.external_path(path)` | 文件系统路径, 异步读取 |
 | `.data(bytes)` | 原始 SVG 字节 |
 
@@ -95,13 +95,13 @@ fn render_svg() -> impl IntoElement {
 }
 ```
 
-**NOTE**: SVG 在GPUI里被渲染成**单色蒙版**再按颜色着色, 颜色来自 `.text_color()`. **不设 `text_color` 的 SVG 什么都不画(不可见)**, 这和网页里 SVG 保留原配色的行为不同. 
+**NOTE**: SVG 在GPUI里被渲染成**单色蒙版**再按颜色着色, 颜色来自 `.text_color()`. **不设 `text_color` 的 SVG 什么都不画(不可见)**, 这和网页里 SVG 保留原配色的行为不同.
 
-SVG 还支持只影响渲染的几何变换(不影响布局和命中测试):  `.with_transformation(Transformation::scale(...)/::translate(...)/::rotate(...))`. 
+SVG 还支持只影响渲染的几何变换(不影响布局和命中测试):  `.with_transformation(Transformation::scale(...)/::translate(...)/::rotate(...))`.
 
 ## 6.3 GIF动图
 
-GPUI 原生支持 GIF 动图(以及带动画的 WebP), **不需要任何专用 API** —— 帧动画自动播放: 
+GPUI 原生支持 GIF 动图(以及带动画的 WebP), **不需要任何专用 API** —— 帧动画自动播放:
 
 ```rust
 use gpui::*;
@@ -121,15 +121,15 @@ impl Render for GifViewer {
 }
 ```
 
-- 播放速度取 GIF 每帧自带的延时. 
-- 窗口失焦时自动暂停, 系统开启"减少动态效果"时也不动. 
-- 同一视图里别放太多 GIF, 见本章末尾的性能提示. 
+- 播放速度取 GIF 每帧自带的延时.
+- 窗口失焦时自动暂停, 系统开启"减少动态效果"时也不动.
+- 同一视图里别放太多 GIF, 见本章末尾的性能提示.
 
-完整示例: [`cargo run --example gif_viewer`](../examples/gif_viewer.rs). 
+完整示例: [`cargo run --example gif_viewer`](../examples/gif_viewer.rs).
 
 ## 6.4 AssetSource trait 自定义资源加载策略
 
-`img("资源键")` 和 `svg().path("资源键")` 查找的资源来自 `AssetSource`. 通过实现这个 trait, 可以自定义资源加载策略(文件系统、嵌入内存、网络都行): 
+`img("资源键")` 和 `svg().path("资源键")` 查找的资源来自 `AssetSource`. 通过实现这个 trait, 可以自定义资源加载策略(文件系统、嵌入内存、网络都行):
 
 ```rust
 use gpui::{AssetSource, SharedString};
@@ -159,7 +159,7 @@ impl AssetSource for FsAssetSource {
 }
 ```
 
-在应用启动时注册: 
+在应用启动时注册:
 
 ```rust
 fn main() {
@@ -171,13 +171,13 @@ fn main() {
 }
 ```
 
-**NOTE**: `load()` 收 `&str` 返回**字节的 `Cow`**, 不是 `SharedString` —— 图片和 SVG 都是二进制. 没注册 `AssetSource` 时资源键一律解析失败(图片报"资源不存在"错误, SVG 什么都不画), 但 `img(PathBuf)` 和 `img("https://...")` 不受影响. 
+**NOTE**: `load()` 收 `&str` 返回**字节的 `Cow`**, 不是 `SharedString` —— 图片和 SVG 都是二进制. 没注册 `AssetSource` 时资源键一律解析失败(图片报"资源不存在"错误, SVG 什么都不画), 但 `img(PathBuf)` 和 `img("https://...")` 不受影响.
 
-完整示例: [`cargo run --example image_loading`](../examples/image_loading.rs)(资源加载 + 自定义异步 Asset + 加载/失败占位), [`cargo run --example opacity`](../examples/opacity.rs)(以示例目录为资源根). 
+完整示例: [`cargo run --example image_loading`](../examples/image_loading.rs)(资源加载 + 自定义异步 Asset + 加载/失败占位), [`cargo run --example opacity`](../examples/opacity.rs)(以示例目录为资源根).
 
 ## 6.5 图片画廊
 
-展示如何使用流式布局创建缩略图画廊: 
+展示如何使用流式布局创建缩略图画廊:
 
 ```rust
 use gpui::*;
@@ -207,11 +207,11 @@ impl Render for ImageGallery {
 }
 ```
 
-进阶版画廊(30 张网络图 + 两种缓存策略对照)见 [`cargo run --example image_gallery`](../examples/image_gallery.rs). 
+进阶版画廊(30 张网络图 + 两种缓存策略对照)见 [`cargo run --example image_gallery`](../examples/image_gallery.rs).
 
 ## 6.6 图片缓存
 
-GPUI 的图片缓存分三层, 一般用默认配置就够: 
+GPUI 的图片缓存分三层, 一般用默认配置就够:
 
 | 层 | 机制 | 何时需要关心 |
 | :--- | :--- | :--- |
@@ -219,9 +219,9 @@ GPUI 的图片缓存分三层, 一般用默认配置就够:
 | 图片缓存 | `RetainAllImageCache::new(cx)` 手动管理, 或用 `image_cache(...)` 元素给整棵子树套一个自定义缓存(如 LRU) | 大量缩略图、要控制内存时 |
 | GPU 纹理 | 图片解码后进各窗口的精灵图集, `cx.drop_image(image, Some(window))` 释放 | 手写自定义缓存时 |
 
-- 自动缓存: 通过 `img()` 加载的图片会自动缓存. 
-- 异步加载: 图片异步解码, 不阻塞 UI 线程; 加载完成后自动重绘. 
-- 内存管理: 手动缓存(`RetainAllImageCache`/自定义 `ImageCache`)负责决定何时淘汰, 淘汰时记得 `cx.drop_image()` 释放纹理. 
+- 自动缓存: 通过 `img()` 加载的图片会自动缓存.
+- 异步加载: 图片异步解码, 不阻塞 UI 线程; 加载完成后自动重绘.
+- 内存管理: 手动缓存(`RetainAllImageCache`/自定义 `ImageCache`)负责决定何时淘汰, 淘汰时记得 `cx.drop_image()` 释放纹理.
 
 ## 6.7 ObjectFit, 图片适配模式
 
@@ -235,14 +235,14 @@ GPUI 的图片缓存分三层, 一般用默认配置就够:
 | `ObjectFit::ScaleDown` | 仅当原图比容器大时缩小, 否则保持原尺寸居中 |
 | `ObjectFit::None` | 保持原始尺寸 |
 
-⚠️ 注意:  大图加载性能注意事项
+⚠️ 注意: 大图加载性能注意事项
 
-加载大尺寸图片时需要注意以下几点: 
+加载大尺寸图片时需要注意以下几点:
 
-- 异步解码:GPUI会异步解码图片, 但超大图片(>10MB)仍可能导致内存峰值. 
-- 缩略图优先: 在列表或网格中显示时, 优先使用缩略图而非原图. 
-- 延迟加载: 对于不可见区域的图片, 考虑延迟加载以减少启动时的内存开销. 
-- GIF 优化: GIF 动图会持续占用内存和 CPU 资源, 避免在同一视图中加载过多 GIF. 
+- 异步解码:GPUI会异步解码图片, 但超大图片(>10MB)仍可能导致内存峰值.
+- 缩略图优先: 在列表或网格中显示时, 优先使用缩略图而非原图.
+- 延迟加载: 对于不可见区域的图片, 考虑延迟加载以减少启动时的内存开销.
+- GIF 优化: GIF 动图会持续占用内存和 CPU 资源, 避免在同一视图中加载过多 GIF.
 
 ## 6.8 媒体方法速查表
 
