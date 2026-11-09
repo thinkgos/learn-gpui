@@ -1,12 +1,16 @@
 # 4. 样式与外观 - 颜色、阴影、渐变与透明度
 
-一个好的 UI 离不开精致的视觉样式.GPUI提供了完整的样式 API, 涵盖颜色、边框、圆角、阴影、渐变、透明度等各个方面, 全部采用与 CSS 一致的命名约定, 定义在 `Styled` trait 上, `div()` 等元素直接链式调用.
+一个好的 UI 离不开精致的视觉样式. GPUI提供了完整的样式 API, 涵盖颜色、边框、圆角、阴影、渐变、透明度等各个方面, 全部采用与 CSS 一致的命名约定, 定义在 `Styled` trait 上, `div()` 等元素直接链式调用.
 
 ## 4.1 颜色系统
 
-GPUI 里颜色有两个底层类型: `Hsla` 和 `Rgba`. `rgb()`/`rgba()` 返回 `Rgba`, `hsla()` 和具名颜色函数返回 `Hsla`; 所有接收颜色的样式方法都接受 `impl Into<Hsla>`, 两种类型可以混用.
+GPUI 里颜色有两个底层类型: `Hsla` 和 `Rgba`.
 
-### 4.1.1 rgb() - 不透明颜色
+- `rgb()`/`rgba()` 返回 `Rgba`.
+- `hsla()` 和具名颜色函数返回 `Hsla`.
+- 所有接收颜色的样式方法都接受 `impl Into<Hsla>`, 两种类型可以混用.
+
+### 4.1.1 `rgb()` - 不透明颜色
 
 ```rust
 // rgb(u32) — 接受 0xRRGGBB 格式的十六进制数, alpha 恒为 1.0
@@ -21,7 +25,7 @@ div()
 .text_color(rgb(0xffffff)) // 白色文字：color: #ffffff
 ```
 
-### 4.1.2 rgba() - 带透明度的颜色
+### 4.1.2 `rgba()` - 带透明度的颜色
 
 ```rust
 // rgba(u32) — 0xRRGGBBAA 格式, 最后两位是 alpha 通道(0x00 全透明 ~ 0xff 不透明)
@@ -32,8 +36,10 @@ rgba(0xffffff1a)  // 10% 白色(轻微高光)
 // 示例: 半透明遮罩层
 div()
 .absolute()
-.top(px(0.0)).left(px(0.0))
-.right(px(0.0)).bottom(px(0.0))
+.top(px(0.0))
+.left(px(0.0))
+.right(px(0.0))
+.bottom(px(0.0))
 .bg(rgba(0x00000080)) // 半透明黑色背景：background-color: rgb(0 0 0/0.5)
 ```
 
@@ -86,8 +92,6 @@ brand.blend(other)    // 把 other 按它自己的 alpha 叠加到自己上面(�
 
 `Hsla::to_rgb()` 从 `Hsla` 转 `Rgba`, 反向用 `Rgba -> Hsla` 的 `From` 转换.
 
-**NOTE**:GPUI**没有** `Color` 类型, 也没有 `Color::from_hex()`. 其他教程里 `Color::blue()`、`Color::from_hex("#7c3aed")` 这类写法编译不过, 用 `gpui::blue()`/`rgb(0x7c3aed)` 代替. 透明色也没有 `transparent()` 函数, 用 `transparent_black()`.
-
 ## 4.2 边框与圆角
 
 ### 4.2.1 边框
@@ -113,8 +117,6 @@ div()
 .border_dashed()  // border-style: dashed
 ```
 
-**NOTE**: 边框颜色只有一个 `.border_color()`, **不支持按边设置不同颜色**(没有 `border_t_color()` 这类方法). 也没有 `.border_solid()` —— 实线是默认样式, 只有 `.border_dashed()` 一个切换开关.
-
 ### 4.2.2 圆角
 
 ```rust
@@ -136,17 +138,19 @@ div()
 
 每个前缀都配一套 Tailwind 风格的**预设后缀**(不收参数):
 
-| 预设 | 半径 | 预设 | 半径 |
-| :-- | --: | :-- | --: |
-| `rounded_none()` | 0px | `rounded_xl()` | 12px |
-| `rounded_xs()` | 2px | `rounded_2xl()` | 16px |
-| `rounded_sm()` | 4px | `rounded_3xl()` | 24px |
-| `rounded_md()` | 6px | `rounded_full()` | 9999px |
-| `rounded_lg()` | 8px | | |
+| 预设 | 半径 |
+| :-- | --: |
+| `rounded_none()` | 0px |
+| `rounded_xs()` | 2px |
+| `rounded_sm()` | 4px |
+| `rounded_md()` | 6px |
+| `rounded_lg()` | 8px |
+| `rounded_xl()` | 12px |
+| `rounded_2xl()` | 16px |
+| `rounded_3xl()` | 24px |
+| `rounded_full()` | 9999px |
 
-预设后缀可以和任意前缀组合, 例如 `rounded_tl_full()` 做"单角胶囊".
-
-**NOTE**: 预设圆角方法**不收参数**, `.rounded_lg(px(8.0))` 是编译不过的, 要自定义值就用带参数的 `.rounded(px(8.0))` 或 `.rounded_t(px(8.0))` 这类前缀方法.
+**NOTE**:  预设后缀可以和任意前缀组合, 例如 `rounded_tl_full()` 做"单角胶囊". |
 
 卡片样式示例:
 
@@ -163,7 +167,7 @@ div()
 
 ## 4.3 BoxShadow 阴影系统
 
-GPUI 的阴影通过 `BoxShadow` 结构体定义, 并提供了多个预设级别供快速使用.  阴影是提升 UI 层次感的关键手段.
+GPUI 的阴影通过 `BoxShadow` 结构体定义, 并提供了多个预设级别供快速使用. 阴影是提升 UI 层次感的关键手段.
 
 `BoxShadow` 结构体定义与构造:
 
@@ -261,7 +265,7 @@ div().bg(checkerboard(gpui::red(), 8.0))       // 棋盘格：格子边长 8
 div().opacity(0.5) // 整个元素(含子元素)半透明：opacity: 0.5
 ```
 
-与 rgba() 的区别:
+与 `rgba()` 的区别:
 
 - `rgba(0x00000080)` 只影响背景色的透明度, 文字和子元素不受影响
 - `.opacity(0.5)` 影响整个元素及其所有子元素的透明度
@@ -293,9 +297,8 @@ div()
 
 **NOTE**: `overflow_hidden()` 系列定义在 `Styled` 上, 任何元素都能用; `overflow_scroll()` 系列定义在 `StatefulInteractiveElement` 上, 只有调用过 `.id(...)` 的元素才有这些方法.  没有 CSS 里 `overflow: auto` 的对应方法 —— 只有 hidden 和 scroll 两档.
 
-💡 提示:  `overflow_hidden` 的常见用途
-
-`.overflow_hidden()` 不仅用于隐藏溢出内容, 还常用于裁剪圆角内的子元素. 当一个元素设置了 `.rounded_lg()` 但子元素有背景色时, 需要给父元素加`.overflow_hidden()` 才能让子元素不溢出圆角. 还可以配合 `.scrollbar_width(px(6.0))` 设置滚动条占的宽度.
+> 💡 提示:  `overflow_hidden` 的常见用途
+> `.overflow_hidden()` 不仅用于隐藏溢出内容, 还常用于裁剪圆角内的子元素. 当一个元素设置了 `.rounded_lg()` 但子元素有背景色时, 需要给父元素加`.overflow_hidden()` 才能让子元素不溢出圆角. 还可以配合 `.scrollbar_width(px(6.0))` 设置滚动条占的宽度.
 
 ## 4.8 可见性、光标与其他
 
