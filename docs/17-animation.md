@@ -1,10 +1,10 @@
 # 17. 动画系统
 
-GPUI 的动画围绕 `Animation`(时长 + 缓动)和 `AnimationExt::with_animation()`(把动画绑到元素)展开, 一行链式声明就能跑起来. 另有弹簧动画(`SpringAnimation`)和手动逐帧(`request_animation_frame`)两条进阶路线. 
+GPUI 的动画围绕 `Animation`(时长 + 缓动)和 `AnimationExt::with_animation()`(把动画绑到元素)展开, 一行链式声明就能跑起来. 另有弹簧动画(`SpringAnimation`)和手动逐帧(`request_animation_frame`)两条进阶路线.
 
 ## 17.1 Animation 结构体
 
-`Animation` 描述"怎么动": 播多久、是否循环、用什么缓动. 创建后通过 `with_animation()` 挂到元素上: 
+`Animation` 描述"怎么动": 播多久、是否循环、用什么缓动. 创建后通过 `with_animation()` 挂到元素上:
 
 ```rust
 use gpui::*;
@@ -16,7 +16,7 @@ let animation = Animation::new(Duration::from_secs(2)) // 只收时长; 默认�
     .with_easing(bounce(ease_in_out)); // 缓动: bounce 包一层 ease_in_out, 来回弹
 ```
 
-挂到元素上(取自 `animation` 示例的 SVG 旋转): 
+挂到元素上(取自 `animation` 示例的 SVG 旋转):
 
 ```rust
 svg()
@@ -35,7 +35,7 @@ svg()
     ),
 ```
 
-`Animation` 的配置方法: 
+`Animation` 的配置方法:
 
 | 方法 | 说明 |
 | :--- | :--- |
@@ -45,15 +45,15 @@ svg()
 | `.with_easing(fn)` | 缓动函数: `Fn(f32) -> f32`, 输入输出都是归一化进度 |
 | `.with_max_fps(f32)` | 限制每秒重绘次数, 省电 |
 
-`with_animation(id, animation, animator)` 的 `animator` 收 `(元素, delta)`, 返回改好的元素; 动画元素挂载后自动逐帧调用它, 播完一次(one-shot)停在结束状态, `repeat()` 则一直转下去. 不想要某个动画时, 用 `.when(self.active, ...)` 把整个元素(或动画)从树里拿掉. 
+`with_animation(id, animation, animator)` 的 `animator` 收 `(元素, delta)`, 返回改好的元素; 动画元素挂载后自动逐帧调用它, 播完一次(one-shot)停在结束状态, `repeat()` 则一直转下去. 不想要某个动画时, 用 `.when(self.active, ...)` 把整个元素(或动画)从树里拿掉.
 
-**NOTE**: `Animation::new` 只收 `Duration`, **没有** `Animation::new(cx.entity(), active)` 这种"实体 + 开关"签名, 也**没有** `.with_duration()`/`.ease_out()`/`.linear()`/`.repeat(AnimationRepeat::Forever)` 这些方法 —— 时长在 `Animation::new()` 里给, 循环是 `.repeat()`, 缓动统一走 `.with_easing(闭包)`. 
+**NOTE**: `Animation::new` 只收 `Duration`, **没有** `Animation::new(cx.entity(), active)` 这种"实体 + 开关"签名, 也**没有** `.with_duration()`/`.ease_out()`/`.linear()`/`.repeat(AnimationRepeat::Forever)` 这些方法 —— 时长在 `Animation::new()` 里给, 循环是 `.repeat()`, 缓动统一走 `.with_easing(闭包)`.
 
-**NOTE**: `with_animation` 的第一个参数是**动画 id**(`impl Into<ElementId>`), 三参数缺一不可; `with_animation(animation, |div, progress| ...)` 这种两参写法 **没有**. 还要 `use gpui::AnimationExt as _;` 把 trait 引进来(它**不在** `prelude` 里). 
+**NOTE**: `with_animation` 的第一个参数是**动画 id**(`impl Into<ElementId>`), 三参数缺一不可; `with_animation(animation, |div, progress| ...)` 这种两参写法 **没有**. 还要 `use gpui::AnimationExt as _;` 把 trait 引进来(它**不在** `prelude` 里).
 
 ## 17.2 Easing 函数
 
-缓动函数就是普通的 `fn(f32) -> f32`: 输入线性时间(0..1), 输出动画进度(可以超出 0..1, 比如弹簧过冲).GPUI内置这些: 
+缓动函数就是普通的 `fn(f32) -> f32`: 输入线性时间(0..1), 输出动画进度(可以超出 0..1, 比如弹簧过冲).GPUI内置这些:
 
 | 函数 | 效果 |
 | :--- | :--- |
@@ -64,9 +64,9 @@ svg()
 | `bounce(easing)` | 把任意缓动正放一遍再倒放一遍(来回弹) |
 | `pulsating_between(min, max)` | 呼吸/脉动, 输出在 min..max 之间 |
 
-**NOTE**: 缓动就是函数, **没有** `Easing` 枚举或结构体, 也**没有** `ease_in()`/`ease_out()`/`spring()` 这三个函数 —— 只有 `ease_in_out` 和 `ease_out_quint()`; "spring()" 不是缓动, 弹簧是下面这套独立 API. 
+**NOTE**: 缓动就是函数, **没有** `Easing` 枚举或结构体, 也**没有** `ease_in()`/`ease_out()`/`spring()` 这三个函数 —— 只有 `ease_in_out` 和 `ease_out_quint()`; "spring()" 不是缓动, 弹簧是下面这套独立 API.
 
-**弹簧动画**: 要"惯性过冲、中途改目标能接上速度"的物理手感, 用 `SpringAnimation`(完整演示在 [`cargo run --example animation`](../examples/animation.rs)): 
+**弹簧动画**: 要"惯性过冲、中途改目标能接上速度"的物理手感, 用 `SpringAnimation`(完整演示在 [`cargo run --example animation`](../examples/animation.rs)):
 
 ```rust
 div()
@@ -85,7 +85,7 @@ div()
 
 ## 17.3 变换 Transformation
 
-`Transformation` 是 SVG 的绘制变换, 通过 `.with_transformation()` 应用: 只影响绘制, **不改布局也不影响命中测试**(鼠标判定还是按原位置). 
+`Transformation` 是 SVG 的绘制变换, 通过 `.with_transformation()` 应用: 只影响绘制, **不改布局也不影响命中测试**(鼠标判定还是按原位置).
 
 | 构造 | 说明 |
 | :--- | :--- |
@@ -94,20 +94,20 @@ div()
 | `Transformation::rotate(percentage(delta))` | 旋转: 角度是 `Radians` |
 | `.with_scaling()/.with_translation()/.with_rotation()` | 在一个变换上继续组合其他分量 |
 
-`percentage(x)` 把 0..1 映射成整圈的比例(0.25 是 90°, 1.0 是 360°), 因此动画里 `Transformation::rotate(percentage(delta))` 正好转一整圈. 旋转、缩放、平移可以经 `with_*` 组合在一个变换里. 
+`percentage(x)` 把 0..1 映射成整圈的比例(0.25 是 90°, 1.0 是 360°), 因此动画里 `Transformation::rotate(percentage(delta))` 正好转一整圈. 旋转、缩放、平移可以经 `with_*` 组合在一个变换里.
 
-对 div 而言没有 `Transformation`, 动画闭包里改的是**样式**: 
+对 div 而言没有 `Transformation`, 动画闭包里改的是**样式**:
 
 ```rust
 // 动画驱动的是样式值: 每帧把进度换算成 left
 |div, delta| div.left(px(delta * 200.0)), // 位移 200px: left: 0px -> 200px
 ```
 
-**NOTE**: `Transformation` 一族是 `Svg` 的方法(`.with_transformation()`), **没有**通用元素上的 `.scale()`/`.rotate()`/`.translate()` 链式变换; div 动画请在闭包里改样式(`.left()`/`.w()`/`.bg()` 等, 弹簧示例就是这么做的). 
+**NOTE**: `Transformation` 一族是 `Svg` 的方法(`.with_transformation()`), **没有**通用元素上的 `.scale()`/`.rotate()`/`.translate()` 链式变换; div 动画请在闭包里改样式(`.left()`/`.w()`/`.bg()` 等, 弹簧示例就是这么做的).
 
 ## 17.4 AssetSource 加载动画资源
 
-动画里的 SVG(转圈图标、加载指示器)通过 `AssetSource` 加载, 约定见第 6 章. `animation` 示例从文件系统读资源: 
+动画里的 SVG(转圈图标、加载指示器)通过 `AssetSource` 加载, 约定见第 6 章. `animation` 示例从文件系统读资源:
 
 ```rust
 struct Assets {}
@@ -135,18 +135,18 @@ impl AssetSource for Assets {
 application().with_assets(Assets {}).run(|cx: &mut App| { /* ... */ });
 ```
 
-**NOTE**: `AssetSource` 只有 `load(&self, path)`/`list(&self, path)` 两个方法(见 6.4), **没有** `load_asset(&mut self, path, cx) -> Task<...>` 这种异步签名. 资源加载是同步取字节, 异步解码由GPUI内部处理. 
+**NOTE**: `AssetSource` 只有 `load(&self, path)`/`list(&self, path)` 两个方法(见 6.4), **没有** `load_asset(&mut self, path, cx) -> Task<...>` 这种异步签名. 资源加载是同步取字节, 异步解码由GPUI内部处理.
 
 ## 17.5 手动动画: window.request_animation_frame()
 
-复杂的逐帧逻辑(粒子、游戏循环)可以自己驱动. 两个 API 配合: 
+复杂的逐帧逻辑(粒子、游戏循环)可以自己驱动. 两个 API 配合:
 
 | 方法 | 说明 |
 | :--- | :--- |
 | `window.request_animation_frame()` | 请求下一帧重绘(**无参数, 没有回调**) |
 | `window.on_next_frame(闭包)`/`cx.on_next_frame(window, 闭包)` | 当前帧渲染完后执行闭包, 在里面预约下一帧 |
 
-手动循环的骨架: 在回调里推进状态、`cx.notify()` 触发重绘, 再预约下一帧: 
+手动循环的骨架: 在回调里推进状态、`cx.notify()` 触发重绘, 再预约下一帧:
 
 ```rust
 impl Spinner {
@@ -164,9 +164,9 @@ impl Spinner {
 }
 ```
 
-渲染时直接用 `self.angle` 换算样式即可; `request_animation_frame()` 只在"需要一帧重绘但没有自己的回调"时用(它内部就是通知当前视图刷新). 
+渲染时直接用 `self.angle` 换算样式即可; `request_animation_frame()` 只在"需要一帧重绘但没有自己的回调"时用(它内部就是通知当前视图刷新).
 
-**NOTE**: `window.request_animation_frame()` **没有** `(cx.entity(), 闭包)` 这种带回调的签名 —— 回调请用 `cx.on_next_frame(window, ...)` 或 `window.on_next_frame(...)`. 另外装饰性动画(spinner、脉动)优先用 `with_animation`, 它会自动尊重系统的"减少动态效果"设置(`App::reduce_motion`); 手动循环时要自己检查这个状态, 跳过帧请求. 
+**NOTE**: `window.request_animation_frame()` **没有** `(cx.entity(), 闭包)` 这种带回调的签名 —— 回调请用 `cx.on_next_frame(window, ...)` 或 `window.on_next_frame(...)`. 另外装饰性动画(spinner、脉动)优先用 `with_animation`, 它会自动尊重系统的"减少动态效果"设置(`App::reduce_motion`); 手动循环时要自己检查这个状态, 跳过帧请求.
 
 💡 提示: 动画时长的常见选择: 界面过渡 150-300ms, 加载指示 800-1200ms 循环. 同时运行的动画越多帧率压力越大, 长列表里避免给每行都挂动画(配合第 15 章的虚拟化只让可见行动起来).
 
