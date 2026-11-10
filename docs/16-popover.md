@@ -1,6 +1,11 @@
 # 16. 浮层 Popover
 
-下拉菜单、悬浮提示、选择器这类"浮在正文之上"的内容都属于 Popover.GPUI的浮层由两个核心 API 搭配而成: `deferred()` 把内容抬到独立的绘制层, `anchored()` 负责把内容锚定到触发元素的某个角上.
+下拉菜单、悬浮提示、选择器这类"浮在正文之上"的内容都属于 `Popover`.
+
+GPUI的浮层由两个核心 API 搭配而成:
+
+- `deferred()` 把内容抬到独立的绘制层.
+- `anchored()` 负责把内容锚定到触发元素的某个角上.
 
 ## 16.1 deferred(): 延迟渲染容器
 
@@ -8,8 +13,8 @@
 
 ```rust
 deferred(
-    anchored()
-        .anchor(Anchor::TopLeft) // 锚点: 浮层挂在触发元素的左上角
+    anchored() // 浮层锚定
+        .anchor(Anchor::TopLeft) // 浮层锚定定位: 浮层挂在触发元素的左上角
         .snap_to_window_with_margin(px(8.)) // 贴边收回时留 8px 余量, 保证浮层不出窗口
         .child(popover()), // 浮层内容
 )
@@ -24,8 +29,7 @@ deferred(
 | `.priority(n)` | 多个浮层之间的堆叠顺序, 大的在上(默认 0) |
 | `.with_priority(n)` | 与 `.priority(n)` 完全等价 |
 
-**NOTE**: `deferred()` **没有**"条件渲染"参数, `deferred(move |_cx| show).child(...)` 这种写法不存在 —— 显隐要自己控制, 常用 `.when(self.open, |this| this.child(deferred(...)))`: 状态开着才把浮层挂进元素树.
-
+**NOTE**: `deferred()` **没有**"条件渲染"参数, 显隐要自己控制, 常用 `.when(self.open, |this| this.child(deferred(...)))`: 状态开着才把浮层挂进元素树.
 **NOTE**: 优先级是链式方法 `.priority(1)`(或 `.with_priority(1)`), **没有** `with_priority(1).child(...)` 这个自由函数.
 
 ## 16.2 anchored(): 锚定定位(Anchor 枚举)
@@ -38,7 +42,11 @@ deferred(
 | `Anchor::BottomLeft`/`BottomCenter`/`BottomRight` | 下边(左/中/右) | 下拉菜单(常用 BottomLeft) |
 | `Anchor::LeftCenter`/`RightCenter` | 左右边中点 | 级联子菜单 |
 
-**NOTE**: `Anchor` **没有** `LeftTop`/`LeftBottom`/`RightTop`/`RightBottom` 这些变体 —— 侧边锚点只有居中的 `LeftCenter`/`RightCenter`.
+GPUI 的 `Anchor` 枚举(如 `TopLeft`、`BottomLeft` 等)是以弹窗(`Popover`)自身的对齐边角为基准来定义的, 而不是以触发器为基准.
+
+- **Top\*** 系列(如 TopLeft)：将弹窗自身的顶部贴住触发器底部, 因此弹窗会向下展开显示在下方.
+
+- **Bottom*** 系列(如 BottomLeft)：将弹窗自身的底部贴住触发器顶部, 因此弹窗会向上展开显示在上方.
 
 `anchored()` 的定位方法:
 
@@ -107,8 +115,6 @@ Popover 的标准交互是"点浮层外面就关掉", 用 `on_mouse_down_out` �
 - 对应的 `on_mouse_up_out(button, listener)` 在鼠标**抬起**在元素外时触发.
 - 只想在浮层内部做点关闭按钮时, 配合 `on_click` 改同一个 `open` 状态即可.
 
-**NOTE**: 回调收三个参数(event、window、cx), `move |_event, cx| { ... }` 这种两参闭包 **没有**; 也不要写成 `cx.update_model(...)` —— 视图状态直接用 `cx.listener` 的 `this` 改.
-
 ## 16.4 多级嵌套 Popover(priority 层级控制)
 
 级联菜单(菜单里再开菜单)就是嵌套 Popover: 每层一个 `deferred`, 用 `priority` 控制堆叠顺序, 数字大的画在上面(取自 `popover` 示例, 一级菜单 `.priority(1)`, 二级菜单 `.priority(2)`):
@@ -134,6 +140,7 @@ deferred(
 两个实战细节(示例里都踩过):
 
 1. **子浮层开着时要关掉父浮层的"点外面关闭"**, 否则点子菜单会被当成"点外面"把父级一起关掉:
+2. **浮层要放在触发器内容之后渲染**(`.child(...)` 接在按钮文字后面), 确保它在同层元素的上层. GPUI已支持多层嵌套 `deferred`, 级联几层都可以.
 
 ```rust
 .when(!self.secondary_open, |this| {
@@ -145,16 +152,12 @@ deferred(
 })
 ```
 
-2. **浮层要放在触发器内容之后渲染**(`.child(...)` 接在按钮文字后面), 确保它在同层元素的上层.GPUI已支持多层嵌套 `deferred`, 级联几层都可以.
-
 ## 16.5 典型场景
 
 - **下拉菜单**: 点按钮展开选项, `Anchor::BottomLeft` 锚定, `on_mouse_down_out` 关闭(16.2 + 16.3 的组合).
 - **工具提示 Tooltip**: 悬停显示提示, 用 `on_hover(|hovered, _, cx| ...)` 切换显隐, 浮层用悬浮提示的锚定写法(见 16.2).
 - **选择器 Picker**: 输入时展示候选项, 结合文本输入(见第 10 章)和 `uniform_list`(见第 15 章)做搜索列表.
 - **级联菜单**: 多层嵌套 `deferred`, `.priority()` 控制堆叠(见 16.4).
-
-**NOTE**: **没有** `on_mouse_enter` 这个方法(整个GPUI里都不存在) —— 悬停进入/离开用 `on_hover(闭包)`(回调收一个 `bool`: 进入为 true、离开为 false), 只关心离开时用 `on_mouse_exit`.
 
 ## 16.6 Popover vs Modal 的选择
 
@@ -167,7 +170,7 @@ deferred(
 
 选择原则: 操作是上下文相关的、不需要打断用户流程, 用 Popover; 需要用户专注完成某件事, 用 Modal.
 
-**NOTE**:GPUI**没有**内置 Modal 组件 —— 模态框一般用 `deferred()` 抬一层全屏遮罩 + 居中对话框自己搭, 在遮罩上处理点击/按键来关闭.
+**NOTE**: GPUI**没有**内置 Modal 组件 —— 模态框一般用 `deferred()` 抬一层全屏遮罩 + 居中对话框自己搭, 在遮罩上处理点击/按键来关闭.
 
 ## 16.7 浮层方法速查表
 
