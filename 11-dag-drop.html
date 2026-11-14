@@ -1,0 +1,430 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>拖拽功能 - GPUI Book</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-e96d0476.css">
+        <link rel="stylesheet" href="css/chrome-d279d366.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-66d66d0e.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-2a29ad3c.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">GPUI Book</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/thinkgos/learn-gpui" title="Git repository" aria-label="Git repository">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="11-拖拽功能"><a class="header" href="#11-拖拽功能">11. 拖拽功能</a></h1>
+<p>拖拽(drag and drop)是列表、看板类界面的常见交互. GPUI的拖拽是声明式的: 源元素用 <code>.on_drag()</code> 说清「拖的是什么、拖起来长什么样」, 目标元素用 <code>.on_drop()</code> 决定「收不收、怎么处理」, 再用 <code>.drag_over()</code> 给悬停反馈. 拖拽数据可以是任意 <code>'static</code> 类型, 不需要实现特殊 trait.</p>
+<h2 id="111-拖拽源-on_drag"><a class="header" href="#111-拖拽源-on_drag">11.1 拖拽源: .on_drag()</a></h2>
+<p><code>.on_drag()</code> 把元素标记为可拖拽源, 一次收两个参数: 拖拽数据 <code>value: T</code> 和预览构造器 <code>constructor</code>. 按住左键移动超过 2 像素后拖拽自动开始, 构造器被调用一次, 返回一个实现 <code>Render</code> 的实体(Entity)作为跟随光标的拖拽预览:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let drag_info = DragInfo::new(ix, color); // 拖拽携带的数据, 普通结构体即可
+
+div()
+    .id(("item", ix)) // 每个可拖元素要先有唯一 id: on_drag 只在带 id 的元素上可用
+    .size_32() // 32 号尺寸的正方形: width: 8rem; height: 8rem (128px)
+    .cursor_move() // 拖动光标: cursor: move
+    .child(format!("Item ({})", ix))
+    .on_drag(drag_info, |info: &amp;DragInfo, position, _, cx| {
+        // 收 4 个参数: 拖拽数据、按下点相对元素原点的偏移、window、cx
+        cx.new(|_| info.position(position)) // 构造预览实体, 跟随光标绘制
+    })
+<span class="boring">}</span></code></pre>
+<p>源码里的完整签名(两部分都要给):</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn on_drag&lt;T, W&gt;(
+    value: T,
+    constructor: impl Fn(&amp;T, Point&lt;Pixels&gt;, &amp;mut Window, &amp;mut App) -&gt; Entity&lt;W&gt;,
+) where
+    T: 'static,
+    W: 'static + Render;
+<span class="boring">}</span></code></pre>
+<ul>
+<li><code>T</code> 是拖拽数据的类型, 任意 <code>'static</code> 类型都行; <code>W</code> 是预览实体的类型, 必须实现 <code>Render</code>.</li>
+<li><code>on_drag</code> 是<strong>带 id 元素</strong>(<code>StatefulInteractiveElement</code>)的方法, 元素上没写 <code>.id()</code> 就用不了.</li>
+<li>同一个元素只能调一次 <code>on_drag</code>, 重复调用在 debug 下直接断言失败.</li>
+<li>拖拽期间可用 <code>cx.has_active_drag()</code> 查询「现在有没有拖拽」.</li>
+</ul>
+<h2 id="112-放置目标-on_drop"><a class="header" href="#112-放置目标-on_drop">11.2 放置目标: .on_drop()</a></h2>
+<p><code>.on_drop()</code> 把元素标记为放置目标. 回调只在「拖拽数据的类型」和 <code>on_drop::&lt;T&gt;</code> 的 <code>T</code> 一致时才会触发, 类型匹配由GPUI按 TypeId 自动完成:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>div()
+    .id("drop-target")
+    .w_128() // 宽: width: 32rem (512px)
+    .h_32()  // 高: height: 8rem (128px)
+    .on_drop(cx.listener(|this, info: &amp;DragInfo, _, _| {
+        // 回调直接拿到拖拽数据 &amp;DragInfo
+        this.drop_on = Some(*info); // 记录放进来的数据, 驱动边框/底色变化
+    }))
+    .child("Drop items here")
+<span class="boring">}</span></code></pre>
+<ul>
+<li>回调收 <code>(&amp;T, &amp;mut Window, &amp;mut App)</code>; 用 <code>cx.listener()</code> 包一层(见 11.5)就能在回调里读写自己的状态.</li>
+<li><code>on_drop</code>/<code>can_drop</code> 是普通元素方法, 不要求 <code>.id()</code>.</li>
+</ul>
+<p><code>.can_drop()</code> 给放置目标加一道谓词, 决定这个拖拽数据收不收:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>div()
+    .on_drop(cx.listener(|this, info: &amp;DragInfo, _, _| {
+        this.drop_on = Some(*info);
+    }))
+    .can_drop(|data, _window, _cx| {
+        // 收 &amp;dyn Any: 返回 false 时 on_drop 不触发, drag_over 样式也保持原样
+        data.downcast_ref::&lt;DragInfo&gt;().is_some_and(|info| info.ix != 0)
+    })
+<span class="boring">}</span></code></pre>
+<h2 id="113-draginfo-拖拽数据载体"><a class="header" href="#113-draginfo-拖拽数据载体">11.3 DragInfo: 拖拽数据载体</a></h2>
+<p><strong>NOTE</strong>: GPUI<strong>没有</strong> 内置的 <code>DragInfo</code> 类型. 拖拽数据就是你在 <code>.on_drag()</code> 里传的那个 <code>value</code>, 什么结构体都行; 下面示例里的 <code>DragInfo</code> 是示例自己定义的(见 <a href="../examples/drag_drop.rs"><code>examples/drag_drop.rs</code></a>), 一物两用: 既当拖拽数据, 又实现 <code>Render</code> 用作拖拽预览. 数据和预览也可以拆成两个类型, 只要预览那个实现 <code>Render</code>:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// 拖拽数据: 记录拖的是第几项、什么颜色, 以及按下点的偏移
+#[derive(Clone, Copy)]
+struct DragInfo {
+    ix: usize,
+    color: Hsla,
+    position: Point&lt;Pixels&gt;,
+}
+
+impl Render for DragInfo {
+    fn render(&amp;mut self, _: &amp;mut Window, _: &amp;mut Context&lt;'_, Self&gt;) -&gt; impl IntoElement {
+        div()
+            .flex() // 弹性布局: display: flex
+            .justify_center() // 主轴居中: justify-content: center
+            .items_center() // 交叉轴居中: align-items: center
+            .bg(self.color.opacity(0.5)) // 半透明项目色: background-color: rgb(.../50%)
+            .text_color(gpui::white()) // 文字颜色: color: #ffffff
+            .child(format!("Item {}", self.ix))
+    }
+}
+<span class="boring">}</span></code></pre>
+<p>预览实体由 <code>.on_drag()</code> 的构造器创建(<code>cx.new(|_| ...)</code>)、由GPUI释放, 每次拖拽只创建一次; GPUI把它画在「鼠标位置 - 按下点偏移」处, 所以预览看起来停在当初抓取的位置.</p>
+<h2 id="114-drag_over-样式-拖拽悬停时的视觉反馈"><a class="header" href="#114-drag_over-样式-拖拽悬停时的视觉反馈">11.4 drag_over 样式: 拖拽悬停时的视觉反馈</a></h2>
+<p><code>.drag_over::&lt;S&gt;()</code> 在「类型为 <code>S</code> 的数据悬停在元素上」时追加一段样式, 挪走自动恢复. 闭包收「基础样式 + 拖拽数据 + window + cx」, 把改好的样式返回出去:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>div()
+    .id("drop-target")
+    .on_drop(cx.listener(|this, info: &amp;DragInfo, _, _| {
+        this.drop_on = Some(*info);
+    }))
+    .drag_over::&lt;DragInfo&gt;(|style, _info, _window, _cx| {
+        style
+            .bg(gpui::blue().opacity(0.2)) // 悬停时淡蓝底: background-color: #0000ff33
+            .border_2() // 边框加粗到 2px: border-width: 2px
+            .border_color(gpui::blue()) // 边框颜色: border-color: #0000ff
+    })
+<span class="boring">}</span></code></pre>
+<p>同族方法:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: left">方法</th><th style="text-align: left">说明</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: left"><code>.drag_over::&lt;S&gt;(f)</code></td><td style="text-align: left">类型为 <code>S</code> 的拖拽悬停在<strong>本元素</strong>上时改样式</td></tr>
+<tr><td style="text-align: left"><code>.group_drag_over::&lt;S&gt;(组名, f)</code></td><td style="text-align: left">悬停在<strong>同组元素</strong>里任何一个上时, 本元素也改样式</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="115-拖拽生命周期"><a class="header" href="#115-拖拽生命周期">11.5 拖拽生命周期</a></h2>
+<p>一次完整拖拽经历的阶段:</p>
+<ol>
+<li>
+<p><strong>开始拖拽</strong>: 在源元素上按住左键、移动超过 2 像素 → GPUI调用 <code>.on_drag()</code> 的构造器生成预览实体, 拖拽进入活跃状态(<code>cx.has_active_drag()</code> 变为 <code>true</code>).</p>
+</li>
+<li>
+<p><strong>拖拽移动</strong>: 鼠标移动 → 预览跟随光标, 窗口持续重绘; 需要在移动时做事(如调整滚动)就订阅 <code>.on_drag_move::&lt;T&gt;()</code>:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>div()
+    .on_drag_move::&lt;DragInfo&gt;(cx.listener(|this, e, _window, cx| {
+        // e 是 DragMoveEvent&lt;DragInfo&gt;:
+        //   e.event    鼠标移动事件(MouseMoveEvent)
+        //   e.bounds   本元素的区域
+        //   e.drag(cx) 取拖拽数据 &amp;DragInfo
+        this.hover_pos = Some(e.event.position); // 例如记录悬停位置
+        cx.notify();
+    }))
+<span class="boring">}</span></code></pre>
+<p>该事件在拖拽期间的每次鼠标移动都会触发, 不管光标在不在元素内.</p>
+</li>
+<li>
+<p><strong>进入目标</strong>: 光标悬停到元素上且拖拽数据类型匹配 → <code>.drag_over()</code>/<code>.group_drag_over()</code> 样式生效(<code>can_drop</code> 谓词为 <code>false</code> 时保持原样).</p>
+</li>
+<li>
+<p><strong>离开目标</strong>: 光标挪走, 悬停样式自动失效, 元素恢复原样.</p>
+</li>
+<li>
+<p><strong>放置</strong>: 松开左键 → 命中元素的 <code>on_drop</code> 按类型匹配触发(先过 <code>can_drop</code> 谓词), 拖拽数据交给目标处理, 活跃拖拽随之结束.</p>
+</li>
+<li>
+<p><strong>取消</strong>: 松手时下方没有匹配的放置目标(或 <code>can_drop</code> 返回 <code>false</code>) → 活跃拖拽直接丢弃, 数据不给任何人; 也可以随时调 <code>cx.stop_active_drag(window)</code> 主动取消, 返回 <code>bool</code> 表示是否真有拖拽被取消.</p>
+</li>
+</ol>
+<p><strong>NOTE</strong>: 按 <code>Escape</code> 取消拖拽 <strong>没有</strong>内置实现 —— 框架只在「松手落空/<code>stop_active_drag</code>」时清掉拖拽. 想要 Esc 取消, 自己绑一个动作(见第 8 章)在回调里调 <code>cx.stop_active_drag(window)</code>.</p>
+<p>💡 提示: 跨窗口与跨应用. 活跃拖拽存在 <code>App</code> 上, 同一应用的多个窗口都能命中放置目标. 拖出窗口时, 若源元素注册了 <code>.external_drag_payload()</code>, 拖拽会升级成平台原生拖拽(目前支持向外拖文件); 从系统拖文件进窗口则走 <code>FileDropEvent</code> 事件(<code>Entered</code>/<code>Pending</code>/<code>Submit</code>/<code>Exited</code>/<code>Ended</code>), 元素级钩子有 <code>.on_file_drop_exit()</code>.</p>
+<h2 id="116-拖拽方法速查表"><a class="header" href="#116-拖拽方法速查表">11.6 拖拽方法速查表</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: left">类别</th><th style="text-align: left">方法</th><th style="text-align: left">说明</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: left"><strong>拖拽源</strong></td><td style="text-align: left"><code>.id()</code> + <code>.on_drag(value, 构造器)</code></td><td style="text-align: left">标记可拖, 携带数据 + 预览实体(必须带 id)</td></tr>
+<tr><td style="text-align: left"><strong>放置目标</strong></td><td style="text-align: left"><code>.on_drop(listener)</code> <code>.can_drop(谓词)</code></td><td style="text-align: left">按类型收数据/决定是否可放</td></tr>
+<tr><td style="text-align: left"><strong>悬停反馈</strong></td><td style="text-align: left"><code>.drag_over::&lt;T&gt;(f)</code> <code>.group_drag_over::&lt;T&gt;(组名, f)</code></td><td style="text-align: left">拖拽悬停时追加样式</td></tr>
+<tr><td style="text-align: left"><strong>移动事件</strong></td><td style="text-align: left"><code>.on_drag_move::&lt;T&gt;(listener)</code></td><td style="text-align: left">拖拽期间的鼠标移动(<code>DragMoveEvent&lt;T&gt;</code>)</td></tr>
+<tr><td style="text-align: left"><strong>手动控制</strong></td><td style="text-align: left"><code>cx.has_active_drag()</code> <code>cx.stop_active_drag(window)</code></td><td style="text-align: left">查询/取消当前拖拽</td></tr>
+<tr><td style="text-align: left"><strong>跨窗口/跨应用</strong></td><td style="text-align: left"><code>.external_drag_payload(resolver)</code> <code>FileDropEvent</code></td><td style="text-align: left">把拖拽交给平台/接收系统文件拖放</td></tr>
+</tbody>
+</table>
+</div>
+<p>完整示例: <a href="../examples/drag_drop.rs"><code>cargo run --example drag_drop</code></a>.</p>
+<h2 id="117-配套示例"><a class="header" href="#117-配套示例">11.7 配套示例</a></h2>
+<p>本章涉及的示例都在仓库 <a href="../examples/"><code>examples/</code></a> 目录下, 在仓库根目录 <code>cargo run --example &lt;示例名&gt;</code> 运行(桌面 + wasm 双入口):</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: left">示例</th><th style="text-align: left">说明</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: left"><a href="../examples/drag_drop.rs"><code>drag_drop</code></a></td><td style="text-align: left"><code>DragInfo</code> 一物两用(拖拽数据 + <code>Render</code> 预览), <code>.on_drag()</code>/<code>.on_drop()</code>/<code>.drag_over()</code> 全流程(见 11.1–11.5)</td></tr>
+</tbody>
+</table>
+</div>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="10-text-input.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="12-entity-state.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="10-text-input.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="12-entity-state.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+        <script>
+            window.playground_line_numbers = true;
+        </script>
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="ace-2a3cd908.js"></script>
+        <script src="mode-rust-2c9d5c9a.js"></script>
+        <script src="editor-16ca416c.js"></script>
+        <script src="theme-dawn-4493f9c8.js"></script>
+        <script src="theme-tomorrow_night-9dbe62a9.js"></script>
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-609e4cb8.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

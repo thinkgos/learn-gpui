@@ -1,0 +1,447 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>窗口管理 - GPUI Book</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-e96d0476.css">
+        <link rel="stylesheet" href="css/chrome-d279d366.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-66d66d0e.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-2a29ad3c.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">GPUI Book</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/thinkgos/learn-gpui" title="Git repository" aria-label="Git repository">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="20-窗口管理"><a class="header" href="#20-窗口管理">20. 窗口管理</a></h1>
+<p>GPUI 的窗口由 <code>WindowOptions</code> 配置、<code>cx.open_window()</code> 创建, 之后通过 <code>Window</code> 句柄做调整/对话框/关闭, 通过 <code>Context&lt;T&gt;</code> 的观察者订阅窗口变化.</p>
+<h2 id="201-windowoptions-完整字段"><a class="header" href="#201-windowoptions-完整字段">20.1 WindowOptions 完整字段</a></h2>
+<p><code>WindowOptions</code> 是创建窗口的配置结构体, 配合 <code>..Default::default()</code> 只填需要的字段:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: left">字段</th><th style="text-align: left">类型</th><th style="text-align: left">说明</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: left"><code>window_bounds</code></td><td style="text-align: left"><code>Option&lt;WindowBounds&gt;</code></td><td style="text-align: left">位置/状态: <code>None</code> 继承已有边界; <code>Some(WindowBounds::Windowed(bounds))</code> 指定位置尺寸</td></tr>
+<tr><td style="text-align: left"><code>titlebar</code></td><td style="text-align: left"><code>Option&lt;TitlebarOptions&gt;</code></td><td style="text-align: left"><code>None</code> = 无标题栏(自绘); <code>Some(...)</code> 配置标题、透明标题栏、macOS 红绿灯位置</td></tr>
+<tr><td style="text-align: left"><code>kind</code></td><td style="text-align: left"><code>WindowKind</code></td><td style="text-align: left">窗口类型(见 20.2)</td></tr>
+<tr><td style="text-align: left"><code>focus</code></td><td style="text-align: left"><code>bool</code></td><td style="text-align: left">创建后是否聚焦(默认 <code>true</code>)</td></tr>
+<tr><td style="text-align: left"><code>show</code></td><td style="text-align: left"><code>bool</code></td><td style="text-align: left">创建后是否显示(默认 <code>true</code>, 传 <code>false</code> 创建隐藏窗口)</td></tr>
+<tr><td style="text-align: left"><code>is_movable</code></td><td style="text-align: left"><code>bool</code></td><td style="text-align: left">用户能否拖动窗口(默认 <code>true</code>)</td></tr>
+<tr><td style="text-align: left"><code>is_resizable</code></td><td style="text-align: left"><code>bool</code></td><td style="text-align: left">用户能否调整大小(默认 <code>true</code>)</td></tr>
+<tr><td style="text-align: left"><code>is_minimizable</code></td><td style="text-align: left"><code>bool</code></td><td style="text-align: left">用户能否最小化(默认 <code>true</code>)</td></tr>
+<tr><td style="text-align: left"><code>app_owns_titlebar_drag</code></td><td style="text-align: left"><code>bool</code></td><td style="text-align: left">自绘标题栏时由应用接管拖动(仅 macOS)</td></tr>
+<tr><td style="text-align: left"><code>display_id</code></td><td style="text-align: left"><code>Option&lt;DisplayId&gt;</code></td><td style="text-align: left">显示在哪个显示器(<code>None</code> = 主显示器)</td></tr>
+<tr><td style="text-align: left"><code>window_background</code></td><td style="text-align: left"><code>WindowBackgroundAppearance</code></td><td style="text-align: left">窗口底色材质: <code>Opaque</code>/<code>Transparent</code>/<code>Blurred</code>/<code>MicaBackdrop</code>/<code>MicaAltBackdrop</code></td></tr>
+<tr><td style="text-align: left"><code>window_min_size</code></td><td style="text-align: left"><code>Option&lt;Size&lt;Pixels&gt;&gt;</code></td><td style="text-align: left">窗口最小尺寸</td></tr>
+<tr><td style="text-align: left"><code>window_decorations</code></td><td style="text-align: left"><code>Option&lt;WindowDecorations&gt;</code></td><td style="text-align: left">X11/Wayland 客户端或服务端装饰</td></tr>
+<tr><td style="text-align: left"><code>icon</code></td><td style="text-align: left"><code>Option&lt;Arc&lt;image::RgbaImage&gt;&gt;</code></td><td style="text-align: left">窗口图标(仅 X11)</td></tr>
+<tr><td style="text-align: left"><code>app_id</code></td><td style="text-align: left"><code>Option&lt;String&gt;</code></td><td style="text-align: left">应用标识, 供桌面环境分组</td></tr>
+<tr><td style="text-align: left"><code>tabbing_identifier</code></td><td style="text-align: left"><code>Option&lt;String&gt;</code></td><td style="text-align: left">macOS 原生标签页分组</td></tr>
+<tr><td style="text-align: left"><code>use_display_p3</code></td><td style="text-align: left"><code>bool</code></td><td style="text-align: left">用 P3 色域渲染(仅 macOS)</td></tr>
+<tr><td style="text-align: left"><code>*_frame_interval</code></td><td style="text-align: left"><code>Option&lt;Duration&gt;</code></td><td style="text-align: left">非活跃/低电量/过热时的帧率上限(三个字段)</td></tr>
+</tbody>
+</table>
+</div>
+<p><code>TitlebarOptions</code> 的字段: <code>title</code>(初始标题)、<code>appears_transparent</code>(隐藏系统标题栏以便自绘, macOS/Windows)、<code>traffic_light_position</code>(macOS 红绿灯按钮位置).</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// 取自 examples/window.rs: 居中开一个 800x600 的普通窗口
+let bounds = Bounds::centered(None, size(px(800.0), px(600.0)), cx);
+cx.open_window(
+    WindowOptions {
+        window_bounds: Some(WindowBounds::Windowed(bounds)), // 窗口化 + 初始位置尺寸
+        ..Default::default()
+    },
+    |window, cx| cx.new(|cx| WindowDemo {}),
+)
+.unwrap();
+<span class="boring">}</span></code></pre>
+<blockquote>
+<p><strong>NOTE</strong>: 居中要在创建前自己算好位置: <code>Bounds::centered(None, size, cx)</code> 或 <code>WindowBounds::centered(size, cx)</code>, 再放进 <code>window_bounds</code>.<br><code>window_bounds</code> 和 <code>titlebar</code> 都是 <code>Option</code>, <code>window_bounds: None</code> 表示继承已有边界, <code>titlebar: None</code> 表示<strong>不要系统标题栏</strong>(自绘标题栏场景, 见 <a href="../examples/window.rs"><code>window.rs</code></a> 的 Custom Titlebar). <code>WindowBounds</code> 的变体是 <code>Windowed</code>/<code>Maximized</code>/<code>Fullscreen</code>, <strong>没有</strong> <code>Fixed</code>;  <code>Maximized</code>/<code>Fullscreen</code> 里包的 <code>Bounds</code> 是恢复用的尺寸.</p>
+</blockquote>
+<h2 id="202-windowkind-枚举"><a class="header" href="#202-windowkind-枚举">20.2 WindowKind 枚举</a></h2>
+<p><code>kind</code> 决定窗口的层级和交互方式:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: left">变体</th><th style="text-align: left">说明</th><th style="text-align: left">典型用途</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: left"><code>WindowKind::Normal</code></td><td style="text-align: left">普通应用窗口(默认)</td><td style="text-align: left">主窗口</td></tr>
+<tr><td style="text-align: left"><code>WindowKind::PopUp</code></td><td style="text-align: left">置顶的弹出窗口</td><td style="text-align: left">警示、弹层</td></tr>
+<tr><td style="text-align: left"><code>WindowKind::AnchoredPopup(options)</code></td><td style="text-align: left">相对父窗口定位的原生弹出层, 尺寸取 <code>window_bounds</code></td><td style="text-align: left">下拉菜单、右键菜单、工具提示</td></tr>
+<tr><td style="text-align: left"><code>WindowKind::Floating</code></td><td style="text-align: left">浮动在父窗口之上的窗口</td><td style="text-align: left">工具面板、调色板</td></tr>
+<tr><td style="text-align: left"><code>WindowKind::Dialog</code></td><td style="text-align: left">挡住父窗口交互直到关闭的模态对话框</td><td style="text-align: left">确认框</td></tr>
+<tr><td style="text-align: left"><code>WindowKind::LayerShell(options)</code></td><td style="text-align: left">Wayland LayerShell 覆盖层(仅 Linux/Wayland)</td><td style="text-align: left">dock、壁纸、通知层</td></tr>
+</tbody>
+</table>
+</div>
+<p>💡 提示: 平台差异较大 —— 同一个 <code>kind</code> 在 macOS/Windows/Linux 上的原生行为(聚焦策略、动画、装饰)不完全一致, 多平台实测为准. <a href="../examples/window.rs"><code>examples/window.rs</code></a> 把几种 <code>kind</code> 各开一个窗口, 可以直观对比.</p>
+<h2 id="203-窗口操作"><a class="header" href="#203-窗口操作">20.3 窗口操作</a></h2>
+<p><strong>window.prompt() —— 系统对话框</strong>:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub fn prompt&lt;T: Clone + Into&lt;PromptButton&gt;&gt;(
+    &amp;mut self,
+    level: PromptLevel,       // Info/Warning/Critical
+    message: &amp;str,            // 主提示文字
+    detail: Option&lt;&amp;str&gt;,     // 补充说明, 可 None
+    answers: &amp;[T],            // 按钮列表
+    cx: &amp;mut App,
+) -&gt; oneshot::Receiver&lt;usize&gt;  // 异步返回被点按钮的下标
+<span class="boring">}</span></code></pre>
+<p>按钮既可以直接传 <code>&amp;str</code>(仅 “ok”/“cancel” 会映射成 Ok/Cancel 按钮, 其他文字都算 <code>Other</code>), 也可以用 <code>PromptButton</code> 显式指定语义 —— 中文标签建议用后者, 保留“确定/取消“的按钮类型:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// 简单版: &amp;str 里的 "ok"/"cancel" 自动映射成 OK/Cancel 按钮
+let answer = window.prompt(PromptLevel::Info, "Are you sure?", None, &amp;["OK", "Cancel"], cx);
+
+// 中文按钮: 显式构造 PromptButton
+let answer = window.prompt(
+    PromptLevel::Info,
+    "Are you sure?",
+    None,
+    &amp;[PromptButton::ok("确定"), PromptButton::cancel("取消")],
+    cx,
+);
+
+// 结果是异步的: 在任务里 await 出按钮下标
+cx.spawn(async move |_| {
+    if answer.await.unwrap() == 0 {
+        println!("You have clicked Ok");
+    }
+})
+.detach();
+<span class="boring">}</span></code></pre>
+<p><strong>window.resize() —— 调整内容区尺寸</strong>(单位是逻辑像素 <code>Pixels</code>):</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>window.resize(size(px(1024.0), px(768.0))); // 设置内容区尺寸: 1024x768
+<span class="boring">}</span></code></pre>
+<p><strong>窗口显示与状态控制</strong>:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: left">方法</th><th style="text-align: left">说明</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: left"><code>window.remove_window()</code></td><td style="text-align: left">关闭(销毁)这个窗口</td></tr>
+<tr><td style="text-align: left"><code>window.minimize_window()</code></td><td style="text-align: left">最小化</td></tr>
+<tr><td style="text-align: left"><code>window.zoom_window()</code></td><td style="text-align: left">缩放(等价于标题栏的最大化按钮)</td></tr>
+<tr><td style="text-align: left"><code>window.toggle_fullscreen()</code>/<code>window.is_fullscreen()</code></td><td style="text-align: left">切换/查询全屏</td></tr>
+<tr><td style="text-align: left"><code>window.activate_window()</code></td><td style="text-align: left">聚焦并把窗口带到前台</td></tr>
+<tr><td style="text-align: left"><code>window.request_attention()</code></td><td style="text-align: left">请求系统注意力(如 Dock 闪烁)</td></tr>
+<tr><td style="text-align: left"><code>window.bounds()</code>/<code>window.window_bounds()</code></td><td style="text-align: left">查询窗口矩形/状态(含恢复尺寸)</td></tr>
+<tr><td style="text-align: left"><code>cx.hide()</code></td><td style="text-align: left">隐藏<strong>整个应用</strong></td></tr>
+<tr><td style="text-align: left"><code>cx.activate(ignoring_other_apps)</code></td><td style="text-align: left">激活应用(如恢复后重新前置)</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="204-监听窗口变化"><a class="header" href="#204-监听窗口变化">20.4 监听窗口变化</a></h2>
+<p>窗口变化通过<strong>实体的 <code>Context&lt;T&gt;</code></strong> 注册观察者, 统一返回 <code>Subscription</code>(保存住或 <code>.detach()</code> 才持续有效), 回调签名都是 <code>|this: &amp;mut T, window: &amp;mut Window, cx: &amp;mut Context&lt;T&gt;|</code>:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: left">方法</th><th style="text-align: left">触发时机</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: left"><code>cx.observe_window_bounds(window, cb)</code></td><td style="text-align: left">窗口移动或缩放</td></tr>
+<tr><td style="text-align: left"><code>cx.observe_window_activation(window, cb)</code></td><td style="text-align: left">窗口激活/失活</td></tr>
+<tr><td style="text-align: left"><code>cx.observe_window_visibility(window, cb)</code></td><td style="text-align: left">可见性变化</td></tr>
+<tr><td style="text-align: left"><code>cx.observe_window_appearance(window, cb)</code></td><td style="text-align: left">外观(亮色/暗色)变化</td></tr>
+<tr><td style="text-align: left"><code>cx.observe_window_display(window, cb)</code></td><td style="text-align: left">移到别的显示器/刷新率变化</td></tr>
+<tr><td style="text-align: left"><code>cx.observe_button_layout_changed(window, cb)</code></td><td style="text-align: left">标题栏按钮布局变化</td></tr>
+</tbody>
+</table>
+</div>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// 取自 examples/window.rs: 在实体创建时注册一次
+cx.new(|cx| {
+    cx.observe_window_bounds(window, move |_, window, _| {
+        println!("Window bounds changed: {:?}", window.bounds());
+    })
+    .detach();
+    WindowDemo {}
+})
+<span class="boring">}</span></code></pre>
+<p>外观用 <code>window.appearance()</code> 查询, 返回 <code>WindowAppearance</code>(<code>Light</code>/<code>VibrantLight</code>/<code>Dark</code>/<code>VibrantDark</code>, 由操作系统决定), <strong>App</strong> 级查询是 <code>cx.window_appearance()</code>. 需要跟随系统亮暗切换配色, 订阅 <code>observe_window_appearance</code> 即可.</p>
+<p>窗口关闭的回调在 <strong>App</strong> 上: <code>cx.on_window_closed(|cx, window_id| ...)</code>. 典型用法是“最后一个窗口关了就退出“:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>cx.on_window_closed(|cx, _window_id| {
+    if cx.windows().is_empty() {
+        cx.quit();
+    }
+})
+.detach();
+<span class="boring">}</span></code></pre>
+<h2 id="205-窗口管理速查表"><a class="header" href="#205-窗口管理速查表">20.5 窗口管理速查表</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: left">类别</th><th style="text-align: left">方法/类型</th><th style="text-align: left">说明</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: left"><strong>创建</strong></td><td style="text-align: left"><code>cx.open_window(options, build)</code></td><td style="text-align: left">返回 <code>Result</code>, options 用 <code>..Default::default()</code></td></tr>
+<tr><td style="text-align: left"><strong>配置</strong></td><td style="text-align: left"><code>WindowOptions</code> <code>TitlebarOptions</code> <code>WindowBounds</code></td><td style="text-align: left">位置、标题栏、行为开关</td></tr>
+<tr><td style="text-align: left"><strong>类型</strong></td><td style="text-align: left"><code>WindowKind::Normal/PopUp/AnchoredPopup/Floating/Dialog/LayerShell</code></td><td style="text-align: left">窗口层级与交互</td></tr>
+<tr><td style="text-align: left"><strong>对话框</strong></td><td style="text-align: left"><code>window.prompt(level, message, detail, answers, cx)</code></td><td style="text-align: left">返回 <code>oneshot::Receiver&lt;usize&gt;</code></td></tr>
+<tr><td style="text-align: left"><strong>按钮</strong></td><td style="text-align: left"><code>PromptButton::ok/cancel/new</code> <code>PromptLevel::Info/Warning/Critical</code></td><td style="text-align: left">中文标签用 <code>PromptButton</code></td></tr>
+<tr><td style="text-align: left"><strong>尺寸</strong></td><td style="text-align: left"><code>window.resize(size)</code> <code>window.bounds()</code> <code>window.window_bounds()</code></td><td style="text-align: left">设置内容尺寸/查询</td></tr>
+<tr><td style="text-align: left"><strong>状态</strong></td><td style="text-align: left"><code>window.minimize_window()</code> <code>window.zoom_window()</code> <code>window.toggle_fullscreen()</code> <code>window.activate_window()</code></td><td style="text-align: left">最小化/缩放/全屏/前置</td></tr>
+<tr><td style="text-align: left"><strong>关闭/隐藏</strong></td><td style="text-align: left"><code>window.remove_window()</code> <code>cx.hide()</code> <code>cx.activate(b)</code></td><td style="text-align: left">关窗/隐藏应用/激活应用</td></tr>
+<tr><td style="text-align: left"><strong>观察者</strong></td><td style="text-align: left"><code>cx.observe_window_bounds/activation/visibility/appearance/display(...)</code></td><td style="text-align: left">返回 <code>Subscription</code>, 在实体创建时注册</td></tr>
+<tr><td style="text-align: left"><strong>关闭事件</strong></td><td style="text-align: left"><code>cx.on_window_closed(|cx, id| ...)</code></td><td style="text-align: left">App 级, 常配合 <code>cx.windows().is_empty()</code> 判断退出</td></tr>
+</tbody>
+</table>
+</div>
+<p>完整示例: <a href="../examples/window.rs"><code>cargo run --example window</code></a>(各种 WindowKind、标题栏、prompt、resize、隐藏应用). 关窗即退出的最小示例见 <a href="../examples/on_window_close_quit.rs"><code>cargo run --example on_window_close_quit</code></a>, 系统通知(带操作按钮)见 <a href="../examples/system_notifications.rs"><code>cargo run --example system_notifications</code></a>.</p>
+<h2 id="206-配套示例"><a class="header" href="#206-配套示例">20.6 配套示例</a></h2>
+<p>本章涉及的示例都在仓库 <a href="../examples/"><code>examples/</code></a> 目录下, 在仓库根目录 <code>cargo run --example &lt;示例名&gt;</code> 运行(桌面 + wasm 双入口):</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: left">示例</th><th style="text-align: left">说明</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: left"><a href="../examples/window.rs"><code>window</code></a></td><td style="text-align: left">各种 <code>WindowKind</code>、标题栏、<code>window.prompt()</code>、resize、隐藏应用(见 20.1–20.3)</td></tr>
+<tr><td style="text-align: left"><a href="../examples/on_window_close_quit.rs"><code>on_window_close_quit</code></a></td><td style="text-align: left">关窗即退出的最小示例(见 20.4)</td></tr>
+<tr><td style="text-align: left"><a href="../examples/system_notifications.rs"><code>system_notifications</code></a></td><td style="text-align: left">系统通知的发送、替换、关闭和操作按钮响应</td></tr>
+</tbody>
+</table>
+</div>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="19-gradient-pattern.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="21-multi-display.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="19-gradient-pattern.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="21-multi-display.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+        <script>
+            window.playground_line_numbers = true;
+        </script>
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="ace-2a3cd908.js"></script>
+        <script src="mode-rust-2c9d5c9a.js"></script>
+        <script src="editor-16ca416c.js"></script>
+        <script src="theme-dawn-4493f9c8.js"></script>
+        <script src="theme-tomorrow_night-9dbe62a9.js"></script>
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-609e4cb8.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

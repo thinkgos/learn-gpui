@@ -1,0 +1,517 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>列表与虚拟化 - GPUI Book</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-e96d0476.css">
+        <link rel="stylesheet" href="css/chrome-d279d366.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-66d66d0e.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-2a29ad3c.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">GPUI Book</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/thinkgos/learn-gpui" title="Git repository" aria-label="Git repository">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="15-列表与虚拟化"><a class="header" href="#15-列表与虚拟化">15. 列表与虚拟化</a></h1>
+<p>数据量大的列表如果一次性渲染所有行, 滚动会严重卡顿. GPUI提供 <code>uniform_list</code>(等高行)和 <code>list</code>(变高行)两种虚拟化列表, 只渲染可见区域的行, 十万行也能流畅滚动.</p>
+<blockquote>
+<p>💡 提示: 虚拟化把渲染复杂度从 O(n) 降到 O(k), k 是可见行数(通常不超过 50). 10 万行数据里, 任何一帧真正创建的元素只有几十个.</p>
+</blockquote>
+<h2 id="151-uniform_list-等高行虚拟列表"><a class="header" href="#151-uniform_list-等高行虚拟列表">15.1 uniform_list: 等高行虚拟列表</a></h2>
+<p><code>uniform_list</code> 适用于所有行高度相同的场景(文件列表、消息列表、数据表格). 它不走完整的 taffy 布局, 而是量出第一行的高度, 其余行按这个高度依次排列, 因此比 <code>list</code> 快得多:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use gpui::*;
+
+struct UniformListExample {}
+
+impl Render for UniformListExample {
+    fn render(&amp;mut self, _window: &amp;mut Window, cx: &amp;mut Context&lt;Self&gt;) -&gt; impl IntoElement {
+        div().size_full().bg(rgb(0xffffff)).child(
+            uniform_list(
+                "entries", // 列表 id,GPUI内部跟踪滚动状态用
+                50,       // 行数, 可以是十万行
+                cx.processor(|_this, range, _window, _cx| {
+                    // 回调只收到可见区间的行号, 比如 12..24
+                    let mut items = Vec::new();
+                    for ix in range {
+                        let item = ix + 1;
+
+                        items.push(
+                            div()
+                                .id(ix)          // 每行要有 id, 才能响应点击等交互
+                                .px_2()          // 左右内边距: padding-left: 0.5rem; padding-right: 0.5rem
+                                .cursor_pointer() // 悬停显示手型: cursor: pointer
+                                .on_click(move |_event, _window, _cx| {
+                                    println!("clicked Item {item:?}");
+                                })
+                                .child(format!("Item {item}")),
+                        );
+                    }
+                    items // 返回这个区间的所有行, 元素类型: Vec&lt;R: IntoElement&gt;
+                }),
+            )
+            .h_full(), // 列表高度撑满父容器: height: 100%
+        )
+    }
+}
+<span class="boring">}</span></code></pre>
+<p><strong><code>uniform_list</code> 的签名</strong>: <code>uniform_list(id, item_count, f)</code>, 其中 <code>f: Fn(Range&lt;usize&gt;, &amp;mut Window, &amp;mut App) -&gt; Vec&lt;R&gt;</code>.</p>
+<p><strong>滚动状态 UniformListScrollHandle</strong>: 要读写滚动位置(滚动条、“跳到底部”), 在视图里存一个句柄并绑上去:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>scroll_handle: UniformListScrollHandle, // 滚动句柄: 记录/控制列表的滚动位置
+
+// 渲染时绑定
+uniform_list("items", count, cx.processor(...))
+    .track_scroll(&amp;self.scroll_handle) // 绑定句柄, 之后可以 scroll_to_item/scroll_to_bottom
+<span class="boring">}</span></code></pre>
+<p>句柄常用方法: <code>scroll_to_item(ix, ScrollStrategy::Top/Center/Bottom/Nearest)</code>(把某行滚进视野)、<code>scroll_to_bottom()</code>、<code>logical_scroll_top_index()</code>(当前第一可见行号).</p>
+<p><strong>cx.processor() 回调生成列表项</strong>: <code>cx.processor(|this, range, window, cx| ...)</code> 把「带视图状态的闭包」变成 <code>uniform_list</code> 需要的回调: 闭包第一个参数 <code>this</code> 就是 <code>&amp;mut self</code>, 可以读写视图字段(比如顺手记下 <code>this.visible_range</code>). 不需要状态时, 直接传普通闭包也行.</p>
+<p><strong>滚动优化原理</strong>: 渲染每一帧时, <code>uniform_list</code> 根据滚动偏移算出可见行号区间, 回调只为这个区间创建元素; 滚出视野的行直接丢弃, 滚进来的新行按同一模板重建. 由于所有行等高, 行高 × 行号就是行的位置, 不需要逐行测量.</p>
+<p><strong>NOTE</strong>: 这版GPUI<strong>没有</strong> <code>UniformListState</code> 这个类型, 也不接收行高参数(如 <code>UniformListState::new(cx.entity(), 40.0)</code>) —— 行高由第一个元素的测量结果决定, 滚动状态用 <code>UniformListScrollHandle</code>(可选, 见上).</p>
+<h2 id="152-list-变高行列表"><a class="header" href="#152-list-变高行列表">15.2 list: 变高行列表</a></h2>
+<p>行高不一致时(聊天消息、评论列表)用 <code>list</code>. 它通过 <code>ListState</code> 管理, 每行渲染出来后动态测量实际高度:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use gpui::{ListAlignment, ListState, ...};
+
+const ITEM_COUNT: usize = 40;
+
+struct BottomListDemo {
+    list_state: ListState, // 变高行列表的滚动/测量状态, 存在视图里
+}
+
+impl BottomListDemo {
+    fn new() -&gt; Self {
+        Self {
+            // 参数: 行数 40, 底部对齐, overdraw 500px(视口外多渲染的余量, 防止滚动露白)
+            list_state: ListState::new(ITEM_COUNT, ListAlignment::Bottom, px(500.)).measure_all(),
+        }
+    }
+}
+<span class="boring">}</span></code></pre>
+<p>渲染回调一次只给<strong>一行</strong>:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>list(self.list_state.clone(), |index, _window, _cx| {
+    let height = px(30. + (index % 5) as f32 * 10.); // 每行高度不同, 模拟变高行
+    div()
+        .h(height)                // 行高: height: 30px ~ 70px
+        .w_full()                 // 宽度撑满: width: 100%
+        .flex()                   // 弹性布局: display: flex
+        .items_center()           // 垂直居中: align-items: center
+        .px_3()                   // 左右内边距: padding-left: 0.75rem; padding-right: 0.75rem
+        .border_b_1()             // 底部 1px 边框: border-bottom-width: 1px
+        .border_color(rgb(0xEEEEEE)) // 边框颜色: border-color: #eeeeee
+        .child(format!("Item {index}"))
+        .into_any() // list 要求每行返回 AnyElement
+})
+.flex_1() // 列表占满剩余高度: flex: 1 1 0%
+<span class="boring">}</span></code></pre>
+<p><strong>ListState 的创建与测量</strong>:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: left">方法</th><th style="text-align: left">说明</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: left"><code>ListState::new(item_count, alignment, overdraw)</code></td><td style="text-align: left">创建: 行数、对齐方向、视口外预渲染余量</td></tr>
+<tr><td style="text-align: left"><code>.measure_all()</code></td><td style="text-align: left">首帧测量所有行, 滚动条尺寸才准(大列表首帧会慢)</td></tr>
+<tr><td style="text-align: left"><code>.with_uniform_item_height(px(30.))</code></td><td style="text-align: left">只给高度提示, 滚动条先按提示算, 实测后逐步校准(比 <code>measure_all</code> 便宜)</td></tr>
+<tr><td style="text-align: left"><code>reset(n)</code></td><td style="text-align: left">行数变了(增删)后重置</td></tr>
+<tr><td style="text-align: left"><code>splice(old_range, count)</code></td><td style="text-align: left">告诉状态“这些行换了内容“, 重新测量</td></tr>
+<tr><td style="text-align: left"><code>remeasure()</code>/<code>remeasure_items(range)</code></td><td style="text-align: left">内容高度可能变了但行数没变时重测</td></tr>
+<tr><td style="text-align: left"><code>scroll_to_end()</code>/<code>scroll_to_reveal_item(ix)</code></td><td style="text-align: left">滚到底部/把某行滚进视野</td></tr>
+<tr><td style="text-align: left"><code>set_follow_mode(FollowMode::Tail)</code></td><td style="text-align: left">跟随尾部(聊天自动滚到新消息)</td></tr>
+<tr><td style="text-align: left"><code>is_scrolled_to_end()</code></td><td style="text-align: left">是否已经滚到底</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>ListAlignment::Bottom</strong>: 起排方向从底部开始, 新消息出现在底部、历史消息向上排, 正是聊天窗口的行为; 默认 <code>Top</code> 是普通列表从上往下.</p>
+<p><strong>NOTE</strong>: <code>ListState::new(ListAlignment::Bottom, cx.entity())</code> 这种写法 <strong>没有</strong> —— 签名是 <code>ListState::new(item_count, alignment, overdraw)</code>, 三个参数缺一不可, 也不接收 entity; 第三个参数是视口外的预渲染余量, <strong>不是</strong>行高.</p>
+<h2 id="153-自定义滚动条"><a class="header" href="#153-自定义滚动条">15.3 自定义滚动条</a></h2>
+<p>列表自带滚动, 但滚动条外观可以自己画. <code>ListState</code> 有一组滚动条辅助方法, 直接给出定位滑块所需的全部数据(取自 <code>list_example</code>):</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let max_offset = self.list_state.max_offset_for_scrollbar().y; // 可滚动的最大偏移
+let current_offset = -self.list_state.scroll_px_offset_for_scrollbar().y; // 当前滚动偏移
+let viewport_height = self.list_state.viewport_bounds().size.height; // 视口高度
+
+let raw_fraction = if max_offset &gt; px(0.) {
+    current_offset/max_offset // 滚动比例: 0.0 ~ 1.0
+} else {
+    0.
+};
+<span class="boring">}</span></code></pre>
+<p>有了比例, 轨道 + 滑块就是两个普通 div: 滑块高度 = 视口高度 × 视口占内容的比例(至少 30px), 滑块顶距 = (轨道高 − 滑块高) × 比例.</p>
+<p>要支持<strong>拖拽滑块</strong>, 参考 <code>data_table</code> 示例的做法: 用 <code>canvas()</code> 在绘制阶段挂鼠标事件, 拖动时改写滚动句柄的偏移:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>canvas(
+    |_, _, _| (), // prepaint 闭包: 布局阶段的准备工作, 这里不需要
+    move |thumb_bounds, _, window, _| {
+        // paint 闭包: 拿到滑块的 bounds, 在这里注册鼠标事件
+        window.on_mouse_event(move |ev: &amp;MouseDownEvent, _, _, cx| { /* 记下拖拽起点 */ });
+        window.on_mouse_event(move |_: &amp;MouseUpEvent, _, _, cx| { /* 清掉拖拽状态 */ });
+        window.on_mouse_event(move |ev: &amp;MouseMoveEvent, _, _, cx| {
+            if !ev.dragging() {
+                return; // 没在拖拽就不处理
+            }
+            // 按拖拽位置换算滚动偏移, 写回句柄
+            scroll_handle.set_offset(point(px(0.), -offset_y));
+        })
+    },
+)
+.size_full(), // 画布铺满滑块: width: 100%; height: 100%
+<span class="boring">}</span></code></pre>
+<p><strong>NOTE</strong>: <code>canvas()</code> 收<strong>两个</strong>闭包(prepaint, paint), 单闭包的 <code>canvas(move |bounds, _, cx| ...)</code> 配 <code>cx.paint_quad(...)</code> 这种写法 <strong>没有</strong> —— 画矩形是先用 <code>quad(bounds, 圆角, 背景, 边框宽, 边框色, 边框样式)</code> 构造 <code>PaintQuad</code>, 再 <code>window.paint_quad(...)</code> 绘制. 不需要自绘时, 像 <code>list_example</code> 那样用两个 div 拼滚动条更简单.</p>
+<h2 id="154-data_table-大数据表格"><a class="header" href="#154-data_table-大数据表格">15.4 data_table: 大数据表格</a></h2>
+<p><code>data_table</code> 示例是 <code>uniform_list</code> 的实战: 一万行行情数据 + 自绘滚动条. 两个关键技巧:</p>
+<p><strong>Rc 共享数据避免克隆</strong>: 大数据集用 <code>Rc</code> 让所有行引用同一份数据, 每行只克隆引用计数:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::rc::Rc;
+
+struct DataTable {
+    /// 用 Rc 共享同一份行情数据, 避免每行克隆整个结构
+    quotes: Vec&lt;Rc&lt;Quote&gt;&gt;,
+    scroll_handle: UniformListScrollHandle, // 滚动句柄: 自绘滚动条靠它读写位置
+}
+<span class="boring">}</span></code></pre>
+<p><strong>RenderOnce 实现 TableRow</strong>: 行元素只需要渲染一次(数据不可变), 实现 <code>RenderOnce</code>(消费 <code>self</code>)比持有状态的 <code>Render</code>(<code>&amp;mut self</code>)更轻:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[derive(IntoElement)] // 派生 IntoElement, TableRow 可以直接当元素塞进列表
+struct TableRow {
+    ix: usize,
+    quote: Rc&lt;Quote&gt;, // 只持有 Rc 引用, 不拥有数据
+}
+
+impl RenderOnce for TableRow {
+    fn render(self, _window: &amp;mut Window, _cx: &amp;mut App) -&gt; impl IntoElement {
+        let color = self.quote.change_color();
+        div()
+            .flex()                    // 弹性布局: display: flex
+            .flex_row()                // 横向排列: flex-direction: row
+            .border_b_1()              // 底部 1px 边框: border-bottom-width: 1px
+            .border_color(rgb(0xE0E0E0)) // 边框颜色: border-color: #e0e0e0
+            .bg(if self.ix.is_multiple_of(2) {
+                rgb(0xFFFFFF) // 斑马纹偶数行: background-color: #ffffff
+            } else {
+                rgb(0xFAFAFA) // 斑马纹奇数行: background-color: #fafafa
+            })
+            .py_0p5() // 上下内边距: padding-top: 0.125rem; padding-bottom: 0.125rem
+            .px_2()   // 左右内边距: padding-left: 0.5rem; padding-right: 0.5rem
+            .children(FIELDS.map(|(key, width)| self.render_cell(key, px(width), color)))
+    }
+}
+<span class="boring">}</span></code></pre>
+<p>表格体就是 14.1 的 <code>uniform_list</code>, 只是每行换成 <code>TableRow::new(i, quote.clone())</code>(克隆的是 <code>Rc</code>, 不是数据):</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>uniform_list(
+    "items",          // 列表 id
+    self.quotes.len(), // 10000 行
+    cx.processor(move |this, range: Range&lt;usize&gt;, _, _| {
+        this.visible_range = range.clone(); // 顺手记下可见区间, 显示在状态栏
+        let mut items = Vec::with_capacity(range.end - range.start);
+        for i in range {
+            if let Some(quote) = this.quotes.get(i) {
+                items.push(TableRow::new(i, quote.clone()));
+            }
+        }
+        items
+    }),
+)
+.size_full()               // 铺满容器: width: 100%; height: 100%
+.track_scroll(&amp;self.scroll_handle), // 绑定滚动句柄, 自绘滚动条用它读写偏移
+<span class="boring">}</span></code></pre>
+<h2 id="155-uniform_list-vs-list-对比"><a class="header" href="#155-uniform_list-vs-list-对比">15.5 uniform_list vs list 对比</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: left">特性</th><th style="text-align: left">uniform_list</th><th style="text-align: left">list</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: left">行高</td><td style="text-align: left">必须等高(只量第一行)</td><td style="text-align: left">可变高度(逐行测量)</td></tr>
+<tr><td style="text-align: left">回调粒度</td><td style="text-align: left"><code>Range&lt;usize&gt;</code> 一次一批</td><td style="text-align: left"><code>usize</code> 一次一行</td></tr>
+<tr><td style="text-align: left">性能</td><td style="text-align: left">更高(不走完整布局)</td><td style="text-align: left">稍低(每行要测量)</td></tr>
+<tr><td style="text-align: left">适用场景</td><td style="text-align: left">文件列表、数据表格</td><td style="text-align: left">聊天消息、评论、动态内容</td></tr>
+<tr><td style="text-align: left">起排方向</td><td style="text-align: left">默认从上往下, <code>.y_flipped(true)</code> 让第 0 行在底部</td><td style="text-align: left"><code>ListAlignment::Top/Bottom</code></td></tr>
+<tr><td style="text-align: left">状态类型</td><td style="text-align: left"><code>UniformListScrollHandle</code>(可选)</td><td style="text-align: left"><code>ListState</code>(必须)</td></tr>
+<tr><td style="text-align: left">滚动条数据</td><td style="text-align: left">从句柄里自己算</td><td style="text-align: left"><code>max_offset_for_scrollbar()</code> 等现成方法</td></tr>
+</tbody>
+</table>
+</div>
+<p>💡 提示: 行高固定就优先 <code>uniform_list</code>, 它的性能明显更好; 只有真的需要变高行再上 <code>list</code>. 大数据配 <code>Rc</code> 共享 + <code>RenderOnce</code> 行元素, 避免每帧克隆和多余的状态管理.</p>
+<h2 id="156-列表方法速查表"><a class="header" href="#156-列表方法速查表">15.6 列表方法速查表</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: left">类别</th><th style="text-align: left">方法/类型</th><th style="text-align: left">说明</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: left"><strong>构造</strong></td><td style="text-align: left"><code>uniform_list(id, item_count, f)</code></td><td style="text-align: left">等高行虚拟列表</td></tr>
+<tr><td style="text-align: left"><strong>构造</strong></td><td style="text-align: left"><code>list(state, render_item)</code></td><td style="text-align: left">变高行列表</td></tr>
+<tr><td style="text-align: left"><strong>回调</strong></td><td style="text-align: left"><code>cx.processor(|this, range, window, cx| ...)</code></td><td style="text-align: left">带视图状态的列表项生成器</td></tr>
+<tr><td style="text-align: left"><strong>状态</strong></td><td style="text-align: left"><code>UniformListScrollHandle</code></td><td style="text-align: left">uniform_list 滚动句柄</td></tr>
+<tr><td style="text-align: left"><strong>状态</strong></td><td style="text-align: left"><code>ListState::new(n, align, overdraw)</code> <code>.measure_all()</code> <code>.with_uniform_item_height()</code></td><td style="text-align: left">list 状态与测量</td></tr>
+<tr><td style="text-align: left"><strong>ListState 操作</strong></td><td style="text-align: left"><code>reset()</code> <code>splice()</code> <code>remeasure()</code> <code>scroll_to_end()</code> <code>scroll_to_reveal_item()</code></td><td style="text-align: left">增删行与滚动</td></tr>
+<tr><td style="text-align: left"><strong>滚动条</strong></td><td style="text-align: left"><code>max_offset_for_scrollbar()</code> <code>scroll_px_offset_for_scrollbar()</code> <code>viewport_bounds()</code></td><td style="text-align: left">滑块定位数据</td></tr>
+<tr><td style="text-align: left"><strong>滚动句柄</strong></td><td style="text-align: left"><code>.track_scroll(&amp;h)</code> <code>h.scroll_to_item()</code> <code>h.scroll_to_bottom()</code></td><td style="text-align: left">uniform_list 滚动控制</td></tr>
+<tr><td style="text-align: left"><strong>对齐</strong></td><td style="text-align: left"><code>ListAlignment::Top</code> <code>ListAlignment::Bottom</code></td><td style="text-align: left">list 起排方向</td></tr>
+<tr><td style="text-align: left"><strong>行元素</strong></td><td style="text-align: left"><code>impl RenderOnce</code> + <code>#[derive(IntoElement)]</code></td><td style="text-align: left">一次性渲染的轻量行</td></tr>
+<tr><td style="text-align: left"><strong>自绘</strong></td><td style="text-align: left"><code>canvas(prepaint, paint)</code></td><td style="text-align: left">自定义滚动条等</td></tr>
+</tbody>
+</table>
+</div>
+<p>完整示例: <a href="../examples/uniform_list.rs"><code>cargo run --example uniform_list</code></a>(50 行等高列表)、<a href="../examples/list_example.rs"><code>cargo run --example list_example</code></a>(变高行 + 底部对齐 + 自绘滚动条)、<a href="../examples/data_table.rs"><code>cargo run --example data_table</code></a>(10000 行行情表格 + 可拖拽滚动条). 普通滚动容器(不需要虚拟化)见 <a href="../examples/scrollable.rs"><code>cargo run --example scrollable</code></a>.</p>
+<h2 id="157-配套示例"><a class="header" href="#157-配套示例">15.7 配套示例</a></h2>
+<p>本章涉及的示例都在仓库 <a href="../examples/"><code>examples/</code></a> 目录下, 在仓库根目录 <code>cargo run --example &lt;示例名&gt;</code> 运行(桌面 + wasm 双入口):</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: left">示例</th><th style="text-align: left">说明</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: left"><a href="../examples/uniform_list.rs"><code>uniform_list</code></a></td><td style="text-align: left">50 行等高虚拟列表(见 15.1)</td></tr>
+<tr><td style="text-align: left"><a href="../examples/list_example.rs"><code>list_example</code></a></td><td style="text-align: left">变高行 + 底部对齐 + 自绘滚动条(见 15.2、15.3)</td></tr>
+<tr><td style="text-align: left"><a href="../examples/data_table.rs"><code>data_table</code></a></td><td style="text-align: left">10000 行行情表格 + 可拖拽滚动条(见 15.4)</td></tr>
+<tr><td style="text-align: left"><a href="../examples/scrollable.rs"><code>scrollable</code></a></td><td style="text-align: left">不需要虚拟化的普通滚动容器, 垂直 + 水平嵌套</td></tr>
+</tbody>
+</table>
+</div>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="14-global-state.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="16-popover.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="14-global-state.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="16-popover.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+        <script>
+            window.playground_line_numbers = true;
+        </script>
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="ace-2a3cd908.js"></script>
+        <script src="mode-rust-2c9d5c9a.js"></script>
+        <script src="editor-16ca416c.js"></script>
+        <script src="theme-dawn-4493f9c8.js"></script>
+        <script src="theme-tomorrow_night-9dbe62a9.js"></script>
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-609e4cb8.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

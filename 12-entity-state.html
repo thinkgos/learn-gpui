@@ -1,0 +1,467 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Entity 状态管理 - GPUI Book</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-e96d0476.css">
+        <link rel="stylesheet" href="css/chrome-d279d366.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-66d66d0e.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-2a29ad3c.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">GPUI Book</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/thinkgos/learn-gpui" title="Git repository" aria-label="Git repository">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="12-entity-状态管理"><a class="header" href="#12-entity-状态管理">12. Entity 状态管理</a></h1>
+<p>GPUI 用实体(Entity)承载所有可变状态: 视图的字段、列表的数据、拖拽的载荷(见第 11 章)都住在实体里. 本章讲实体的创建、读写、通知、观察和所有权规则 —— 这是理解GPUI数据流的基础.</p>
+<h2 id="121-entity-gpui的核心状态容器"><a class="header" href="#121-entity-gpui的核心状态容器">12.1 Entity: GPUI的核心状态容器</a></h2>
+<p><code>Entity&lt;T&gt;</code> 是GPUI托管状态的类型<strong>安全句柄</strong>: 数据本体由GPUI统一持有, 你手里的句柄只负责引用它. 三个最基本的操作:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: left">操作</th><th style="text-align: left">方法</th><th style="text-align: left">说明</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: left">创建</td><td style="text-align: left"><code>cx.new(|cx| T { ... })</code></td><td style="text-align: left">构造 <code>T</code> 并返回 <code>Entity&lt;T&gt;</code></td></tr>
+<tr><td style="text-align: left">读取</td><td style="text-align: left"><code>entity.read(cx)</code></td><td style="text-align: left">不可变借用, 拿到 <code>&amp;T</code></td></tr>
+<tr><td style="text-align: left">更新</td><td style="text-align: left"><code>entity.update(cx, |data, cx| ...)</code></td><td style="text-align: left">可变借用, 拿到 <code>&amp;mut T</code> 和这个实体的 <code>Context&lt;T&gt;</code></td></tr>
+</tbody>
+</table>
+</div>
+<p>纯数据结构体、自定义视图(实现 <code>Render</code>, 见第 2 章)都可以做成实体, 区别只是视图会被窗口渲染出来.</p>
+<h2 id="122-创建和更新-entity"><a class="header" href="#122-创建和更新-entity">12.2 创建和更新 Entity</a></h2>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct Counter {
+    pub count: i32,
+}
+
+// 创建: 闭包返回初始状态, cx.new 返回句柄
+let counter: Entity&lt;Counter&gt; = cx.new(|_cx| Counter { count: 0 });
+
+// 读取: read 从&amp;App借用, 返回 &amp;Counter
+let current = counter.read(cx).count;
+
+// 更新: 闭包拿到 &amp;mut Counter 和该实体的 Context&lt;T&gt;
+counter.update(cx, |counter, cx| {
+    counter.count += 1;
+    cx.notify(); // 状态变了要通知, 否则界面不动(见 12.4)
+});
+<span class="boring">}</span></code></pre>
+<p><code>Entity</code> 上与读写相关的方法:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: left">方法</th><th style="text-align: left">说明</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: left"><code>entity.read(cx)</code></td><td style="text-align: left">不可变借用 <code>&amp;T</code>,<code>cx</code>收 <code>&amp;App</code></td></tr>
+<tr><td style="text-align: left"><code>entity.read_with(cx, f)</code></td><td style="text-align: left">不可变借用, 并套一层闭包: <code>f(&amp;T, &amp;App) -&gt; R</code></td></tr>
+<tr><td style="text-align: left"><code>entity.update(cx, f)</code></td><td style="text-align: left">可变借用, 并套一层闭包: <code>f(&amp;mut T, &amp;mut Context&lt;T&gt;) -&gt; R</code></td></tr>
+<tr><td style="text-align: left"><code>entity.update_in(cx, f)</code></td><td style="text-align: left">同上, 闭包多收一个 <code>&amp;mut Window</code>(窗口上下文)</td></tr>
+<tr><td style="text-align: left"><code>entity.write(cx, value)</code></td><td style="text-align: left">整体替换值, 并自动 <code>notify</code></td></tr>
+<tr><td style="text-align: left"><code>cx.reserve_entity()</code> + <code>cx.insert_entity()</code></td><td style="text-align: left">先占位拿句柄/实体 id, 稍后再填内容(构建互相引用时用)</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>NOTE</strong>: 创建实体用 <code>cx.new(...)</code>, 生产代码里<strong>没有</strong> <code>cx.new_entity()</code> 这个方法(只在测试专用的 <code>TestAppContext</code> 上有). <code>new</code> 是 <code>AppContext</code> trait 的方法, <code>App</code>、<code>Context&lt;T&gt;</code>、<code>AsyncApp</code> 上都能调 —— 也就是说可以在一个实体的构造闭包里直接创建另一个实体.</p>
+<h2 id="123-cxobserve-观察状态变化"><a class="header" href="#123-cxobserve-观察状态变化">12.3 cx.observe(): 观察状态变化</a></h2>
+<p><code>cx.observe()</code> 订阅另一个实体的「状态变了」通知: 只要被观察的实体调了 <code>cx.notify()</code>, 回调就会被触发. 回调收三个参数: 观察者自己的状态、被观察实体的句柄、观察者的 <code>Context</code>:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct Parent {
+    child: Entity&lt;Child&gt;,
+    child_data: String,
+}
+
+impl Parent {
+    fn new(child: Entity&lt;Child&gt;, cx: &amp;mut Context&lt;Self&gt;) -&gt; Self {
+        cx.observe(&amp;child, |parent, child_entity, cx| {
+            // 被观察的 child 一调 notify 就会进到这里
+            parent.child_data = child_entity.read(cx).value.clone(); // 同步它的数据
+            cx.notify(); // 自己也变了, 通知重绘
+        })
+        .detach(); // 或存进字段, 见下文
+
+        Parent { child, child_data: String::new() }
+    }
+}
+<span class="boring">}</span></code></pre>
+<p><code>observe</code> 返回 <code>Subscription</code>: 它被丢弃时订阅就取消, 所以要么 <code>.detach()</code>(一直有效, 直到被观察实体释放), 要么存进实体字段里续命:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// 存字段: 订阅活多久由实体决定
+_todos_subscription: cx.observe(todos, |_, _, cx| cx.notify()),
+<span class="boring">}</span></code></pre>
+<p>同族方法还有 <code>cx.observe_self()</code>(观察自己)和 <code>cx.observe_release()</code>(实体被释放时收尸).</p>
+<p>💡 提示: 想发「带数据的事件」而不只是「状态变了」, 用 <code>EventEmitter</code> + <code>cx.subscribe()</code>/<code>cx.emit()</code>: 被观察方 <code>cx.emit(事件)</code>, 订阅方收到 <code>(&amp;mut 自己, 发送者句柄, &amp;事件, cx)</code>. <a href="../examples/ownership_post.rs"><code>examples/ownership_post.rs</code></a> 里两个都有.</p>
+<h2 id="124-cxnotify-通知重新渲染"><a class="header" href="#124-cxnotify-通知重新渲染">12.4 cx.notify(): 通知重新渲染</a></h2>
+<p><code>cx.notify()</code> 告诉 GPUI「这个实体的状态变了」, 引发一串连锁反应:</p>
+<ul>
+<li>注册在它身上的观察者(<code>cx.observe</code> 等)被触发, 由观察者决定要不要同步/再 <code>notify</code>;</li>
+<li>引用它的视图被标记为待重绘, 窗口在下一帧重新构建受影响的元素树.</li>
+</ul>
+<p><strong>NOTE</strong>: <code>entity.update(cx, ...)</code> 改字段<strong>不会</strong>自动重绘 —— 忘了调 <code>cx.notify()</code> 界面就不会变, 这是最常见的新手坑. 个别鼠标回调(如 <code>on_drop</code>)看起来“没 notify 也刷新了“, 那是事件派发顺带触发的刷新, 别依赖这种巧合.</p>
+<h2 id="125-cxlistener-类型安全的回调"><a class="header" href="#125-cxlistener-类型安全的回调">12.5 cx.listener(): 类型安全的回调</a></h2>
+<p>GPUI 事件回调的标准形状是 <code>Fn(&amp;E, &amp;mut Window, &amp;mut App)</code>, 里面摸不到自己的状态. <code>cx.listener()</code> 把它补成「先借出自己实体的状态再执行」的闭包, 闭包收四个参数: 自己的状态、事件、window、自己的 <code>Context</code>:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>div()
+    .px_4() // 内边距: padding: 0 1rem
+    .py_2() // 内边距: padding: 0.5rem 0
+    .bg(rgb(0x4040ff)) // 背景色: background-color: #4040ff
+    .rounded_md() // 圆角: border-radius: 6px
+    .child("Move me to a new window")
+    .on_mouse_down(
+        MouseButton::Left,
+        cx.listener(|_this, _, _window, cx| {
+            // 第一个参数是 &amp;mut HelloWorld, 可以随便读写自己的字段
+            cx.emit(MoveToNewWindow); // 在自己的上下文里发事件
+        }),
+    )
+<span class="boring">}</span></code></pre>
+<p>返回值正好是事件回调的形状, 所以能直接递给 <code>on_click</code>、<code>on_drop</code>、<code>on_mouse_down</code> 等一切元素方法.</p>
+<p><strong>NOTE</strong>: listener 闭包收<strong>四个</strong>参数(this、事件、window、cx), <strong>没有</strong> <code>|view, event, cx|</code> 三参数写法 —— 那是旧版GPUI的签名, 现在编译不过. 回调里也要改状态别忘了 <code>cx.notify()</code>.</p>
+<h2 id="126-所有权模型"><a class="header" href="#126-所有权模型">12.6 所有权模型</a></h2>
+<p>GPUI 基于 Rust 所有权设计了自己的托管方式:</p>
+<ul>
+<li><strong>数据本体唯一</strong>: <code>T</code> 的所有权在GPUI的实体表里, 谁都不能直接搬走;</li>
+<li><code>entity.clone()</code> <strong>克隆的是句柄</strong>, 只加引用计数, 不复制数据(类似 <code>Rc</code>);</li>
+<li><strong>读写经由句柄</strong>: <code>read</code> 拿 <code>&amp;T</code>(可多个并存), <code>update</code> 拿 <code>&amp;mut T</code> + <code>Context&lt;T&gt;</code>(独占);</li>
+<li><strong>冲突是运行时检查的</strong>: 同一实体的 <code>update</code> 未结束就再 <code>read</code>/<code>update</code> 会 panic(双租约), 并打出调试位置.</li>
+</ul>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let entity1 = cx.new(|_| MyData { value: 42 });
+let entity2 = entity1.clone(); // 克隆句柄, 数据只有一份
+
+entity2.update(cx, |data, cx| {
+    data.value = 100; // entity1 和 entity2 指向同一份数据
+    cx.notify();
+});
+
+assert_eq!(entity1.read(cx).value, 100); // 两个句柄看到同一份数据
+<span class="boring">}</span></code></pre>
+<p><strong>NOTE</strong>: “借用冲突编译期就能抓到、不会运行时 panic” 这个说法<strong>不成立</strong>. 闭包内的 <code>&amp;T</code>/<code>&amp;mut T</code> 当然受编译器保护, 但跨句柄的读写冲突是GPUI<strong>运行时</strong>租约检查的, 嵌套借用同一实体照样 panic. 真正的线程安全另有一套: 读写都收敛到主线程, 异步任务经 <code>AsyncApp</code> 回来更新(见 12.7).</p>
+<h2 id="127-弱引用-weakentity"><a class="header" href="#127-弱引用-weakentity">12.7 弱引用 WeakEntity</a></h2>
+<p><code>WeakEntity&lt;T&gt;</code> 是不阻止实体释放的弱句柄, 用来打破「订阅/异步任务 ↔ 实体」之间的引用循环. <code>entity.downgrade()</code> 得到弱引用, <code>cx.weak_entity()</code> 拿自己实体的弱引用(如 <code>Context::spawn</code> 的异步闭包里收到的就是它):</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// 降级成弱引用: 不增加强引用计数, 不阻止实体被释放
+let weak: WeakEntity&lt;Counter&gt; = entity.downgrade();
+
+// 使用前升级: 实体可能已经没了, 所以返回 Option
+if let Some(entity) = weak.upgrade() {
+    entity.update(cx, |data, cx| {
+        data.count += 1;
+        cx.notify();
+    });
+}
+
+// 一步到位的弱引用更新: 实体已释放时返回 Err 而不是 panic
+weak.update(cx, |data, cx| {
+    data.count += 1;
+    cx.notify();
+})?;
+<span class="boring">}</span></code></pre>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: left">方法</th><th style="text-align: left">说明</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: left"><code>entity.downgrade()</code></td><td style="text-align: left">强句柄降级为 <code>WeakEntity&lt;T&gt;</code></td></tr>
+<tr><td style="text-align: left"><code>weak.upgrade()</code></td><td style="text-align: left">升回 <code>Entity&lt;T&gt;</code>, 实体已释放则 <code>None</code></td></tr>
+<tr><td style="text-align: left"><code>weak.update(cx, f)</code>/<code>weak.read_with(cx, f)</code></td><td style="text-align: left">弱引用版读写, 返回 <code>Result</code></td></tr>
+<tr><td style="text-align: left"><code>weak.is_upgradable()</code></td><td style="text-align: left">实体是否还活着</td></tr>
+<tr><td style="text-align: left"><code>WeakEntity::new_invalid()</code></td><td style="text-align: left">永远升不了级的占位弱引用</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>NOTE</strong>: <code>upgrade()</code> <strong>没有</strong> cx 参数, 直接返回 <code>Option&lt;Entity&lt;T&gt;&gt;</code>; 检查存活用 <code>is_upgradable()</code>, <strong>没有</strong> <code>weak.is_valid(cx)</code> 这个方法.</p>
+<p><strong>NOTE</strong>: 什么时候用弱引用: 订阅回调、长期存活的异步任务、互相引用的父子实体. 反过来, 短命闭包里直接 <code>clone()</code> 强句柄就好.</p>
+<h2 id="128-entity-vs-rcrefcellt-的优势"><a class="header" href="#128-entity-vs-rcrefcellt-的优势">12.8 <code>Entity</code> vs <code>Rc&lt;RefCell&lt;T&gt;&gt;</code> 的优势</a></h2>
+<p>自己拿 <code>Rc&lt;RefCell&lt;T&gt;&gt;</code> 也能攒状态, 但GPUI的实体和 UI 系统是一体的:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: left">维度</th><th style="text-align: left"><code>Rc&lt;RefCell&lt;T&gt;&gt;</code></th><th style="text-align: left"><code>Entity&lt;T&gt;</code></th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: left">UI 联动</td><td style="text-align: left">手动通知、手动重绘</td><td style="text-align: left"><code>cx.notify()</code> 直接连上观察者和渲染</td></tr>
+<tr><td style="text-align: left">借用冲突</td><td style="text-align: left"><code>borrow_mut</code> 运行时 panic</td><td style="text-align: left">运行时租约检查, panic 带类型名和位置</td></tr>
+<tr><td style="text-align: left">生命周期</td><td style="text-align: left">引用计数归零就丢, 无处挂清理逻辑</td><td style="text-align: left">释放时可挂 <code>on_release</code>/<code>observe_release</code> 回调</td></tr>
+<tr><td style="text-align: left">弱引用</td><td style="text-align: left"><code>Weak&lt;T&gt;</code> + <code>upgrade()</code></td><td style="text-align: left">内建 <code>WeakEntity</code>, 读写直接返回 <code>Result</code></td></tr>
+<tr><td style="text-align: left">异步/跨窗口</td><td style="text-align: left">自己套 <code>Arc&lt;Mutex&lt;&gt;&gt;</code> 传数据</td><td style="text-align: left">句柄可克隆传递, 更新经 <code>AsyncApp</code> 回主线程, 无需加锁</td></tr>
+<tr><td style="text-align: left">类型安全</td><td style="text-align: left">裸数据</td><td style="text-align: left"><code>EntityId</code> + 类型参数, 可按类型派发(拖拽的 TypeId 匹配就是这么做的)</td></tr>
+</tbody>
+</table>
+</div>
+<p>一句话: <code>Entity</code> 不只是容器, 它是把「状态、通知、渲染、生命周期」缝在一起的句柄, 写GPUI程序几乎所有状态都该住在实体里.</p>
+<h2 id="129-entity-方法速查表"><a class="header" href="#129-entity-方法速查表">12.9 Entity 方法速查表</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: left">类别</th><th style="text-align: left">方法</th><th style="text-align: left">说明</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: left"><strong>创建</strong></td><td style="text-align: left"><code>cx.new()</code> <code>cx.reserve_entity()</code> <code>cx.insert_entity()</code></td><td style="text-align: left">创建/先占位后插入</td></tr>
+<tr><td style="text-align: left"><strong>读取</strong></td><td style="text-align: left"><code>entity.read(cx)</code> <code>entity.read_with(cx, f)</code></td><td style="text-align: left">不可变借用</td></tr>
+<tr><td style="text-align: left"><strong>更新</strong></td><td style="text-align: left"><code>entity.update(cx, f)</code> <code>entity.update_in(cx, f)</code> <code>entity.write(cx, v)</code></td><td style="text-align: left">可变借用/带 window/整体替换</td></tr>
+<tr><td style="text-align: left"><strong>通知</strong></td><td style="text-align: left"><code>cx.notify()</code></td><td style="text-align: left">通知观察者并触发重绘</td></tr>
+<tr><td style="text-align: left"><strong>观察</strong></td><td style="text-align: left"><code>cx.observe()</code> <code>cx.observe_self()</code> <code>cx.observe_release()</code></td><td style="text-align: left">监听 notify/自己/释放</td></tr>
+<tr><td style="text-align: left"><strong>事件</strong></td><td style="text-align: left"><code>cx.subscribe()</code> <code>cx.emit()</code></td><td style="text-align: left">类型化事件(<code>EventEmitter</code>)</td></tr>
+<tr><td style="text-align: left"><strong>回调</strong></td><td style="text-align: left"><code>cx.listener()</code></td><td style="text-align: left">事件回调里读写自己的状态</td></tr>
+<tr><td style="text-align: left"><strong>句柄</strong></td><td style="text-align: left"><code>entity.clone()</code> <code>entity.entity_id()</code> <code>cx.entity()</code></td><td style="text-align: left">克隆句柄/取 id/取自己的强句柄</td></tr>
+<tr><td style="text-align: left"><strong>弱引用</strong></td><td style="text-align: left"><code>entity.downgrade()</code> <code>weak.upgrade()</code> <code>weak.update()</code> <code>weak.is_upgradable()</code></td><td style="text-align: left">降级/升级/弱更新/查存活</td></tr>
+<tr><td style="text-align: left"><strong>订阅</strong></td><td style="text-align: left"><code>Subscription::detach()</code> 或存进字段</td><td style="text-align: left">丢弃即取消, 不丢就一直有效</td></tr>
+</tbody>
+</table>
+</div>
+<p>完整示例: <a href="../examples/ownership_post.rs"><code>cargo run --example ownership_post</code></a>(创建、读写、订阅、通知), <a href="../examples/move_entity_between_windows.rs"><code>cargo run --example move_entity_between_windows</code></a>(listener、订阅、实体跨窗口迁移).</p>
+<h2 id="1210-配套示例"><a class="header" href="#1210-配套示例">12.10 配套示例</a></h2>
+<p>本章涉及的示例都在仓库 <a href="../examples/"><code>examples/</code></a> 目录下, 在仓库根目录 <code>cargo run --example &lt;示例名&gt;</code> 运行(桌面 + wasm 双入口):</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: left">示例</th><th style="text-align: left">说明</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: left"><a href="../examples/ownership_post.rs"><code>ownership_post</code></a></td><td style="text-align: left">不开窗口的纯逻辑示例: 创建、读写、订阅、通知, 全程用 assert 验证(见 12.2–12.4)</td></tr>
+<tr><td style="text-align: left"><a href="../examples/move_entity_between_windows.rs"><code>move_entity_between_windows</code></a></td><td style="text-align: left">listener、订阅、实体跨窗口迁移: 点击把实体挪到新窗口, <code>_in</code> 回调仍派发到它当前所在的窗口(见 12.5)</td></tr>
+</tbody>
+</table>
+</div>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="11-dag-drop.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="13-event-pubsub.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="11-dag-drop.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="13-event-pubsub.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+        <script>
+            window.playground_line_numbers = true;
+        </script>
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="ace-2a3cd908.js"></script>
+        <script src="mode-rust-2c9d5c9a.js"></script>
+        <script src="editor-16ca416c.js"></script>
+        <script src="theme-dawn-4493f9c8.js"></script>
+        <script src="theme-tomorrow_night-9dbe62a9.js"></script>
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-609e4cb8.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

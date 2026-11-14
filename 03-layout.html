@@ -1,0 +1,594 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>布局系统 - GPUI Book</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-e96d0476.css">
+        <link rel="stylesheet" href="css/chrome-d279d366.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-66d66d0e.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-2a29ad3c.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">GPUI Book</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/thinkgos/learn-gpui" title="Git repository" aria-label="Git repository">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="3-布局系统"><a class="header" href="#3-布局系统">3. 布局系统</a></h1>
+<p>GPUI的布局引擎是<strong>Taffy</strong>(CSS Flexbox/Grid 规范的Rust实现), 布局概念与CSS基本一致, 但API是<strong>Tailwind</strong>风格的链式方法(定义在 <code>Styled</code> trait 上, <code>div()</code> 天然支持).</p>
+<h2 id="31-长度单位"><a class="header" href="#31-长度单位">3.1 长度单位</a></h2>
+<p>布局 API 接受 4 种长度值:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: left">函数</th><th style="text-align: left">类型</th><th style="text-align: left">含义</th><th style="text-align: left">对应 CSS</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: left"><code>px(n)</code></td><td style="text-align: left">绝对</td><td style="text-align: left">逻辑像素, 自动适配 DPI 缩放</td><td style="text-align: left"><code>px</code></td></tr>
+<tr><td style="text-align: left"><code>rems(n)</code></td><td style="text-align: left">绝对</td><td style="text-align: left">根字号倍数, 默认 1rem = 16px, 跟随GPUI持有的一个基准字号设置<code>window.set_rem_size(...)</code></td><td style="text-align: left"><code>rem</code></td></tr>
+<tr><td style="text-align: left"><code>relative(n)</code></td><td style="text-align: left">相对</td><td style="text-align: left">父容器对应轴的 0.0-1.0 比例</td><td style="text-align: left"><code>%</code></td></tr>
+<tr><td style="text-align: left"><code>auto()</code></td><td style="text-align: left">自动</td><td style="text-align: left">由内容/上下文决定</td><td style="text-align: left"><code>auto</code></td></tr>
+</tbody>
+</table>
+</div>
+<p>类型层次决定哪些方法收哪些值:</p>
+<ul>
+<li><code>AbsoluteLength</code> = <code>px</code> | <code>rems</code> (纯绝对值)</li>
+<li><code>DefiniteLength</code> = 绝对值 | <code>relative(...)</code> (确定值, 不含 auto)</li>
+<li><code>Length</code> = <code>DefiniteLength</code> | <code>auto()</code> (最宽)</li>
+</ul>
+<p>规则: <strong>padding/gap 收 <code>DefiniteLength</code>(不能 auto), margin/宽高/定位偏移收 <code>Length</code>(可 auto)</strong>.</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>div()
+    .w(px(500.0))          // 固定 500px
+    .h(rems(2.0))          // 2rem(默认 32px)
+    .min_w(relative(0.5))  // 最小宽度为父容器的 50%
+    .max_w(auto())         // 最大宽度 auto
+<span class="boring">}</span></code></pre>
+<p><strong>NOTE</strong>:GPUI<strong>没有</strong> <code>fr()</code> 函数. 比例单位是 <code>relative(0.0-1.0)</code>; <code>fr</code> 语义由 <code>flex_1()</code>/<code>grid_cols(n)</code> 这类专用 API 承担. 其他教程里出现的 <code>fr(1.0)</code>/<code>repeat()</code>/<code>minmax()</code> 写法在 zed 的GPUI中编译不过.</p>
+<h2 id="32-flexbox布局"><a class="header" href="#32-flexbox布局">3.2 Flexbox布局</a></h2>
+<p>Flexbox 是GPUI中最常用的布局方式. 通过<code>.flex()</code>启用弹性布局, 然后用方向, 对齐, 间距等修饰方法控制子元素的排列.</p>
+<h3 id="321-flexbox-方向api"><a class="header" href="#321-flexbox-方向api">3.2.1 Flexbox 方向API</a></h3>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>div()
+  .flex()              // display: flex(默认 row 方向)
+  .flex_row()          // flex-direction: row(水平排列, 默认值)
+  .flex_col()          // flex-direction: column(垂直排列)
+  .flex_row_reverse()  // flex-direction: row-reverse
+  .flex_col_reverse()  // flex-direction: column-reverse
+
+// 换行
+.flex_nowrap()         // flex-wrap: nowrap(默认)
+.flex_wrap()           // flex-wrap: wrap
+.flex_wrap_reverse()   // flex-wrap: wrap-reverse
+<span class="boring">}</span></code></pre>
+<h3 id="322-flexbox-对齐api"><a class="header" href="#322-flexbox-对齐api">3.2.2 Flexbox 对齐API</a></h3>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// 交叉轴对齐(align-items)
+.items_start()      // align-items: flex-start
+.items_center()     // align-items: center
+.items_end()        // align-items: flex-end
+.items_baseline()   // align-items: baseline
+.items_stretch()    // align-items: stretch
+
+// 单个子元素覆盖交叉轴对齐(align-self)
+.self_start()       // align-self: flex-start
+.self_center()      // align-self: center
+.self_end()         // align-self: flex-end
+.self_baseline()    // align-self: baseline
+.self_stretch()     // align-self: stretch
+
+// 主轴对齐(justify-content)
+.justify_start()    // justify-content: flex-start
+.justify_center()   // justify-content: center
+.justify_end()      // justify-content: flex-end
+.justify_between()  // justify-content: space-between
+.justify_around()   // justify-content: space-around
+.justify_evenly()   // justify-content: space-evenly
+
+// 多行对齐(align-content, 只在多行 flex 中有意义)
+.content_normal()   // align-content: normal
+.content_start()    // align-content: flex-start
+.content_center()   // align-content: center
+.content_end()      // align-content: flex-end
+.content_between()  // align-content: space-between
+.content_around()   // align-content: space-around
+.content_evenly()   // align-content: space-evenly
+.content_stretch()  // align-content: stretch
+<span class="boring">}</span></code></pre>
+<h3 id="323-flexbox-间距与弹性-api"><a class="header" href="#323-flexbox-间距与弹性-api">3.2.3 Flexbox 间距与弹性 API</a></h3>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// 子元素间距
+.gap(px(8.0))       // gap: 8px(行和列)
+.gap_x(px(8.0))     // column-gap: 8px
+.gap_y(px(8.0))     // row-gap: 8px
+
+// 弹性简写(子元素上使用)
+.flex_1()           // flex: 1 1 0%(等分剩余空间, 忽略自身内容宽度)
+.flex_auto()        // flex: 1 1 auto(可伸可缩, 基准为内容宽度)
+.flex_initial()     // flex: 0 1 auto(默认, 可收缩不可拉伸)
+.flex_none()        // flex: 0 0 auto(完全固定)
+
+// 弹性细分(子元素上使用)
+.flex_basis(px(120.0))  // flex-basis: 120px
+.flex_grow(1.0)         // flex-grow: 1
+.flex_grow_0()          // flex-grow: 0
+.flex_grow_1()          // flex-grow: 1
+.flex_shrink(1.0)       // flex-shrink: 1
+.flex_shrink_0()        // flex-shrink: 0(禁止收缩)
+.flex_shrink_1()        // flex-shrink: 1
+<span class="boring">}</span></code></pre>
+<blockquote>
+<p>💡 提示: <code>flex_1()</code> 和 <code>flex_auto()</code> 的区别
+两者都会拉伸占满剩余空间, 但基准不同: <code>flex_1()</code> 的 <code>flex-basis: 0%</code> 表示<strong>无视自身内容宽度</strong>, 空间完全按 grow 系数等分(做等宽导航栏用它); <code>flex_auto()</code> 的 <code>flex-basis: auto</code> 表示<strong>先按内容宽度分配</strong>, 剩余空间再按 grow 系数分(做内容不等长的工具栏用它).</p>
+</blockquote>
+<h2 id="33-css-grid-布局"><a class="header" href="#33-css-grid-布局">3.3 CSS Grid 布局</a></h2>
+<p>CSS Grid 适用于二维布局(同时控制行和列). 本版GPUI的 Grid API 是简化版: <strong>轨道按数量统一生成(默认等分)</strong>, 不支持自定义轨道列表.</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>div()
+    .grid()             // display: grid
+    .grid_rows(3)       // grid-template-rows: repeat(3, minmax(0, 1fr)) -&gt; 3 行等分
+    .grid_cols(2)       // grid-template-columns: repeat(2, minmax(0, 1fr)) -&gt; 2 列等分
+    .gap(px(16.0))      // gap: 16px
+<span class="boring">}</span></code></pre>
+<p>轨道生成规则(内部映射到 taffy):</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: left">方法</th><th style="text-align: left">内部语义</th><th style="text-align: left">说明</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: left"><code>grid_rows(n)</code></td><td style="text-align: left"><code>repeat(n, minmax(0, 1fr))</code></td><td style="text-align: left">n 行等分</td></tr>
+<tr><td style="text-align: left"><code>grid_rows_min_content(n)</code></td><td style="text-align: left"><code>repeat(n, minmax(min-content, 1fr))</code></td><td style="text-align: left">行不收缩到小于内容高度</td></tr>
+<tr><td style="text-align: left"><code>grid_rows_max_content(n)</code></td><td style="text-align: left"><code>repeat(n, minmax(0, max-content))</code></td><td style="text-align: left">行按内容高度撑开</td></tr>
+<tr><td style="text-align: left"><code>grid_cols(n)</code></td><td style="text-align: left"><code>repeat(n, minmax(0, 1fr))</code></td><td style="text-align: left">n 列等分</td></tr>
+<tr><td style="text-align: left"><code>grid_cols_min_content(n)</code></td><td style="text-align: left"><code>repeat(n, minmax(min-content, 1fr))</code></td><td style="text-align: left">列不收缩到小于内容宽度</td></tr>
+<tr><td style="text-align: left"><code>grid_cols_max_content(n)</code></td><td style="text-align: left"><code>repeat(n, minmax(0, max-content))</code></td><td style="text-align: left">列按内容宽度撑开</td></tr>
+</tbody>
+</table>
+</div>
+<p>放置API(在 grid 子项上使用):</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: left">方法</th><th style="text-align: left">说明</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: left"><code>col_start(n)</code>/<code>col_start_auto()</code></td><td style="text-align: left">起始列线</td></tr>
+<tr><td style="text-align: left"><code>col_end(n)</code>/<code>col_end_auto()</code></td><td style="text-align: left">结束列线</td></tr>
+<tr><td style="text-align: left"><code>col_span(n)</code>/<code>col_span_full()</code></td><td style="text-align: left">跨 n 列/跨满整行</td></tr>
+<tr><td style="text-align: left"><code>row_start(n)</code>/<code>row_start_auto()</code></td><td style="text-align: left">起始行线</td></tr>
+<tr><td style="text-align: left"><code>row_end(n)</code>/<code>row_end_auto()</code></td><td style="text-align: left">结束行线</td></tr>
+<tr><td style="text-align: left"><code>row_span(n)</code>/<code>row_span_full()</code></td><td style="text-align: left">跨 n 行/跨满整列</td></tr>
+</tbody>
+</table>
+</div>
+<p>示例: 2x2 仪表盘, 右侧卡片跨两行:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>div()
+    .size_full()
+    .grid()
+    .grid_rows(2) // 2 行等分
+    .grid_cols(2) // 2 列等分
+    .gap(px(16.0))
+    .child(card("CPU"))
+    .child(card("内存").row_span(2)) // 右侧跨两行
+    .child(card("磁盘"))
+<span class="boring">}</span></code></pre>
+<p><strong>NOTE</strong>: “圣杯布局”(顶栏 auto + 主区域 1fr + 底栏 auto)这类<strong>不等高行</strong>用 Grid 表达不了(轨道整组同一规则, 无法逐条混排 auto/1fr/定高), 应该用 Flex 纵向嵌套:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>div()
+    .size_full()
+    .flex()
+    .flex_col()
+    .child(topbar.h(px(48.0)))    // 定高顶栏
+    .child(
+        div()
+            .flex()
+            .flex_1()             // 主区域吃掉剩余空间
+            .child(sidebar.w(px(240.0)))  // 定宽侧栏
+            .child(main.flex_1()),       // 主内容弹性
+    )
+    .child(bottombar.h(px(32.0))) // 定高底栏
+<span class="boring">}</span></code></pre>
+<h2 id="34-定位系统"><a class="header" href="#34-定位系统">3.4 定位系统</a></h2>
+<p>GPUI 支持 CSS 的 position 模型中的两种: <code>.relative()</code>(相对定位)和 <code>.absolute()</code>(绝对定位). 绝对定位的元素相对于最近的 <code>.relative()</code>/<code>.absolute()</code> 祖先定位.</p>
+<p><strong>NOTE</strong>:GPUI<strong>没有</strong> <code>.fixed()</code> 方法(底层 taffy 支持, 但 <code>Styled</code> trait 未导出). 全屏遮罩/浮层的常规做法是 <code>absolute</code> + 四边偏移拉满.</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// 定位模式
+.relative()            // position: relative
+.absolute()            // position: absolute
+
+// 偏移量(配合 absolute/relative 使用, 可为负值)
+.inset(px(0.0))       // 同时设置 top/right/bottom/left
+.top(px(0.0))         // top: 0
+.left(px(0.0))        // left: 0
+.right(px(0.0))       // right: 0
+.bottom(px(0.0))      // bottom: 0
+.top_auto()           // top: auto
+.left(px(-4.0))       // 负偏移: 常用于徽标溢出角(简写 .left_neg_1())
+<span class="boring">}</span></code></pre>
+<p>典型用法: 全屏覆盖层</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>div()
+    .relative()             // 作为定位参考
+    .size_full()
+    .child(
+        div()
+            .absolute()         // 绝对定位
+            .inset(px(0.0))     // 四边拉满
+            .bg(rgba(0x00000080)), // 半透明黑色遮罩
+    )
+<span class="boring">}</span></code></pre>
+<p><strong>NOTE</strong>: <code>rgba()</code> <strong>没有</strong> <code>rgba(色值, 透明度)</code> 这种两参数写法, 它只收一个 8 位十六进制常量(红绿蓝 alpha 各 8 位), 如 <code>rgba(0x00000080)</code> 是 50% 透明的黑. 要单独调透明度用 <code>color.alpha(0.5)</code>.</p>
+<h2 id="35-间距系统"><a class="header" href="#35-间距系统">3.5 间距系统</a></h2>
+<p>GPUI 提供完整的 <code>padding</code>(内边距)和 <code>margin</code>(外边距)控制, 与 CSS 的简写规则一致.</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Padding(内边距, 不支持 auto)
+.p(px(16.0))     // padding: 16px(四边)
+.px(px(16.0))    // padding-left + padding-right: 16px
+.py(px(8.0))     // padding-top + padding-bottom: 8px
+.pt(px(8.0))     // padding-top: 8px
+.pr(px(8.0))     // padding-right: 8px
+.pb(px(8.0))     // padding-bottom: 8px
+.pl(px(8.0))     // padding-left: 8px
+
+// Margin(外边距, 支持 auto)
+.m(px(16.0))     // margin: 16px
+.mx(px(16.0))    // margin-left + margin-right: 16px
+.my(px(8.0))     // margin-top + margin-bottom: 8px
+.mt(px(8.0))     // margin-top: 8px
+.mr(px(8.0))     // margin-right: 8px
+.mb(px(8.0))     // margin-bottom: 8px
+.ml(px(8.0))     // margin-left: 8px
+.mx(auto())      // margin-left/right: auto(水平居中经典手法)
+
+// Gap(子元素间距, Flex/Grid 容器上使用)
+.gap(px(8.0))     // gap: 8px
+<span class="boring">}</span></code></pre>
+<p><strong>NOTE</strong>: <code>.px()</code> 方法是“水平 padding“, 而 <code>px()</code> 函数是“像素单位“ – 同名不同物. <code>.px(px(16.0))</code> 里两个 <code>px</code> 含义完全不同, 初学容易看晕.</p>
+<h2 id="36-尺寸控制"><a class="header" href="#36-尺寸控制">3.6 尺寸控制</a></h2>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// 同时设置宽高
+.size(px(500.0))       // width: 500px; height: 500px
+.size(relative(1.0))   // width: 100%; height: 100%
+
+// 单独设置宽/高
+.w(px(500.0))          // width: 500px
+.h(px(300.0))          // height: 300px
+.w(auto())             // width: auto
+.min_w(px(100.0))      // min-width: 100px
+.min_h(px(100.0))      // min-height: 100px
+.max_w(px(800.0))      // max-width: 800px
+.max_h(px(600.0))      // max-height: 600px
+
+// 同时设置最小/最大宽高
+.min_size(px(100.0))   // min-width + min-height
+.max_size(px(800.0))   // max-width + max-height
+
+// 百分比/全屏
+.w_full()              // width: 100%(等价于 .w(relative(1.0)))
+.h_full()              // height: 100%
+.min_w_full()          // min-width: 100%
+.min_h_full()          // min-height: 100%
+<span class="boring">}</span></code></pre>
+<blockquote>
+<p>💡 提示: <code>px()</code> vs <code>relative()</code> 的区别
+<code>px(n)</code> 表示固定像素值, 在任何布局中都生效. <code>relative(n)</code> 表示父容器对应轴的比例(0.0-1.0), <code>relative(1.0)</code> = 100%. 而 flex 的“按比例分配剩余空间“不走这两个函数, 用 <code>flex_1()</code>/<code>flex_grow(n)</code> 或 Grid 的 <code>grid_cols(n)</code> 表达.</p>
+</blockquote>
+<h2 id="37-tailwind-数值简写"><a class="header" href="#37-tailwind-数值简写">3.7 Tailwind 数值简写</a></h2>
+<p>所有 padding/margin/gap/宽高/偏移方法都有一套<strong>数值后缀</strong>简写, 遵循 Tailwind 的间距刻度(数值 n 约等于 4n px), 不用传 <code>px()</code>:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: left">简写</th><th style="text-align: left">实际值</th><th style="text-align: left">简写</th><th style="text-align: left">实际值</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: left"><code>*_0()</code></td><td style="text-align: left">0px</td><td style="text-align: left"><code>*_6()</code></td><td style="text-align: left">24px</td></tr>
+<tr><td style="text-align: left"><code>*_0p5()</code></td><td style="text-align: left">2px</td><td style="text-align: left"><code>*_8()</code></td><td style="text-align: left">32px</td></tr>
+<tr><td style="text-align: left"><code>*_1()</code></td><td style="text-align: left">4px</td><td style="text-align: left"><code>*_10()</code></td><td style="text-align: left">40px</td></tr>
+<tr><td style="text-align: left"><code>*_1p5()</code></td><td style="text-align: left">6px</td><td style="text-align: left"><code>*_12()</code></td><td style="text-align: left">48px</td></tr>
+<tr><td style="text-align: left"><code>*_2()</code></td><td style="text-align: left">8px</td><td style="text-align: left"><code>*_16()</code></td><td style="text-align: left">64px</td></tr>
+<tr><td style="text-align: left"><code>*_2p5()</code></td><td style="text-align: left">10px</td><td style="text-align: left"><code>*_20()</code></td><td style="text-align: left">80px</td></tr>
+<tr><td style="text-align: left"><code>*_3()</code></td><td style="text-align: left">12px</td><td style="text-align: left"><code>*_24()</code></td><td style="text-align: left">96px</td></tr>
+<tr><td style="text-align: left"><code>*_4()</code></td><td style="text-align: left">16px</td><td style="text-align: left"><code>*_32()</code></td><td style="text-align: left">128px</td></tr>
+<tr><td style="text-align: left"><code>*_5()</code></td><td style="text-align: left">20px</td><td style="text-align: left"></td><td style="text-align: left"></td></tr>
+</tbody>
+</table>
+</div>
+<p>此外还有三个特殊后缀和负值变体:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: left">简写</th><th style="text-align: left">实际值</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: left"><code>*_auto()</code></td><td style="text-align: left">auto(仅 margin/宽高/偏移, padding/gap 不支持)</td></tr>
+<tr><td style="text-align: left"><code>*_full()</code></td><td style="text-align: left">100%(宽高), 9999px(圆角)</td></tr>
+<tr><td style="text-align: left"><code>*_px()</code></td><td style="text-align: left">1px(仅 padding/margin/gap/宽高/偏移等 box 方法, 边框宽度不走这套)</td></tr>
+<tr><td style="text-align: left"><code>*_neg_2()</code> 等</td><td style="text-align: left">对应负值 -8px</td></tr>
+</tbody>
+</table>
+</div>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>div()
+    .p_4()             // padding: 16px
+    .px_2()            // padding-left/right: 8px
+    .gap_2()           // gap: 8px
+    .mt_neg_1()        // margin-top: -4px
+    .min_w_24()        // min-width: 96px
+<span class="boring">}</span></code></pre>
+<h2 id="38-布局方法速查表"><a class="header" href="#38-布局方法速查表">3.8 布局方法速查表</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: left">类别</th><th style="text-align: left">方法</th><th style="text-align: left">对应 CSS</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: left"><strong>长度单位</strong></td><td style="text-align: left"><code>px()</code> <code>rems()</code> <code>relative()</code> <code>auto()</code></td><td style="text-align: left"><code>px</code> <code>rem</code> <code>%</code> <code>auto</code></td></tr>
+<tr><td style="text-align: left"><strong>Flex 方向</strong></td><td style="text-align: left"><code>.flex()</code> <code>.flex_row()</code> <code>.flex_col()</code> <code>.flex_wrap()</code></td><td style="text-align: left"><code>display</code>, <code>flex-direction</code>, <code>flex-wrap</code></td></tr>
+<tr><td style="text-align: left"><strong>对齐</strong></td><td style="text-align: left"><code>.items_center()</code> <code>.justify_between()</code> <code>.self_center()</code> <code>.content_start()</code></td><td style="text-align: left"><code>align-items</code>, <code>justify-content</code>, <code>align-self</code>, <code>align-content</code></td></tr>
+<tr><td style="text-align: left"><strong>弹性</strong></td><td style="text-align: left"><code>.flex_1()</code> <code>.flex_auto()</code> <code>.flex_none()</code> <code>.flex_grow()</code> <code>.flex_shrink_0()</code></td><td style="text-align: left"><code>flex</code>, <code>flex-grow</code>, <code>flex-shrink</code></td></tr>
+<tr><td style="text-align: left"><strong>Grid</strong></td><td style="text-align: left"><code>.grid()</code> <code>.grid_rows()</code> <code>.grid_cols()</code> <code>.col_span()</code> <code>.row_span()</code></td><td style="text-align: left"><code>display:grid</code>, <code>grid-template-*</code>, <code>grid-column</code>, <code>grid-row</code></td></tr>
+<tr><td style="text-align: left"><strong>定位</strong></td><td style="text-align: left"><code>.absolute()</code> <code>.relative()</code> <code>.inset()</code> <code>.top()</code> <code>.left()</code></td><td style="text-align: left"><code>position</code>, <code>top</code>, <code>left</code></td></tr>
+<tr><td style="text-align: left"><strong>间距</strong></td><td style="text-align: left"><code>.p()</code> <code>.px()</code> <code>.py()</code> <code>.pt()</code> <code>.m()</code> <code>.mt()</code> <code>.gap()</code></td><td style="text-align: left"><code>padding</code>, <code>margin</code>, <code>gap</code></td></tr>
+<tr><td style="text-align: left"><strong>尺寸</strong></td><td style="text-align: left"><code>.size()</code> <code>.w()</code> <code>.h()</code> <code>.w_full()</code> <code>.min_w()</code> <code>.max_h()</code></td><td style="text-align: left"><code>width</code>, <code>height</code>, <code>min/max-*</code></td></tr>
+<tr><td style="text-align: left"><strong>数值简写</strong></td><td style="text-align: left"><code>.p_4()</code> <code>.gap_2()</code> <code>.mt_neg_1()</code> <code>.w_full()</code></td><td style="text-align: left">Tailwind 间距刻度</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="39-配套示例"><a class="header" href="#39-配套示例">3.9 配套示例</a></h2>
+<p>本章涉及的示例都在仓库 <a href="../examples/"><code>examples/</code></a> 目录下, 在仓库根目录 <code>cargo run --example &lt;示例名&gt;</code> 运行(桌面 + wasm 双入口):</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: left">示例</th><th style="text-align: left">说明</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: left"><a href="../examples/grid_layout.rs"><code>grid_layout</code></a></td><td style="text-align: left">经典圣杯布局(顶部/底部 + 三栏); 拖动窗口宽度体验 <code>container_query</code> 响应式折叠(宽于 400px 三栏, 窄于 400px 单列), 同时演示 <code>grid_cols</code>/<code>grid_rows</code>/<code>col_span</code>/<code>row_span</code></td></tr>
+</tbody>
+</table>
+</div>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="02-core-concept.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="04-style-appearance.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="02-core-concept.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="04-style-appearance.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+        <script>
+            window.playground_line_numbers = true;
+        </script>
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="ace-2a3cd908.js"></script>
+        <script src="mode-rust-2c9d5c9a.js"></script>
+        <script src="editor-16ca416c.js"></script>
+        <script src="theme-dawn-4493f9c8.js"></script>
+        <script src="theme-tomorrow_night-9dbe62a9.js"></script>
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-609e4cb8.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

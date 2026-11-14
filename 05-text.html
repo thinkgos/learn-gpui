@@ -1,0 +1,633 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>文字和排版 - GPUI Book</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-e96d0476.css">
+        <link rel="stylesheet" href="css/chrome-d279d366.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-66d66d0e.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-2a29ad3c.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">GPUI Book</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/thinkgos/learn-gpui" title="Git repository" aria-label="Git repository">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="5-文字和排版"><a class="header" href="#5-文字和排版">5. 文字和排版</a></h1>
+<p>文字样式和布局样式一样, 都是 <code>Styled</code> trait 上的 Tailwind 风格方法. 与 CSS 一致, 文字属性(字号、颜色、字重等)写在容器上会<strong>继承</strong>给子元素, 所以常见做法是在父 <code>div</code> 上设一套基础排版, 子元素只写差异部分.</p>
+<p>文字内容本身有三种常见写法:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: left">写法</th><th style="text-align: left">适用场景</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: left"><code>.child("字符串")</code></td><td style="text-align: left">普通文字, 最简单</td></tr>
+<tr><td style="text-align: left"><code>text!("...")</code></td><td style="text-align: left">需要无障碍(accessibility)语义的文字节点</td></tr>
+<tr><td style="text-align: left"><code>StyledText::new(...)</code></td><td style="text-align: left">富文本: 一段文字里混多样式(见 5.4)</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="51-基本文字属性"><a class="header" href="#51-基本文字属性">5.1 基本文字属性</a></h2>
+<p>GPUI 提供了一组简洁的修饰符来控制文本的外观:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: left">修饰符</th><th style="text-align: left">说明</th><th style="text-align: left">等价 CSS</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: left"><code>.text_size()</code></td><td style="text-align: left">设置字号</td><td style="text-align: left"><code>font-size</code></td></tr>
+<tr><td style="text-align: left"><code>.text_color()</code></td><td style="text-align: left">设置文字颜色</td><td style="text-align: left"><code>color</code></td></tr>
+<tr><td style="text-align: left"><code>.font_weight()</code></td><td style="text-align: left">设置字重</td><td style="text-align: left"><code>font-weight</code></td></tr>
+<tr><td style="text-align: left"><code>.italic()</code></td><td style="text-align: left">斜体</td><td style="text-align: left"><code>font-style: italic</code></td></tr>
+<tr><td style="text-align: left"><code>.line_height()</code></td><td style="text-align: left">行高</td><td style="text-align: left"><code>line-height</code></td></tr>
+<tr><td style="text-align: left"><code>.text_bg()</code></td><td style="text-align: left">文字自身的底色</td><td style="text-align: left">文字行的 <code>background-color</code></td></tr>
+</tbody>
+</table>
+</div>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>div()
+    .flex()      // 弹性布局：display: flex
+    .flex_col()  // 纵向排列：flex-direction: column
+    .child(
+        div()
+            .text_size(px(24.0))               // 字号：font-size: 24px
+            .font_weight(FontWeight::BOLD)     // 粗体：font-weight: 700
+            .text_color(rgb(0x7c3aed))         // 文字颜色：color: #7c3aed
+            .child("大号加粗文字"),            // 普通字符串子元素
+    )
+    .child(
+        div()
+            .italic()                          // 斜体：font-style: italic
+            .text_size(px(16.0))               // 字号：font-size: 16px
+            .child("斜体文字"),
+    )
+    .child(
+        div()
+            .text_size(px(14.0))               // 字号：font-size: 14px
+            .text_color(rgb(0x666666))         // 文字颜色：color: #666666
+            .child("普通文字"),
+    )
+<span class="boring">}</span></code></pre>
+<h3 id="511-字号简写"><a class="header" href="#511-字号简写">5.1.1 字号简写</a></h3>
+<p><code>text_size()</code> 收任意长度, 另有一套 Tailwind 风格字号简写(不收参数):</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: left">简写</th><th style="text-align: right">rem</th><th style="text-align: right">像素(<strong>1rem = 16px</strong>)</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: left"><code>text_xs()</code></td><td style="text-align: right">0.75rem</td><td style="text-align: right">12px</td></tr>
+<tr><td style="text-align: left"><code>text_sm()</code></td><td style="text-align: right">0.875rem</td><td style="text-align: right">14px</td></tr>
+<tr><td style="text-align: left"><code>text_base()</code></td><td style="text-align: right">1rem</td><td style="text-align: right">16px</td></tr>
+<tr><td style="text-align: left"><code>text_lg()</code></td><td style="text-align: right">1.125rem</td><td style="text-align: right">18px</td></tr>
+<tr><td style="text-align: left"><code>text_xl()</code></td><td style="text-align: right">1.25rem</td><td style="text-align: right">20px</td></tr>
+<tr><td style="text-align: left"><code>text_2xl()</code></td><td style="text-align: right">1.5rem</td><td style="text-align: right">24px</td></tr>
+<tr><td style="text-align: left"><code>text_3xl()</code></td><td style="text-align: right">1.875rem</td><td style="text-align: right">30px</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="512-字重-fontweight"><a class="header" href="#512-字重-fontweight">5.1.2 字重 FontWeight</a></h3>
+<p><code>FontWeight</code> 是取值 100~900 的数值类型(不是枚举), 提供九个常用常量:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: left">常量</th><th style="text-align: right">值</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: left"><code>FontWeight::THIN</code></td><td style="text-align: right">100</td></tr>
+<tr><td style="text-align: left"><code>FontWeight::EXTRA_LIGHT</code></td><td style="text-align: right">200</td></tr>
+<tr><td style="text-align: left"><code>FontWeight::LIGHT</code></td><td style="text-align: right">300</td></tr>
+<tr><td style="text-align: left"><code>FontWeight::NORMAL</code></td><td style="text-align: right">400(默认)</td></tr>
+<tr><td style="text-align: left"><code>FontWeight::MEDIUM</code></td><td style="text-align: right">500</td></tr>
+<tr><td style="text-align: left"><code>FontWeight::SEMIBOLD</code></td><td style="text-align: right">600</td></tr>
+<tr><td style="text-align: left"><code>FontWeight::BOLD</code></td><td style="text-align: right">700</td></tr>
+<tr><td style="text-align: left"><code>FontWeight::EXTRA_BOLD</code></td><td style="text-align: right">800</td></tr>
+<tr><td style="text-align: left"><code>FontWeight::BLACK</code></td><td style="text-align: right">900</td></tr>
+</tbody>
+</table>
+</div>
+<p>任意数值都能直接构造: <code>FontWeight::from(650.0)</code>(可变字重字体才有意义).</p>
+<h3 id="513-行高-line_height"><a class="header" href="#513-行高-line_height">5.1.3 行高 line_height</a></h3>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>div()
+    .line_height(relative(1.5)) // 行高是字号的 1.5 倍：line-height: 1.5
+    .line_height(px(24.0))      // 或固定 24 像素：line-height: 24px
+<span class="boring">}</span></code></pre>
+<p><code>relative(1.5)</code> 这种无单位倍数和 CSS 的 <code>line-height: 1.5</code> 是一回事; 传 <code>px()</code>/<code>rems()</code> 则是绝对行高.</p>
+<h3 id="514-文字底色-text_bg"><a class="header" href="#514-文字底色-text_bg">5.1.4 文字底色 text_bg</a></h3>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>div().text_bg(gpui::yellow()) // 给文字行本身上底色(语法高亮常用)
+<span class="boring">}</span></code></pre>
+<p><code>text_bg()</code> 作用于<strong>文字行</strong>, <code>.bg()</code> 作用于<strong>整个盒子</strong>, 两者不同.</p>
+<p>💡 提示: 文字样式会继承 —— <code>.text_color()</code>/<code>.font_weight()</code> 等写在容器 div 上, 里面所有文字子元素都跟着变. 但注意这是<strong>样式继承</strong>, 不是 CSS 的层叠(cascade): 写在子元素上的样式只会覆盖父容器同名项.</p>
+<h2 id="52-文本溢出处理"><a class="header" href="#52-文本溢出处理">5.2 文本溢出处理</a></h2>
+<p>当文本超出容器边界时,GPUI提供了多种溢出处理方式:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: left">方法</th><th style="text-align: left">说明</th><th style="text-align: left">等价 CSS</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: left"><code>text_ellipsis()</code></td><td style="text-align: left">单行省略, 超出部分显示为 …</td><td style="text-align: left"><code>text-overflow: ellipsis</code></td></tr>
+<tr><td style="text-align: left"><code>text_ellipsis_start()</code></td><td style="text-align: left">省略开头、保留结尾(路径类文本)</td><td style="text-align: left">GPUI扩展</td></tr>
+<tr><td style="text-align: left"><code>text_ellipsis_middle()</code></td><td style="text-align: left">省略中间、保留头尾(文件名类)</td><td style="text-align: left">GPUI扩展</td></tr>
+<tr><td style="text-align: left"><code>truncate()</code></td><td style="text-align: left">单行截断 + 省略号, 三合一</td><td style="text-align: left"><code>overflow: hidden</code> + <code>white-space: nowrap</code> + <code>text-overflow: ellipsis</code></td></tr>
+<tr><td style="text-align: left"><code>line_clamp(n)</code></td><td style="text-align: left">多行省略, 最多 n 行</td><td style="text-align: left"><code>-webkit-line-clamp: n</code></td></tr>
+<tr><td style="text-align: left"><code>text_overflow(overflow)</code></td><td style="text-align: left">自定义截断标记</td><td style="text-align: left">GPUI扩展(见下)</td></tr>
+<tr><td style="text-align: left"><code>whitespace_nowrap()</code></td><td style="text-align: left">禁止换行, 强制单行</td><td style="text-align: left"><code>white-space: nowrap</code></td></tr>
+<tr><td style="text-align: left"><code>whitespace_normal()</code></td><td style="text-align: left">恢复自动换行(默认)</td><td style="text-align: left"><code>white-space: normal</code></td></tr>
+</tbody>
+</table>
+</div>
+<p>几个组合的典型用法:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// 1. 三合一快捷方式: 单行截断 + 省略号
+div().truncate().child(long_text)
+// 等价于依次调用 overflow_hidden() + whitespace_nowrap() + text_ellipsis()
+
+// 2. 多行省略: line_clamp(n) 只负责"最多 n 行 + 裁掉"
+//    想在截断处出现 …, 还要配一个 text_ellipsis()
+div().line_clamp(2).text_ellipsis().child(long_text)
+
+// 3. 自定义截断标记(截断标记是字符串)
+div().text_overflow(TextOverflow::Truncate("".into()))       // 空标记 = 直接裁掉, 什么都不显示
+div().text_overflow(TextOverflow::TruncateStart("…".into())) // 从头部截, 标记补在开头
+div().text_overflow(TextOverflow::TruncateMiddle("…".into())) // 从中间截, 头尾都保留
+<span class="boring">}</span></code></pre>
+<p><strong>NOTE</strong>: 和 CSS 不同, <code>text_ellipsis()</code> 在GPUI里**自带“截成单行“**的效果, 不需要再配 <code>whitespace_nowrap()</code>. 另外 <code>line_clamp(n)</code> 本身只裁不加省略号, 配合 <code>text_ellipsis()</code> 才会在截断处显示<code>…</code>.</p>
+<p><strong>NOTE</strong>: <code>TextOverflow</code> 是枚举, 三个变体 <code>Truncate(marker)</code>/<code>TruncateStart(marker)</code>/<code>TruncateMiddle(marker)</code> 分别是尾部、头部、中间截断, 其中 <code>marker</code> 就是截断处显示的字符串(<code>"…"</code> 是省略号, <code>""</code> 是硬裁切).</p>
+<blockquote>
+<p>💡 提示: flex 布局里的截断
+flex 子项默认会被压缩, 演示/使用截断时给盒子加 <code>.flex_shrink_0()</code>, 否则“被压扁“会盖过“被截断“. 不同类型文本的断行表现也值得知道: 超长英文单词不会从词中间断开, 中日韩逐字断行, URL 会在内部标点处断开. 完整对照跑 <a href="../examples/text_wrapper.rs"><code>cargo run --example text_wrapper</code></a>.</p>
+</blockquote>
+<h2 id="53-文本装饰与对齐"><a class="header" href="#53-文本装饰与对齐">5.3 文本装饰与对齐</a></h2>
+<h3 id="531-下划线与删除线"><a class="header" href="#531-下划线与删除线">5.3.1 下划线与删除线</a></h3>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>div().underline()    // 下划线：text-decoration-line: underline
+div().line_through() // 删除线：text-decoration-line: line-through
+
+// 下划线的粗细、颜色、线型可以继续调: 
+.underline()
+.text_decoration_2()                 // 线宽 2px(0/1/2/4/8 五档)：text-decoration-thickness: 2px
+.text_decoration_color(gpui::red())  // 线的颜色：text-decoration-color: #ff0000
+.text_decoration_wavy()              // 波浪线(拼写检查风格)：text-decoration-style: wavy
+.text_decoration_solid()             // 实线(默认)：text-decoration-style: solid
+
+.text_decoration_none()              // 去掉下划线：text-decoration: none
+<span class="boring">}</span></code></pre>
+<p><strong>NOTE</strong>: <code>text_decoration_0()</code>/<code>_1()</code>/<code>_2()</code>/<code>_4()</code>/<code>_8()</code> 编码的是<strong>下划线粗细</strong>;  <code>text_decoration_none()</code> 只清除下划线, 不影响 <code>line_through()</code> 的删除线.</p>
+<h3 id="532-文本对齐"><a class="header" href="#532-文本对齐">5.3.2 文本对齐</a></h3>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>div().text_left()   // 左对齐(默认)：text-align: left
+div().text_center() // 居中：text-align: center
+div().text_right()  // 右对齐：text-align: right
+
+// 通用形式
+div().text_align(TextAlign::Center) // text-align: center
+<span class="boring">}</span></code></pre>
+<p>对齐作用于整个文本块, 多行文本每行都按同一规则对齐. 完整示例(三种对齐 × 下划线/删除线)跑 <a href="../examples/text_layout.rs"><code>cargo run --example text_layout</code></a>.</p>
+<h2 id="54-富文本-styledtext"><a class="header" href="#54-富文本-styledtext">5.4 富文本 StyledText</a></h2>
+<p>一段文字里混不同样式(语法高亮、搜索命中、局部加粗), 不用拆成一堆 span, 用 <code>StyledText</code> 给区间套样式:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>StyledText::new("ABCD").with_highlights([
+    (0..1, FontWeight::EXTRA_BOLD.into()), // "A"(第 0 字节起): 特粗字重
+    (2..3, FontStyle::Italic.into()),     // "C"(第 2 字节起): 斜体
+])
+<span class="boring">}</span></code></pre>
+<p><code>with_highlights()</code> 收一组 <code>(Range&lt;usize&gt;, HighlightStyle)</code>;  <code>FontWeight</code>/<code>FontStyle</code>/<code>Hsla</code>/<code>Rgba</code> 都能 <code>.into()</code> 变成 <code>HighlightStyle</code>, 也可以直接构造 <code>HighlightStyle</code> 一次改多样:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>HighlightStyle {
+    color: Some(gpui::red()),          // 文字颜色
+    background_color: Some(gpui::yellow()), // 底色
+    font_weight: Some(FontWeight::BOLD),   // 字重
+    fade_out: Some(0.2),                   // 淡化 20%
+    ..Default::default()                // 其余字段还有 font_style/underline/strikethrough
+}
+<span class="boring">}</span></code></pre>
+<p><strong>NOTE</strong>: 区间是<strong>UTF-8 字节偏移</strong>(<code>Range&lt;usize&gt;</code>), 且必须落在字符边界上. ASCII 文本可以心算, 中文/emoji 要用 <code>s.char_indices()</code> 之类按字节算位置, 否则会 panic.</p>
+<p>其他构造方式:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// 1. with_runs(): 手工给每段配 TextRun(所有 run 的字节数必须正好覆盖整个字符串)
+let base = window.text_style();              // 当前继承到的文字样式
+let bold = base.clone().highlight(FontWeight::BOLD); // 叠加一个高亮, 变成粗体样式
+StyledText::new("Hello").with_runs(vec![
+    base.to_run(2), // "He": 2 个字节, 用 base 样式
+    bold.to_run(3), // "llo": 3 个字节, 用 bold 样式
+])
+
+// 2. with_default_highlights(): 按给定基准样式立即算好 run
+//    (与 with_highlights 二选一: 后者延迟到布局时按继承样式解析)
+
+// 3. with_font_family_overrides(): 按区间换字体族(行内代码常见)
+//    "求和 sum()" 里每个汉字占 3 字节, "sum" 落在第 7~9 字节
+StyledText::new("求和 sum()").with_font_family_overrides([
+    (7..10, ".ZedMono".into()), // "sum" 这 3 个字节换成等宽字体
+])
+<span class="boring">}</span></code></pre>
+<p><code>HighlightStyle</code> 的字段(全部 <code>Option</code>, 只覆盖列出的维度): <code>color</code>/<code>font_weight</code>/<code>font_style</code>/<code>background_color</code>/<code>underline</code>/<code>strikethrough</code>/<code>fade_out</code>.</p>
+<p>💡 提示: 需要可点击的富文本(链接、协议勾选文本)用 <code>InteractiveText::new(id, styled_text)</code>, 配 <code>.on_click(ranges, listener)</code> 按区间响应点击. 搜索框命中标黄的现成组件是 <code>HighlightedLabel</code>(zed <code>ui</code> crate).</p>
+<h2 id="55-底层文本布局-api"><a class="header" href="#55-底层文本布局-api">5.5 底层文本布局 API</a></h2>
+<p>对于更复杂的文本渲染需求,GPUI提供了底层的文本布局 API. 这些底层 API 通常在编辑器、终端模拟器等需要精确控制字形位置的场景中使用, 一般应用场景用字符串子元素 + 文字样式即可满足需求.</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// TextRun: 一段连续的、样式相同的文本(按 UTF-8 字节数切分)
+pub struct TextRun {
+    /// 这段文本的 UTF-8 字节数(不含文本内容本身)
+    pub len: usize,
+    /// 字体(族 + 字重 + 样式 + OpenType 特性)
+    pub font: Font,
+    /// 颜色
+    pub color: Hsla,
+    /// 文字底色
+    pub background_color: Option&lt;Hsla&gt;,
+    /// 下划线
+    pub underline: Option&lt;UnderlineStyle&gt;,
+    /// 删除线
+    pub strikethrough: Option&lt;StrikethroughStyle&gt;,
+}
+<span class="boring">}</span></code></pre>
+<p><code>TextRun</code> 通常不用手拼, 由 <code>TextStyle::to_run(len)</code> 生成(见 5.4).</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// ShapedLine: 已完成字形塑形(连字、字距调整等)的一行文本, 可直接绘制
+pub struct ShapedLine { /* 排版结果 + 原始文本, text 是 pub 字段, 排版数据经 Deref 读 LineLayout */ }
+
+impl ShapedLine {
+    pub fn width(&amp;self) -&gt; Pixels;   // 行宽
+    pub fn split_at(&amp;self, byte_index: usize) -&gt; (ShapedLine, ShapedLine); // 按字节切成两段
+    pub fn paint(&amp;self, origin: Point&lt;Pixels&gt;, line_height: Pixels,
+                 align: TextAlign, align_width: Option&lt;Pixels&gt;,
+                 window: &amp;mut Window, cx: &amp;mut App) -&gt; anyhow::Result&lt;()&gt;; // 绘制
+}
+<span class="boring">}</span></code></pre>
+<p>通过窗口的文本系统做塑形:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// 单行塑形(文本里不能带 \n), 第 4 个参数是强制行宽, 一般传 None
+let line = window.text_system().shape_line(text, px(16.0), &amp;runs, None);
+line.paint(point(px(10.0), px(20.0)), px(24.0), TextAlign::Left, None, window, cx)?;
+
+// 多行塑形: 第 4 个参数是换行宽度, 第 5 个是最大行数(都可选)
+let lines = window.text_system().shape_text(text, px(16.0), &amp;runs, Some(px(200.0)), Some(3))?;
+<span class="boring">}</span></code></pre>
+<p><code>shape_text</code> 返回每个软换行后的 <code>WrappedLine</code>, 同样有 <code>paint()</code>/<code>paint_background()</code> 可用. 渲染出来的文本元素还能拿到 <code>TextLayout</code>, 用 <code>index_for_position()</code>/<code>position_for_index()</code> 在“鼠标坐标 ↔ 字符下标“之间换算(编辑器选区、光标定位用).</p>
+<h2 id="56-字体"><a class="header" href="#56-字体">5.6 字体</a></h2>
+<h3 id="561-指定字体族"><a class="header" href="#561-指定字体族">5.6.1 指定字体族</a></h3>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>div()
+    .font_family(".ZedMono")       // 字体族：font-family: ".ZedMono"
+    .font_weight(FontWeight::BOLD) // 字重：font-weight: 700
+<span class="boring">}</span></code></pre>
+<p>字体族名字有两类: 以 <code>.</code> 开头的是GPUI内置字体(<code>.SystemUIFont</code> 平台 UI 字体, 是默认值; <code>.ZedMono</code> 等宽字体), 其余是系统安装的字体(<code>"Menlo"</code>、<code>"Courier New"</code> 等). <code>cx.text_system().all_font_names()</code> 列出当前全部可用的字体名.</p>
+<h3 id="562-font-整体设置"><a class="header" href="#562-font-整体设置">5.6.2 Font 整体设置</a></h3>
+<p><code>Font</code> 把族名、字重、样式、OpenType 特性、回退链打包在一起, 适合一次换整套:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let f = font("Menlo")   // 以族名构造 Font
+    .bold()             // 字重 700
+    .italic();          // 斜体
+div().font(f)           // 一次设置 family + weight + style + features + fallbacks
+<span class="boring">}</span></code></pre>
+<p>单项设置用 <code>.font_family()</code>/<code>.font_weight()</code>/<code>.italic()</code>, 和 <code>.font()</code> 是并列入口.</p>
+<h3 id="563-opentype-特性与字体回退"><a class="header" href="#563-opentype-特性与字体回退">5.6.3 OpenType 特性与字体回退</a></h3>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// 关闭连字/上下文替换(calt), 代码字体常用: font-variant-ligatures: none
+div().font_features(FontFeatures::disable_ligatures())
+<span class="boring">}</span></code></pre>
+<p><code>font_features()</code> 接受任意 OpenType 特性标签到值的映射. 字体回退链没有独立的链式方法, 要通过 <code>Font</code> 的 <code>fallbacks</code> 字段设置(<code>FontFallbacks::from_fonts(vec![...])</code>), 再用 <code>.font()</code> 一次设入, 当首选字体缺字时按序找替代.</p>
+<h3 id="564-加载自定义字体"><a class="header" href="#564-加载自定义字体">5.6.4 加载自定义字体</a></h3>
+<p>GPUI 允许通过文本系统加载自定义字体, 注意收的是<strong>字体文件的字节</strong>, 不是路径:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::borrow::Cow;
+
+fn load_custom_fonts(cx: &amp;mut App) {
+    // 把 ttf 在编译期嵌进二进制, 再以字节形式注册给文本系统
+    let fonts = [include_bytes!("../assets/fonts/lilex/Lilex-Regular.ttf")]
+        .iter()
+        .map(|b| Cow::Borrowed(&amp;b[..]))
+        .collect();
+
+    cx.text_system().add_fonts(fonts).unwrap();
+    // 之后 font_family() 里就能用这个字体的族名了
+}
+<span class="boring">}</span></code></pre>
+<p><strong>NOTE</strong>: <code>add_fonts()</code> 的签名是 <code>add_fonts(Vec&lt;Cow&lt;'static, [u8]&gt;&gt;) -&gt; Result&lt;()&gt;</code>, 只接受字体文件的字节内容;  从磁盘加载要自己 <code>std::fs::read</code> 再转 <code>Cow::Owned</code>. 当前版本<strong>没有</strong> <code>FontSource</code> 类型, 其他教程里 <code>FontSource::File(PathBuf)</code> 的写法编译不过.</p>
+<p>💡 提示:  完整的字体示例见 <a href="../examples/text.rs"><code>cargo run --example text</code></a> —— 启动时嵌入 Lilex 字体, 点顶部按钮在 <code>.ZedMono</code>/<code>.SystemUIFont</code>/<code>Menlo</code>/<code>Monaco</code>/<code>Courier New</code> 之间切换, 同时展示多语言字形覆盖和模块化字号阶梯.</p>
+<h2 id="57-字符网格"><a class="header" href="#57-字符网格">5.7 字符网格</a></h2>
+<p>字符网格在网格中渲染单个字符, 常用于字体预览和调试:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use gpui::*;
+
+/// CharacterGrid 在网格中展示字符渲染效果
+pub struct CharacterGrid {
+    /// 要展示的字符列表
+    characters: Vec&lt;char&gt;,
+    /// 单元格大小
+    cell_size: Pixels,
+    /// 字体族
+    font_family: SharedString,
+}
+
+/// 无状态展示组件, 用 RenderOnce 一次性消费掉自己即可
+impl RenderOnce for CharacterGrid {
+    fn render(self, _window: &amp;mut Window, _cx: &amp;mut App) -&gt; impl IntoElement {
+        div()
+        .flex()       // 弹性布局：display: flex
+        .flex_wrap()  // 允许换行：flex-wrap: wrap
+        .gap(px(4.0)) // 单元格间距：gap: 4px
+        .children(self.characters.iter().map(|&amp;ch| {
+            div()
+            .size(self.cell_size)          // 单元格大小：width/height: &lt;cell_size&gt;
+            .border(px(1.0))               // 边框：border-width: 1px
+            .border_color(rgb(0xdddddd))   // 边框颜色：border-color: #dddddd
+            .flex()                        // 弹性布局：display: flex
+            .items_center()                // 交叉轴居中：align-items: center
+            .justify_center()              // 主轴居中：justify-content: center
+            .font_family(self.font_family.clone()) // 字体族：font-family: ...
+            .child(ch.to_string())         // 单个字符作为文字子元素
+        }))
+    }
+}
+<span class="boring">}</span></code></pre>
+<h2 id="58-文字方法速查表"><a class="header" href="#58-文字方法速查表">5.8 文字方法速查表</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: left">类别</th><th style="text-align: left">方法</th><th style="text-align: left">对应 CSS</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: left"><strong>字号</strong></td><td style="text-align: left"><code>.text_size()</code> <code>.text_xs()</code> ~ <code>.text_3xl()</code></td><td style="text-align: left"><code>font-size</code></td></tr>
+<tr><td style="text-align: left"><strong>颜色</strong></td><td style="text-align: left"><code>.text_color()</code> <code>.text_bg()</code></td><td style="text-align: left"><code>color</code>, 文字底色</td></tr>
+<tr><td style="text-align: left"><strong>字重/字形</strong></td><td style="text-align: left"><code>.font_weight()</code> <code>.italic()</code> <code>.not_italic()</code></td><td style="text-align: left"><code>font-weight</code>, <code>font-style</code></td></tr>
+<tr><td style="text-align: left"><strong>行高</strong></td><td style="text-align: left"><code>.line_height(relative(1.5))</code> <code>.line_height(px(24.0))</code></td><td style="text-align: left"><code>line-height</code></td></tr>
+<tr><td style="text-align: left"><strong>字体</strong></td><td style="text-align: left"><code>.font_family()</code> <code>.font()</code> <code>.font_features()</code></td><td style="text-align: left"><code>font-family</code>, <code>font-feature-settings</code></td></tr>
+<tr><td style="text-align: left"><strong>装饰</strong></td><td style="text-align: left"><code>.underline()</code> <code>.line_through()</code> <code>.text_decoration_2()</code> <code>.text_decoration_color()</code> <code>.text_decoration_wavy()</code></td><td style="text-align: left"><code>text-decoration-*</code></td></tr>
+<tr><td style="text-align: left"><strong>对齐</strong></td><td style="text-align: left"><code>.text_left()</code> <code>.text_center()</code> <code>.text_right()</code></td><td style="text-align: left"><code>text-align</code></td></tr>
+<tr><td style="text-align: left"><strong>溢出</strong></td><td style="text-align: left"><code>.text_ellipsis()</code> <code>.text_ellipsis_start()</code> <code>.text_ellipsis_middle()</code> <code>.truncate()</code> <code>.line_clamp()</code> <code>.text_overflow()</code></td><td style="text-align: left"><code>text-overflow</code>, <code>-webkit-line-clamp</code></td></tr>
+<tr><td style="text-align: left"><strong>换行</strong></td><td style="text-align: left"><code>.whitespace_nowrap()</code> <code>.whitespace_normal()</code></td><td style="text-align: left"><code>white-space</code></td></tr>
+<tr><td style="text-align: left"><strong>富文本</strong></td><td style="text-align: left"><code>StyledText::new()</code> <code>.with_highlights()</code> <code>.with_runs()</code> <code>.with_font_family_overrides()</code></td><td style="text-align: left">(GPUI 特有)</td></tr>
+<tr><td style="text-align: left"><strong>底层</strong></td><td style="text-align: left"><code>text_system().shape_line()</code> <code>.shape_text()</code> <code>ShapedLine::paint()</code></td><td style="text-align: left">(GPUI 特有)</td></tr>
+<tr><td style="text-align: left"><strong>字体加载</strong></td><td style="text-align: left"><code>cx.text_system().add_fonts()</code> <code>.all_font_names()</code></td><td style="text-align: left">(GPUI 特有)</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="59-配套示例"><a class="header" href="#59-配套示例">5.9 配套示例</a></h2>
+<p>本章涉及的示例都在仓库 <a href="../examples/"><code>examples/</code></a> 目录下, 在仓库根目录 <code>cargo run --example &lt;示例名&gt;</code> 运行(桌面 + wasm 双入口):</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: left">示例</th><th style="text-align: left">说明</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: left"><a href="../examples/text.rs"><code>text</code></a></td><td style="text-align: left">顶部按钮切换字体族(.ZedMono/.SystemUIFont/Menlo/Monaco/Courier New), 附多语言字形、字符网格、字号阶梯(见 5.6、5.7)</td></tr>
+<tr><td style="text-align: left"><a href="../examples/text_layout.rs"><code>text_layout</code></a></td><td style="text-align: left">三种对齐 × 下划线/删除线, 加溢出裁剪和 <code>StyledText</code> 富文本混排(见 5.3、5.4)</td></tr>
+<tr><td style="text-align: left"><a href="../examples/text_wrapper.rs"><code>text_wrapper</code></a></td><td style="text-align: left">放不下时的多种处理: 省略号截断、硬截断、禁换行裁剪、正常换行(见 5.2)</td></tr>
+</tbody>
+</table>
+</div>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="04-style-appearance.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="06-media.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="04-style-appearance.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="06-media.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+        <script>
+            window.playground_line_numbers = true;
+        </script>
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="ace-2a3cd908.js"></script>
+        <script src="mode-rust-2c9d5c9a.js"></script>
+        <script src="editor-16ca416c.js"></script>
+        <script src="theme-dawn-4493f9c8.js"></script>
+        <script src="theme-tomorrow_night-9dbe62a9.js"></script>
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-609e4cb8.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>
