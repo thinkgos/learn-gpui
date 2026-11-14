@@ -1,6 +1,6 @@
 # 21. 多屏定位
 
-现代桌面应用常常要面对多显示器: 窗口开在哪块屏、摆在什么位置、两块屏 DPI 不一致怎么办.GPUI通过 `cx.displays()` 枚举所有显示器, 配合 `Bounds` 的方位方法, 可以在任意屏幕上精确定位窗口.
+现代桌面应用常常要面对多显示器: 窗口开在哪块屏、摆在什么位置、两块屏 DPI 不一致怎么办. GPUI通过 `cx.displays()` 枚举所有显示器, 配合 `Bounds` 的方位方法, 可以在任意屏幕上精确定位窗口.
 
 ## 21.1 多显示器支持
 
@@ -39,7 +39,7 @@ fn list_displays(cx: &App) {
 
 `DisplayId` 是不透明标识符, 通过 `display.id()` 获取, 放进 `WindowOptions::display_id` 就能把窗口开在指定屏幕上. 另有两个查找入口: `cx.primary_display()` 返回主显示器, `cx.find_display(id)` 按 id 查找;  `window.display(cx)` 则能查出某个窗口当前在哪块屏上.
 
-**NOTE**: 显示器对象上 **没有** `scale_factor()` 和 `is_primary()` 这两个方法. 缩放因子挂在窗口上(`window.scale_factor()`), 要找主屏就用 `cx.primary_display()`, 再比较返回的 `id()`.
+**NOTE**: 显示器缩放因子挂在窗口上(`window.scale_factor()`), 要找主屏就用 `cx.primary_display()`, 再比较返回的 `id()`.
 
 ## 21.2 Bounds 结构
 
@@ -163,11 +163,11 @@ let bounds = Bounds::centered(None, size(px(600.0), px(600.0)), cx);
 
 [`window_shadow.rs`](../examples/window_shadow.rs) 就是用 `Bounds::centered(None, size(px(600.0), px(600.0)), cx)` 开出居中窗口的.
 
-**跨屏移动窗口.** **NOTE**:GPUI**没有** `move_window()`/`window.move_to()` 这类运行时挪窗口的 API, 窗口位置只在创建时由 `window_bounds` 决定, 之后用户拖动由系统处理. 想把窗口"挪"到另一块屏, 只能用目标屏的 `bounds` 重新开一扇窗再关掉旧的.
+**跨屏移动窗口.** **NOTE**: GPUI**没有** `move_window()`/`window.move_to()` 这类运行时挪窗口的 API, 窗口位置只在创建时由 `window_bounds` 决定, 之后用户拖动由系统处理. 想把窗口"挪"到另一块屏, 只能用目标屏的 `bounds` 重新开一扇窗再关掉旧的.
 
 💡 提示: [`window_positioning.rs`](../examples/window_positioning.rs) 遍历 `cx.displays()`, 在每块屏的四角、四边中点和中心各开一窗(共 9 个), 是检验方位方法坐标系最直观的例子.
 
-**多屏 DPI.** 不同屏幕的缩放因子可能不同(如 1x 外接屏 + 2x Retina 内置屏). `display.bounds()` 用逻辑像素 `Pixels`;  窗口拖到另一块屏时GPUI自动按 `window.scale_factor()` 重算缩放, 无需手动处理. 要做精确物理像素对齐(如贴边吸附)时, 用 `bounds.to_device_pixels(scale_factor)` 换算后再比较. 需要在窗口换屏时做点什么(比如记住"这块屏上的最大化尺寸"), 订阅 `cx.observe_window_display(window, ...)`(窗口移动到另一块屏或所在屏刷新率变化时触发).
+**多屏 DPI**: 不同屏幕的缩放因子可能不同(如 1x 外接屏 + 2x Retina 内置屏). `display.bounds()` 用逻辑像素 `Pixels`;  窗口拖到另一块屏时GPUI自动按 `window.scale_factor()` 重算缩放, 无需手动处理. 要做精确物理像素对齐(如贴边吸附)时, 用 `bounds.to_device_pixels(scale_factor)` 换算后再比较. 需要在窗口换屏时做点什么(比如记住"这块屏上的最大化尺寸"), 订阅 `cx.observe_window_display(window, ...)`(窗口移动到另一块屏或所在屏刷新率变化时触发).
 
 ## 21.5 多屏定位速查表
 

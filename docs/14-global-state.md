@@ -1,10 +1,10 @@
 # 14. 全局状态
 
-有些数据(主题、排版参数、用户偏好)不属于任何单个组件, 而是整个应用共享一份. GPUI用 `Global` trait + `App` 上的全局存储实现这种单例状态: 每个类型只有一份, 任何地方都能读写, 还能订阅它的变化.
+有些数据(主题、排版参数、用户偏好)不属于任何单个组件, 而是整个应用共享一份. GPUI用 `Global` `trait` + `App` 上的全局存储实现这种单例状态: 每个类型只有一份, 任何地方都能读写, 还能订阅它的变化.
 
 ## 14.1 Global trait: 跨组件共享状态
 
-`Global` 是一个**空的标记 trait**, 只声明"这个类型可以作为全局状态存进 `App`", 没有任何方法要实现 —— 所以实现体就是空的:
+`Global` 是一个**空的标记**`trait`, 只声明"这个类型可以作为全局状态存进 `App`", 没有任何方法要实现 —— 所以实现体就是空的:
 
 ```rust
 use gpui::*;
@@ -21,7 +21,7 @@ impl Global for MySettings {}
 
 全局存储按**类型**去重:  一个类型全局只有一份, `cx.set_global()` 再调一次就是整体替换. 想要"多个同类型实例", 用 newtype 包一层(见 14.4), 或者干脆改用 Entity.
 
-## 14.2 cx.set_global()/cx.global()/cx.try_global()/cx.update_global()
+## 14.2 `App`/`Context` 上的全局状态访问方法
 
 `App`/`Context` 上的全局状态访问方法:
 
@@ -62,7 +62,7 @@ cx.update_global(|settings: &mut MySettings, _cx| {
 
 ## 14.3 cx.observe_global(): 观察全局状态变化
 
-`cx.observe_global::<G>()` 订阅某个全局类型的变化, 返回 `Subscription`(保存或 `.detach()` 的规则和第 12 章一样). 实体上和 App 上的回调形状不同:
+`cx.observe_global::<G>()` 订阅某个全局类型的变化, 返回 `Subscription`(保存或 `.detach()` 的规则和第 12 章一样). 实体上和 `App` 上的回调形状不同:
 
 | 方法 | 回调形状 |
 | :--- | :--- |

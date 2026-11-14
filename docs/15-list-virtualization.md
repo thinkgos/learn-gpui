@@ -2,7 +2,7 @@
 
 数据量大的列表如果一次性渲染所有行, 滚动会严重卡顿. GPUI提供 `uniform_list`(等高行)和 `list`(变高行)两种虚拟化列表, 只渲染可见区域的行, 十万行也能流畅滚动.
 
-💡 提示: 虚拟化把渲染复杂度从 O(n) 降到 O(k), k 是可见行数(通常不超过 50). 10 万行数据里, 任何一帧真正创建的元素只有几十个.
+> 💡 提示: 虚拟化把渲染复杂度从 O(n) 降到 O(k), k 是可见行数(通常不超过 50). 10 万行数据里, 任何一帧真正创建的元素只有几十个.
 
 ## 15.1 uniform_list: 等高行虚拟列表
 
@@ -45,9 +45,9 @@ impl Render for UniformListExample {
 }
 ```
 
-**`uniform_list` 的签名**: `uniform_list(id, item_count, f)`, 其中 `f: Fn(Range<usize>, &mut Window, &mut App) -> Vec<R>`. 
+**`uniform_list` 的签名**: `uniform_list(id, item_count, f)`, 其中 `f: Fn(Range<usize>, &mut Window, &mut App) -> Vec<R>`.
 
-**滚动状态 UniformListScrollHandle**: 要读写滚动位置(滚动条、"跳到底部"), 在视图里存一个句柄并绑上去: 
+**滚动状态 UniformListScrollHandle**: 要读写滚动位置(滚动条、"跳到底部"), 在视图里存一个句柄并绑上去:
 
 ```rust
 scroll_handle: UniformListScrollHandle, // 滚动句柄: 记录/控制列表的滚动位置
@@ -57,17 +57,17 @@ uniform_list("items", count, cx.processor(...))
     .track_scroll(&self.scroll_handle) // 绑定句柄, 之后可以 scroll_to_item/scroll_to_bottom
 ```
 
-句柄常用方法: `scroll_to_item(ix, ScrollStrategy::Top/Center/Bottom/Nearest)`(把某行滚进视野)、`scroll_to_bottom()`、`logical_scroll_top_index()`(当前第一可见行号). 
+句柄常用方法: `scroll_to_item(ix, ScrollStrategy::Top/Center/Bottom/Nearest)`(把某行滚进视野)、`scroll_to_bottom()`、`logical_scroll_top_index()`(当前第一可见行号).
 
-**cx.processor() 回调生成列表项**: `cx.processor(|this, range, window, cx| ...)` 把「带视图状态的闭包」变成 `uniform_list` 需要的回调: 闭包第一个参数 `this` 就是 `&mut self`, 可以读写视图字段(比如顺手记下 `this.visible_range`). 不需要状态时, 直接传普通闭包也行. 
+**cx.processor() 回调生成列表项**: `cx.processor(|this, range, window, cx| ...)` 把「带视图状态的闭包」变成 `uniform_list` 需要的回调: 闭包第一个参数 `this` 就是 `&mut self`, 可以读写视图字段(比如顺手记下 `this.visible_range`). 不需要状态时, 直接传普通闭包也行.
 
-**滚动优化原理**: 渲染每一帧时, `uniform_list` 根据滚动偏移算出可见行号区间, 回调只为这个区间创建元素; 滚出视野的行直接丢弃, 滚进来的新行按同一模板重建. 由于所有行等高, 行高 × 行号就是行的位置, 不需要逐行测量. 
+**滚动优化原理**: 渲染每一帧时, `uniform_list` 根据滚动偏移算出可见行号区间, 回调只为这个区间创建元素; 滚出视野的行直接丢弃, 滚进来的新行按同一模板重建. 由于所有行等高, 行高 × 行号就是行的位置, 不需要逐行测量.
 
-**NOTE**: 这版GPUI**没有** `UniformListState` 这个类型, 也不接收行高参数(如 `UniformListState::new(cx.entity(), 40.0)`) —— 行高由第一个元素的测量结果决定, 滚动状态用 `UniformListScrollHandle`(可选, 见上). 
+**NOTE**: 这版GPUI**没有** `UniformListState` 这个类型, 也不接收行高参数(如 `UniformListState::new(cx.entity(), 40.0)`) —— 行高由第一个元素的测量结果决定, 滚动状态用 `UniformListScrollHandle`(可选, 见上).
 
 ## 15.2 list: 变高行列表
 
-行高不一致时(聊天消息、评论列表)用 `list`. 它通过 `ListState` 管理, 每行渲染出来后动态测量实际高度: 
+行高不一致时(聊天消息、评论列表)用 `list`. 它通过 `ListState` 管理, 每行渲染出来后动态测量实际高度:
 
 ```rust
 use gpui::{ListAlignment, ListState, ...};
@@ -88,7 +88,7 @@ impl BottomListDemo {
 }
 ```
 
-渲染回调一次只给**一行**: 
+渲染回调一次只给**一行**:
 
 ```rust
 list(self.list_state.clone(), |index, _window, _cx| {
@@ -107,7 +107,7 @@ list(self.list_state.clone(), |index, _window, _cx| {
 .flex_1() // 列表占满剩余高度: flex: 1 1 0%
 ```
 
-**ListState 的创建与测量**: 
+**ListState 的创建与测量**:
 
 | 方法 | 说明 |
 | :--- | :--- |
@@ -121,13 +121,13 @@ list(self.list_state.clone(), |index, _window, _cx| {
 | `set_follow_mode(FollowMode::Tail)` | 跟随尾部(聊天自动滚到新消息) |
 | `is_scrolled_to_end()` | 是否已经滚到底 |
 
-**ListAlignment::Bottom**: 起排方向从底部开始, 新消息出现在底部、历史消息向上排, 正是聊天窗口的行为; 默认 `Top` 是普通列表从上往下. 
+**ListAlignment::Bottom**: 起排方向从底部开始, 新消息出现在底部、历史消息向上排, 正是聊天窗口的行为; 默认 `Top` 是普通列表从上往下.
 
-**NOTE**: `ListState::new(ListAlignment::Bottom, cx.entity())` 这种写法 **没有** —— 签名是 `ListState::new(item_count, alignment, overdraw)`, 三个参数缺一不可, 也不接收 entity; 第三个参数是视口外的预渲染余量, **不是**行高. 
+**NOTE**: `ListState::new(ListAlignment::Bottom, cx.entity())` 这种写法 **没有** —— 签名是 `ListState::new(item_count, alignment, overdraw)`, 三个参数缺一不可, 也不接收 entity; 第三个参数是视口外的预渲染余量, **不是**行高.
 
 ## 15.3 自定义滚动条
 
-列表自带滚动, 但滚动条外观可以自己画. `ListState` 有一组滚动条辅助方法, 直接给出定位滑块所需的全部数据(取自 `list_example`): 
+列表自带滚动, 但滚动条外观可以自己画. `ListState` 有一组滚动条辅助方法, 直接给出定位滑块所需的全部数据(取自 `list_example`):
 
 ```rust
 let max_offset = self.list_state.max_offset_for_scrollbar().y; // 可滚动的最大偏移
@@ -141,9 +141,9 @@ let raw_fraction = if max_offset > px(0.) {
 };
 ```
 
-有了比例, 轨道 + 滑块就是两个普通 div: 滑块高度 = 视口高度 × 视口占内容的比例(至少 30px), 滑块顶距 = (轨道高 − 滑块高) × 比例. 
+有了比例, 轨道 + 滑块就是两个普通 div: 滑块高度 = 视口高度 × 视口占内容的比例(至少 30px), 滑块顶距 = (轨道高 − 滑块高) × 比例.
 
-要支持**拖拽滑块**, 参考 `data_table` 示例的做法: 用 `canvas()` 在绘制阶段挂鼠标事件, 拖动时改写滚动句柄的偏移: 
+要支持**拖拽滑块**, 参考 `data_table` 示例的做法: 用 `canvas()` 在绘制阶段挂鼠标事件, 拖动时改写滚动句柄的偏移:
 
 ```rust
 canvas(
@@ -164,13 +164,13 @@ canvas(
 .size_full(), // 画布铺满滑块: width: 100%; height: 100%
 ```
 
-**NOTE**: `canvas()` 收**两个**闭包(prepaint, paint), 单闭包的 `canvas(move |bounds, _, cx| ...)` 配 `cx.paint_quad(...)` 这种写法 **没有** —— 画矩形是先用 `quad(bounds, 圆角, 背景, 边框宽, 边框色, 边框样式)` 构造 `PaintQuad`, 再 `window.paint_quad(...)` 绘制. 不需要自绘时, 像 `list_example` 那样用两个 div 拼滚动条更简单. 
+**NOTE**: `canvas()` 收**两个**闭包(prepaint, paint), 单闭包的 `canvas(move |bounds, _, cx| ...)` 配 `cx.paint_quad(...)` 这种写法 **没有** —— 画矩形是先用 `quad(bounds, 圆角, 背景, 边框宽, 边框色, 边框样式)` 构造 `PaintQuad`, 再 `window.paint_quad(...)` 绘制. 不需要自绘时, 像 `list_example` 那样用两个 div 拼滚动条更简单.
 
 ## 15.4 data_table: 大数据表格
 
-`data_table` 示例是 `uniform_list` 的实战: 一万行行情数据 + 自绘滚动条. 两个关键技巧: 
+`data_table` 示例是 `uniform_list` 的实战: 一万行行情数据 + 自绘滚动条. 两个关键技巧:
 
-**Rc 共享数据避免克隆**: 大数据集用 `Rc` 让所有行引用同一份数据, 每行只克隆引用计数: 
+**Rc 共享数据避免克隆**: 大数据集用 `Rc` 让所有行引用同一份数据, 每行只克隆引用计数:
 
 ```rust
 use std::rc::Rc;
@@ -182,7 +182,7 @@ struct DataTable {
 }
 ```
 
-**RenderOnce 实现 TableRow**: 行元素只需要渲染一次(数据不可变), 实现 `RenderOnce`(消费 `self`)比持有状态的 `Render`(`&mut self`)更轻: 
+**RenderOnce 实现 TableRow**: 行元素只需要渲染一次(数据不可变), 实现 `RenderOnce`(消费 `self`)比持有状态的 `Render`(`&mut self`)更轻:
 
 ```rust
 #[derive(IntoElement)] // 派生 IntoElement, TableRow 可以直接当元素塞进列表
@@ -211,7 +211,7 @@ impl RenderOnce for TableRow {
 }
 ```
 
-表格体就是 14.1 的 `uniform_list`, 只是每行换成 `TableRow::new(i, quote.clone())`(克隆的是 `Rc`, 不是数据): 
+表格体就是 14.1 的 `uniform_list`, 只是每行换成 `TableRow::new(i, quote.clone())`(克隆的是 `Rc`, 不是数据):
 
 ```rust
 uniform_list(

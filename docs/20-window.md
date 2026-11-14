@@ -42,9 +42,8 @@ cx.open_window(
 .unwrap();
 ```
 
-**NOTE**: `WindowOptions` **没有** `center: bool` 字段. 居中要在创建前自己算好位置:  `Bounds::centered(None, size, cx)` 或 `WindowBounds::centered(size, cx)`, 再放进 `window_bounds`.
-
-**NOTE**: `window_bounds` 和 `titlebar` 都是 `Option` —— `window_bounds: None` 表示继承已有边界, `titlebar: None` 表示**不要系统标题栏**(自绘标题栏场景, 见 [`window.rs`](../examples/window.rs) 的 Custom Titlebar). `WindowBounds` 的变体是 `Windowed`/`Maximized`/`Fullscreen`, **没有** `Fixed`;  `Maximized`/`Fullscreen` 里包的 `Bounds` 是恢复用的尺寸.
+> **NOTE**: 居中要在创建前自己算好位置: `Bounds::centered(None, size, cx)` 或 `WindowBounds::centered(size, cx)`, 再放进 `window_bounds`.  
+`window_bounds` 和 `titlebar` 都是 `Option`, `window_bounds: None` 表示继承已有边界, `titlebar: None` 表示**不要系统标题栏**(自绘标题栏场景, 见 [`window.rs`](../examples/window.rs) 的 Custom Titlebar). `WindowBounds` 的变体是 `Windowed`/`Maximized`/`Fullscreen`, **没有** `Fixed`;  `Maximized`/`Fullscreen` 里包的 `Bounds` 是恢复用的尺寸.
 
 ## 20.2 WindowKind 枚举
 
@@ -100,8 +99,6 @@ cx.spawn(async move |_| {
 .detach();
 ```
 
-**NOTE**: `window.prompt()` 返回的是 `oneshot::Receiver<usize>`, **没有** 回调参数 —— 原文 `window.prompt(level, text, &["确定","取消"], cx, |result, cx| ...)` 的签名编译不过. 真实签名还多一个 `detail: Option<&str>`, 按钮下标用 `answer.await` 取回. `PromptLevel` 是 `Info`/`Warning`/`Critical` 三档, `PromptButton` 另有 `::new(label)` 建普通按钮.
-
 **window.resize() —— 调整内容区尺寸**(单位是逻辑像素 `Pixels`):
 
 ```rust
@@ -121,8 +118,6 @@ window.resize(size(px(1024.0), px(768.0))); // 设置内容区尺寸: 1024x768
 | `window.bounds()`/`window.window_bounds()` | 查询窗口矩形/状态(含恢复尺寸) |
 | `cx.hide()` | 隐藏**整个应用** |
 | `cx.activate(ignoring_other_apps)` | 激活应用(如恢复后重新前置) |
-
-**NOTE**: `Window` 上**没有** `maximize_window()`、`fullscreen()`、`exit_fullscreen()` —— 对应能力是 `zoom_window()` 和 `toggle_fullscreen()`. 也**没有**隐藏单个窗口的 `window.hide()`:  `cx.hide()` 隐藏的是整个应用(App 级);  想"临时不显示"用 `WindowOptions { show: false, ... }` 创建, 想"关掉"用 `window.remove_window()`.
 
 ## 20.4 监听窗口变化
 
@@ -148,7 +143,7 @@ cx.new(|cx| {
 })
 ```
 
-外观用 `window.appearance()` 查询, 返回 `WindowAppearance`(`Light`/`VibrantLight`/`Dark`/`VibrantDark`, 由操作系统决定), App 级查询是 `cx.window_appearance()`. 需要跟随系统亮暗切换配色, 订阅 `observe_window_appearance` 即可.
+外观用 `window.appearance()` 查询, 返回 `WindowAppearance`(`Light`/`VibrantLight`/`Dark`/`VibrantDark`, 由操作系统决定), **App** 级查询是 `cx.window_appearance()`. 需要跟随系统亮暗切换配色, 订阅 `observe_window_appearance` 即可.
 
 窗口关闭的回调在 **App** 上: `cx.on_window_closed(|cx, window_id| ...)`. 典型用法是"最后一个窗口关了就退出":
 
@@ -160,8 +155,6 @@ cx.on_window_closed(|cx, _window_id| {
 })
 .detach();
 ```
-
-**NOTE**: 原文的 `cx.observe_window_bounds(|cx| ...)` 签名**不对** —— 真实签名第一个参数是 `window`, 回调收 `(&mut T, &mut Window, &mut Context<T>)`, 注册在实体的 `Context<T>` 上(不是全局 `App`). 另外别在 `render()` 里注册观察者(每帧都会新建订阅), 要在实体创建时(`cx.new(|cx| ...)` 里)注册一次.
 
 ## 20.5 窗口管理速查表
 
